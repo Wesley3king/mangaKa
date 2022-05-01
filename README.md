@@ -1,0 +1,2 @@
+# mangaKa
+ projeto em inicio.
