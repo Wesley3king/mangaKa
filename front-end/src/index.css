@@ -15,7 +15,7 @@ body {
 
 .header{
   width: 100%;
-  height: 60px;
+  height: 59px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,7 +26,7 @@ body {
   width: 50px;
   height: 50px;
   background-image: url('./imgs/menuwhite.png');
-  background-size: contain;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 .menu_icone{
@@ -41,6 +41,78 @@ body {
   width: 50px;
   height: 50px;
   background-image: url('./imgs/lupa.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+/*menu*/
+.barra_menu{
+  position: fixed;
+  width: 320px;
+  height: 100%;
+  color: white;
+  background-color: rgb(5, 5, 5);
+  transform: translate(-101%);
+  transition: transform 0.6s;
+}
+.barra_menu.ativa{
+  transform: translate(-101%);
+}
+
+.close{
+  width: 100px;
+  height: 55px;
+  background-image: url('./imgs/close.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.fav{
+  width: 100px;
+  height: 55px;
+  background-image: url('./imgs/favorite.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.cat{
+  width: 100px;
+  height: 55px;
+  background-image: url('./imgs/classmenu.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.down{
+  width: 100px;
+  height: 55px;
+  background-image: url('./imgs/download.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.coming{
+  width: 100px;
+  height: 55px;
+  background-image: url('./imgs/lua.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.conf{
+  width: 100px;
+  height: 55px;
+  background-image: url('./imgs/tools.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.hom{
+  width: 100px;
+  height: 55px;
+  background-image: url('./imgs/homeimg.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.out{
+  width: 100px;
+  height: 55px;
+  background-image: url('./imgs/power.png');
   background-size: contain;
   background-repeat: no-repeat;
 }
