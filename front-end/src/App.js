@@ -1,12 +1,17 @@
-import React from "react";
-import Menu from "./componentes/Menu";
+import React,{useState} from "react";
+import Header from "./componentes/Header";
 import Barra from "./componentes/Barra";
+import Controles from "./componentes/Controles";
+
 
 function App() {
-  return (
+
+return (
     <div className="App">
-      <Menu />
       <Barra />
+      <Header />
+
+      <Controles />
     </div>
   );
 }
