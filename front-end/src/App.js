@@ -3,29 +3,34 @@ import Header from "./componentes/Header";
 import Barra from "./componentes/Barra";
 import Controles from "./componentes/Controles";
 import Centro from "./componentes/Centro";
-import img from'./frontCapas/spy-family.webp';
 
-
+var dados = [];
 function App() {
-  var dados = [];
+  
   const [foto,setFoto] = useState(0);
+  const [ready,setReady] = useState(false);
+   let [tt,setTt] = useState(100);
   useEffect(()=>{
+    
     let time = setInterval(()=>{
         setFoto(foto+1);
-        let e = window.document.querySelector('.mainImagem')
-        console.log(e)
-        //e.style.background =`./frontCapas/${dados[2][`numero${foto}`].poster}`;
-        e.style.background = img;
-        console.log(dados[2][`numero${foto}`].poster);
-    },6000);
-    if(foto === 9) {
+        if (tt !== 6000) setTt(6000);
+        let e = window.document.querySelectorAll('.select');
+         console.log(foto);
+        if (e[4] !== undefined){
+        for(let i of e){i.style.display = "none"};
+        e[foto].style.display = "block";
+        }
+    },tt);
+    if(foto === 8) {
       setFoto(0);
     }
     return ()=> clearInterval(time);
-  },[foto,dados])
+  },[foto,tt]);
   
   const solicitar = () =>{
-    fetch('http://127.0.0.1:5000')
+    if (dados[2] === undefined){
+      fetch('http://127.0.0.1:5000')
     .then(res => res.json())
     .then(data => {
       dados.push(data.favoritos);
@@ -33,24 +38,49 @@ function App() {
       dados.push(data.destaques);
 
       console.log(data);
+      setReady(true);
     })
     .catch(e => console.log(e));
     console.log(dados);
+    }
   }
+
+  //cria a lista de destaque
+  const criarDestaque = ()=>{
+    if (dados[2] !== undefined) {
+      let li = [];
+    for (let e in dados[2]){
+      
+        li.push(<li className="select" style={{display: "none",backgroundColor:`${dados[2][e].color}`}}>
+          <div key={`destaque${e}`} className="mainImagem" style={{backgroundImage: `url(https://wesley3king.github.io/mangaKa/frontCapas/${dados[2][e].poster})`}}></div>
+          </li>);
+        
+    };
+    return <ul>{li}</ul>;
+    }
+  }
+
+
+  const motor = ()=> {
+    solicitar();
+
+    if (ready){
+    return <> 
+    <Barra />
+    <Controles />
+    <Header />
+    <section>
+      <Centro />
+      <div className='areaVisual'>
+              {criarDestaque()}
+      </div>
+    </section>
+    </>
+  }}
+
 return (
     <div className="App">
-      
-      <Barra />
-      <Controles />
-      <Header />
-      <section>
-        <Centro />
-        <div className='areaVisual'>
-                 <div className="mainImagem"></div>
-        </div>
-      </section>
-
-      {solicitar()}
+      {motor()}
     </div>
   );
 }
