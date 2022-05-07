@@ -3,6 +3,7 @@ import Header from "./componentes/Header";
 import Barra from "./componentes/Barra";
 import Controles from "./componentes/Controles";
 import Listas from "./componentes/Listas";
+import Footer from "./componentes/Footer";
 
 var dados = [];
 function App() {
@@ -81,6 +82,7 @@ function App() {
       <Listas select={dados[0]} info={dados[1]} frase="lendo"/>
       <Listas select={dados[3]} info={dados[1]} frase="minha lista"/>
       <Listas select={dados[4]} info={dados[1]} frase="mais lidos" />
+      <Footer />
     </section>
     </>
   }}

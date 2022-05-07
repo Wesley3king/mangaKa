@@ -5,8 +5,12 @@ export default class Footer extends React.Component {
 
     render () {
         return (
-            <footer>
-                
+            <footer className="fft">
+                <p className="bigfooter">mangaKa</p>
+                <div>
+                    <p>created by: @KING</p>
+                    <p>version: 0.1 dev</p>
+                </div>
             </footer>
         )
     }
