@@ -2,7 +2,7 @@ import React,{useEffect, useState} from "react";
 import Header from "./componentes/Header";
 import Barra from "./componentes/Barra";
 import Controles from "./componentes/Controles";
-import Centro from "./componentes/Centro";
+import Listas from "./componentes/Listas";
 
 var dados = [];
 function App() {
@@ -33,9 +33,14 @@ function App() {
       fetch('http://127.0.0.1:5000')
     .then(res => res.json())
     .then(data => {
+      //0 - favoritos , 1 - lista favoritos ,2 - destaques, 3 - number fav list, 4 - mais lidos
+
       dados.push(data.favoritos);
       dados.push(data.lista);
       dados.push(data.destaques);
+      let dt = dados[1].map(item => item.cod);
+      dados.push(dt);
+      dados.push(data.toplidos);
 
       console.log(data);
       setReady(true);
@@ -70,10 +75,12 @@ function App() {
     <Controles />
     <Header />
     <section>
-      <Centro />
       <div className='areaVisual'>
               {criarDestaque()}
       </div>
+      <Listas select={dados[0]} info={dados[1]} frase="lendo"/>
+      <Listas select={dados[3]} info={dados[1]} frase="minha lista"/>
+      <Listas select={dados[4]} info={dados[1]} frase="mais lidos" />
     </section>
     </>
   }}
