@@ -9,7 +9,7 @@ export default class Header extends React.Component {
     let menu = window.document.querySelector('.barra_menu');
     menu.classList.toggle("ativa"); console.log("ddddd");
   }}></div>
-                <div className="menu_icone"></div>
+                <div className="menu_icone">mangaKa</div>
                 <div className="bt_search"></div>
             </header>
             </>

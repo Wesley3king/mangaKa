@@ -46,9 +46,9 @@ h2{
 .menu_icone{
   width: 100px;
   height: 55px;
-  background-image: url('./imgs/mangaKa.png');
-  background-size: contain;
-  background-repeat: no-repeat;
+  font-family: 'Koulen', cursive;
+  color: white;
+  font-size: 40px;
   
 }
 .bt_search{
