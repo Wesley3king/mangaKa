@@ -46,7 +46,7 @@ function App() {
       console.log(data);
       setReady(true);
     })
-    .catch(e => console.log(e));
+    .catch(e => console.log("erro aqui : "+e));
     console.log(dados);
     }
   }
@@ -85,7 +85,10 @@ function App() {
       <Footer />
     </section>
     </>
-  }}
+  }else{
+    return "falha ao fazer o fetch"
+  }
+}
 
 return (
     <div className="App">
