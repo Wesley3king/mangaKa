@@ -1,6 +1,35 @@
 const express = require("express");
+const url = require("url");
+const fs = require("fs");
 const routes = express.Router();
 
-routes.get("/manga",(req,res)=>{
+//rota HOME
+ routes.get('/',(req,res)=>{
+
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     
-})
+    fs.readFile('./archives/list.json',(err,arquivo)=>{
+        if(err) {
+            console.log("ERRO! - falha ao ler json");
+        }else{
+            res.json(JSON.parse(arquivo));
+        }
+    });
+ });
+
+ //rota MAIN
+routes.get('/manga',(req,res)=>{
+
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    
+    let num = url.parse(req.url,true).query;
+    fs.readFile("./archives/list.json",(err,file)=>{
+        if(err) console.log("erro ao ler list.json");
+        let ark = JSON.parse(file);
+        res.json(ark.lista[num.n]);
+    })
+});
+
+module.exports = routes;

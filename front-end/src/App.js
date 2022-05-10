@@ -73,7 +73,7 @@ function App() {
     if (ready){
     return <> 
     <Barra />
-    <Controles />
+    <Controles estilo={{marginTop: `${window.innerHeight - 125}px`,marginLeft: `${window.innerWidth < 700 ? 0 : ((window.innerWidth/2)-350)}px`}}/>
     <Header />
     <section>
       <div className='areaVisual'>

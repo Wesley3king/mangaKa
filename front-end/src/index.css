@@ -279,6 +279,63 @@ margin-top: 70px;
   font-family: 'Koulen', cursive;
   font-size: 28px;
 }
+
+
+/* - sub page (pagina de mostra) - */
+.background_image{
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.fosco{
+  backdrop-filter: blur(6px);
+  background-color: rgba(0, 0, 0, 0.534);
+  width: 100%;
+  height: 100vh;
+}
+
+.subcenter{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.quadro{
+  width: 300px;
+  height: 450px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  box-shadow: 5px 5px 3px rgba(0, 0, 0, 0.623);
+  margin-top: 70px;
+}
+.nomeprincipal{
+  font-size: 30px;
+  margin-top: 5px;
+}
+.leftalign{
+  width: 100%;
+  text-align: left;
+  text-indent: 1em;
+}
+.retirado{
+  font-weight: bold;
+  margin-top: 40px;
+}
+.font{
+  font-weight: normal;
+  text-decoration: none;
+  color: black;
+}
+font:hover{
+  text-decoration: underline;
+}
+.sinopse{
+  margin: 10px;
+  color: rgb(204, 204, 204);
+}
+
 /*animação de desvanecer*/
 @keyframes desvanecer {
   from{
