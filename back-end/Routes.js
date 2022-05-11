@@ -9,6 +9,9 @@ const routes = express.Router();
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     
+    let num = url.parse(req.url,true).query;
+    console.log(num);
+
     fs.readFile('./archives/list.json',(err,arquivo)=>{
         if(err) {
             console.log("ERRO! - falha ao ler json");
@@ -19,12 +22,13 @@ const routes = express.Router();
  });
 
  //rota MAIN
-routes.get('/manga',(req,res)=>{
+routes.get('/#/manga',(req,res)=>{
 
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     
     let num = url.parse(req.url,true).query;
+    console.log(num);
     fs.readFile("./archives/list.json",(err,file)=>{
         if(err) console.log("erro ao ler list.json");
         let ark = JSON.parse(file);

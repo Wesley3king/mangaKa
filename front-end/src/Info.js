@@ -11,7 +11,7 @@ export default function Info () {
     const obter = async ()=>{
         let urlParams = new URLSearchParams(window.location.search);
         let myParam = urlParams.get('n');
-        await fetch(`http://127.0.0.1:5000/manga?n=${myParam}`)
+     fetch(`http://127.0.0.1:5000/manga?n=${myParam}`)
     .then(res => res.json())
     .then(data => {
         dados = data;
