@@ -85,8 +85,6 @@ function App() {
       <Footer />
     </section>
     </>
-  }else{
-    return "falha ao fazer o fetch"
   }
 }
 
