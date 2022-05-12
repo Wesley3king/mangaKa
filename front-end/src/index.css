@@ -287,6 +287,7 @@ margin-top: 70px;
   height: 100vh;
   background-size: cover;
   background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 .fosco{
   backdrop-filter: blur(6px);
@@ -309,6 +310,7 @@ margin-top: 70px;
   background-size: 100% 100%;
   box-shadow: 5px 5px 3px rgba(0, 0, 0, 0.623);
   margin-top: 70px;
+  flex-shrink: 0;
 }
 .nomeprincipal{
   font-size: 30px;
