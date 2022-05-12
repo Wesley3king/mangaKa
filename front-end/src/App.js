@@ -10,7 +10,7 @@ function App() {
   
   const [foto,setFoto] = useState(0);
   const [ready,setReady] = useState(false);
-   let [tt,setTt] = useState(100);
+   let [tt,setTt] = useState(1000);
   useEffect(()=>{
     
     let time = setInterval(()=>{
@@ -30,12 +30,11 @@ function App() {
   },[foto,tt]);
   
   const solicitar = () =>{
-    if (dados[2] === undefined){
+    if (dados[2] === undefined && ready === false){
       fetch('http://127.0.0.1:5000')
     .then(res => res.json())
     .then(data => {
       //0 - favoritos , 1 - lista favoritos ,2 - destaques, 3 - number fav list, 4 - mais lidos
-
       dados.push(data.favoritos);
       dados.push(data.lista);
       dados.push(data.destaques);
@@ -68,10 +67,9 @@ function App() {
 
 
   const motor = ()=> {
-    solicitar();
-
+    console.log(ready);
     if (ready){
-    return <> 
+    return <div> 
     <Barra />
     <Controles estilo={{marginTop: `${window.innerHeight - 125}px`,marginLeft: `${window.innerWidth < 700 ? 0 : ((window.innerWidth/2)-350)}px`}}/>
     <Header />
@@ -84,7 +82,9 @@ function App() {
       <Listas select={dados[4]} info={dados[1]} frase="mais lidos" />
       <Footer />
     </section>
-    </>
+    </div>
+  }else{
+    solicitar();
   }
 }
 

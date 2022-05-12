@@ -9,9 +9,10 @@ export default function Info () {
 
     const [ready,setReady] = useState(false);
     const obter = async ()=>{
-        let urlParams = new URLSearchParams(window.location.search);
-        let myParam = urlParams.get('n');
-     fetch(`http://127.0.0.1:5000/manga?n=${myParam}`)
+        let urlParams = window.location.hash;
+        let myParam = urlParams.split("=");
+        console.log(myParam);
+     fetch(`http://127.0.0.1:5000?n=${myParam[1]}`)
     .then(res => res.json())
     .then(data => {
         dados = data;
