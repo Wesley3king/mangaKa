@@ -16,6 +16,7 @@ export default class Main extends React.Component {
         this.dados = [];
         
         this.foto = 0;
+        this.intervalo = null;
     }
 
     componentDidMount () {
@@ -38,8 +39,8 @@ export default class Main extends React.Component {
             console.log(this.dados);
             }
 
-            setInterval(()=>{
-                this.foto++;
+            this.intervalo = setInterval(()=>{
+                
                 let e = window.document.querySelectorAll('.select');
                   if (this.state.tempo === 100) this.setState({tempo:6000});
                   console.log(`valor : ${this.state.tempo} | teste : ${this.state.tempo === 100} | `)
@@ -48,16 +49,22 @@ export default class Main extends React.Component {
                             e[this.foto].style.display = "block";
                             }
                             console.log(this.foto)
-                    if(this.foto === 7) this.foto = 0;
+                            this.foto++;
+                    if(this.foto === 8) this.foto = 0;
             },6000);
+
        
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalo);
     }
     desataques () {
         if (this.state.ready) {
             let li = [];
             for (let e in this.dados[2]){
-            
-                li.push(<li className="select" style={{display: "none",backgroundColor:`${this.dados[2][e].color}`}}>
+            console.log(e);
+                li.push(<li className="select" style={{display: e === "numero1" ?"block" : "none",backgroundColor:`${this.dados[2][e].color}`}}>
                 <div key={`destaque${e}`} className="mainImagem" style={{backgroundImage: `url(https://wesley3king.github.io/mangaKa/frontCapas/${this.dados[2][e].poster})`}}></div>
                 </li>);
                 
