@@ -24,26 +24,34 @@ export default function Info () {
 
     const build = (go) =>{
         if (go) {
-            return <div className="background_image" style={{backgroundImage: `url(https://wesley3king.github.io/mangaKa/capas/${dados.img})`}}>
-        <div className="fosco">
-            <Barra />
-            <Controles estilo={{marginTop: `${window.innerHeight - 55}px`,marginLeft: `${window.innerWidth < 700 ? 0 : ((window.innerWidth/2)-350)}px`}}/>
-            <SubHeader />
+            return <div>
+                <Barra />
+                <Controles estilo={{marginTop: `${window.innerHeight - 55}px`,marginLeft: `${window.innerWidth < 700 ? 0 : ((window.innerWidth/2)-350)}px`}}/>
+                <SubHeader />
+                <div className="background_image" style={{backgroundImage: `url(https://wesley3king.github.io/mangaKa/capas/${dados.img})`}}>
+                        <div className="fosco">
+                
+                <section className="subcenter">
+                    <div className="quadro" style={{backgroundImage: `url(https://wesley3king.github.io/mangaKa/capas/${dados.img})`}}></div>
+                    <h2 className="nomeprincipal">{dados.name}</h2>
+                    <div>
+                        <a href={dados.link} target="_blank" rel="noreferrer" className="link_leitura">
+                            <div className="div_leitura">
+                                <div className="icone_leitura"></div>
+                                <p>ler agora!</p>
+                            </div>
+                        </a>
+                    </div>
 
-            <section className="subcenter">
-                <div className="quadro" style={{backgroundImage: `url(https://wesley3king.github.io/mangaKa/capas/${dados.img})`}}></div>
-                <h2 className="nomeprincipal">{dados.name}</h2>
-                <div className="leftalign">
-                <p className="retirado">fonte: <a className="font" href={dados.provLINK}>{dados.prov}</a></p>
-                </div>
-                <div className="sinopse"><p>{dados.sinopse}</p></div>
-            </section>
-            
-
-
-
-        </div>
-    </div>
+                    <div className="leftalign">
+                    <p className="retirado">fonte: <a className="font" href={dados.provLINK}>{dados.prov}</a></p>
+                    </div>
+                    <div className="sinopse"><p>{dados.sinopse}</p></div>
+                </section>
+                
+                        </div>
+                    </div>
+            </div>
         }else{
             obter();
             

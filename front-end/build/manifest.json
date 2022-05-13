@@ -3,7 +3,7 @@
   "name": "mangaKa",
   "orientation": "portrait",
   "dir": "ltr",
-  "scope": "/",
+    "scope": "/",
   "icons": [
     {
       "src": "favicon.ico",
