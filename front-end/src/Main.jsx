@@ -75,7 +75,7 @@ export default class Main extends React.Component {
     machine () {
         if (this.state.ready){
             return <div> 
-            <Barra />
+            <Barra estilo={{marginTop:"-70px"}}/>
             <Controles estilo={{marginTop: `${window.innerHeight - 125}px`,marginLeft: `${window.innerWidth < 700 ? 0 : ((window.innerWidth/2)-350)}px`}}/>
             <Header />
             <section>

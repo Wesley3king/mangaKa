@@ -32,15 +32,21 @@ export default function Info () {
                         <div className="fosco">
                 
                 <section className="subcenter">
-                    <div className="quadro" style={{backgroundImage: `url(https://wesley3king.github.io/mangaKa/capas/${dados.img})`}}></div>
-                    <h2 className="nomeprincipal">{dados.name}</h2>
-                    <div>
-                        <a href={dados.link} target="_blank" rel="noreferrer" className="link_leitura">
-                            <div className="div_leitura">
-                                <div className="icone_leitura"></div>
-                                <p>ler agora!</p>
+                    <div className="colRow">
+                        <div className="quadro" style={{backgroundImage: `url(https://wesley3king.github.io/mangaKa/capas/${dados.img})`}}></div>
+                        <div className="joinTwo">
+                            <div className="mgtop">
+                                <h2 className="nomeprincipal">{dados.name}</h2>
                             </div>
-                        </a>
+                            <div className="alignLink">
+                                <a href={dados.link} target="_blank" rel="noreferrer" className="link_leitura">
+                                    <div className="div_leitura">
+                                        <div className="icone_leitura"></div>
+                                        <p>ler agora!</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="leftalign">

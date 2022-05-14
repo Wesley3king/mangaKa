@@ -10,7 +10,7 @@ export default class Controles extends React.Component {
                  <div className="controlesBaixo" style={this.props.estilo}>
                      <div className="blibio"></div>
                      <Link to="/"><div className="goHome"></div></Link>
-                     <div className="return"></div>
+                     <div className="return" onClick={()=>window.history.back()}></div>
                  </div>
              </div>
             </>

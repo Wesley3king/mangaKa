@@ -5,7 +5,7 @@ export default class Barra extends React.Component {
 
     render () {
         return (
-            <div className="barra_menu">
+            <div style={this.props.estilo} className="barra_menu">
             <div className="mm_center">
                 <div className="close"  onClick={()=> {
     let menu = window.document.querySelector('.barra_menu');
