@@ -2,6 +2,7 @@ const express = require("express");
 const url = require("url");
 const fs = require("fs");
 const { isNull } = require("util");
+const db = require("./db");
 const routes = express.Router();
 
 //rota HOME
