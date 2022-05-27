@@ -5,7 +5,7 @@ const { isNull } = require("util");
 const db = require("./db");
 const routes = express.Router();
 
-//rota HOME
+//rota HOME - rota HOME logado
  routes.get('/',(req,res)=>{
 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -30,7 +30,15 @@ const routes = express.Router();
         })
     }
  });
-
+routes.use(express.json());//habilita que todas as rotas vão receber json
+routes.post('/', (req,res)=>{
+    let data = req.body;
+    //autenticidade
+    let aut = db.User_dados({user: data.nome, senha: data.password});
+    console.log(data);
+    //retorno
+    res.status(201).send("recibo");
+});
  //rota MAIN
 routes.get('/',(req,res)=>{
 
