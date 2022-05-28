@@ -1,6 +1,7 @@
 //modulo de scraping dos sites
 
 const puppeteer = require("puppeteer");
+const fs = require("fs");
 
 
 async function obter () {
@@ -36,7 +37,7 @@ async function obter () {
    }).catch(e => console.log(e));
 
    //remove as scans nativas
-   for (let i = 0; i < 14; ++i) {
+   for (let i = 0; i < 15; ++i) {
      elemento.pop();
    }
    //obtem = fatia nome do manga, link link para o main, img imagem
@@ -51,7 +52,7 @@ async function obter () {
     fatia_2.push(fatia1[i][1].split("</a"));
     link_2.push(fatia1[i][0].split('" href="'));
     img_2.push(fatia1[i][0].split('src="'));
-    console.log(fatia1[i]);
+    //console.log(fatia1[i]);
 
    }else if (fatia1[i].length === 6) {
     fatia.push(fatia1[i][5].split("</a"));
@@ -79,7 +80,9 @@ for(let i of link) {
 }
   //finalizando imagens
   let image_6 = img_6.map(arr => arr[1].split('" data-'));
+  //console.log(image_6);
   let image_2 = img_2.map(arr => arr[1].split('" data-'));
+  //console.log(image_2);
   let image_3 = img.map(arr => arr[1].split('" data-'));
 
   
@@ -92,6 +95,7 @@ for(let i of link) {
   //ultimos adicionados
   let f3 = u_link.map((lnk,ind) => [fatia_3[ind][0], image_3[ind][0], lnk]);
   
+  //console.log(f2);
   delete image_2, image_3, image_6, fatia1, fatia_2, fatia_3, fatia, l_link, p_link, u_link, elemento;
   //finalizando
 
@@ -101,9 +105,9 @@ for(let i of link) {
     atualizados : f3
   }
 
-   console.log(dados);
-    await browser.close();
-
+  //console.log(dados);
+   await browser.close();
+   return dados;
 }
 
 //obter();
@@ -126,7 +130,7 @@ async function entrar (url) {
             req.continue();
         }
     });*/
-
+    console.log(url,typeof url);
     await page.goto(url);
     await page.waitForTimeout(3000);
 
@@ -171,13 +175,14 @@ async function entrar (url) {
     l_corte2.pop();
     //delete l_corte1, n_corte1, capitulos;
     let a_final = l_corte2.map((arr, ind)=> [n_corte2[ind][0],arr[0]]);
-    //[n_corte2[ind][0],arr[0]]
+
     let data = [elemento[0], elemento[1], a_final];
     console.log(data);
     await browser.close();
+    return data;
 }
 
-entrar('https://mangayabu.top/manga/solo-leveling');
+//entrar('https://mangayabu.top/manga/solo-leveling');
 
 //leitor de capitulos
 
@@ -238,7 +243,7 @@ async function leitor (url) {
 // mundo manga kun
 
 
-async function obter () {
+async function obterM () {
     
     const browser = await puppeteer.launch({ 
         args :  [ '--disable-dev-shm-usage', '--shm-size=1gb' ],
@@ -396,4 +401,6 @@ async function leitor (url) {
 
   await browser.close()
 }
-leitor('https://mundomangakun.com.br/leitor-online/projeto/yuusha-sama-yukagen-wa-ikaga-desu-ka/cap-tulo-04/#pagina/1')
+//leitor('https://mundomangakun.com.br/leitor-online/projeto/yuusha-sama-yukagen-wa-ikaga-desu-ka/cap-tulo-04/#pagina/1');
+
+module.exports = {entrar, leitor, obter, obterM, obterInterno};

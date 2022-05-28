@@ -2,24 +2,36 @@ import React,{useState} from "react";
 import SubHeader from "./componentes/SubHeader";
 import Barra from "./componentes/Barra";
 import Controles from "./componentes/Controles";
+import Globais from "./Globais";
 import './index.css';
 
-var dados;
-export default function Info () {
-
-    const [ready,setReady] = useState(false);
-    const obter = async ()=>{
-        let urlParams = window.location.hash;
-        let myParam = urlParams.split("=");
-        console.log(myParam);
-     fetch(`http://127.0.0.1:5000?n=${myParam[1]}`)
+/*await fetch(`http://127.0.0.1:5000/manga`,{
+        method: 'POST',
+        
+        body: {"url": myParam}
+        })
     .then(res => res.json())
     .then(data => {
         dados = data;
         console.log(dados);
         setReady(true);
-    })
-        
+    })*/
+var dados = [];
+export default function Info () {
+
+    const [ready,setReady] = useState(false);
+    const obter = async ()=>{
+        let myParam = Globais.link;
+        await fetch(`http://127.0.0.1:5000/manga`,{
+            method: 'POST',
+            body: JSON.stringify({"url": myParam})
+            })
+        .then(res => res.json())
+        .then(data => {
+            dados = data;
+            console.log(dados);
+            setReady(true);
+        });
     }
 
     const build = (go) =>{
@@ -66,7 +78,7 @@ export default function Info () {
 
     return(
         <>
-        {build(ready)}        
+        {/*build(ready)*/obter()}        
         </>
     )
 }

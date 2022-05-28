@@ -14,6 +14,7 @@ export default class Main extends React.Component {
             tempo: 100
         };
         this.dados = [];
+        this.destaques = [];
         
         this.foto = 0;
         this.intervalo = null;
@@ -25,18 +26,22 @@ export default class Main extends React.Component {
             .then(res => res.json())
             .then(data => {
               //0 - favoritos , 1 - lista favoritos ,2 - destaques, 3 - number fav list, 4 - mais lidos
-              this.dados.push(data.favoritos);
-              this.dados.push(data.lista);
-              this.dados.push(data.destaques);
-              let dt = this.dados[1].map(item => item.cod);
-              this.dados.push(dt);
-              this.dados.push(data.toplidos);
-        
+              //this.dados.push(data.favoritos);
+              this.dados.push(data.atualizados);
+              this.dados.push(data.lancamentos);
+              this.dados.push(data.popular);
               console.log(data);
               this.setState({ready: true});
             })
             .catch(e => console.log("erro aqui : "+e));
-            console.log(this.dados);
+
+            //destaques
+            fetch("http://127.0.0.1:5000/destaques")
+            .then(res => res.json())
+            .then(data =>{
+                this.destaques.push(data);
+            });
+            console.log(this.destaques);
             }
 
             this.intervalo = setInterval(()=>{
@@ -62,16 +67,20 @@ export default class Main extends React.Component {
     desataques () {
         if (this.state.ready) {
             let li = [];
-            for (let e in this.dados[2]){
-            console.log(e);
-                li.push(<li className="select" style={{display: e === "numero1" ?"block" : "none",backgroundColor:`${this.dados[2][e].color}`}}>
-                <div key={`destaque${e}`} className="mainImagem" style={{backgroundImage: `url(https://wesley3king.github.io/mangaKa/frontCapas/${this.dados[2][e].poster})`}}></div>
+            //console.log("dest : ", this.destaques[0]);
+            let iter = Object.keys(this.destaques[0]);
+
+            for (let e of iter){
+            //console.log(this.destaques[0][e]);
+                li.push(<li className="select" style={{display: e === "numero1" ?"block" : "none",backgroundColor:`${this.destaques[0][e].color}`}}>
+                <div key={`destaque${this.destaques[0][e].poster}`} className="mainImagem" style={{backgroundImage: `url(https://wesley3king.github.io/mangaKa/frontCapas/${this.destaques[0][e].poster})`}}></div>
                 </li>);
                 
             }
             return <ul> {li} </ul>;
         }
     }
+    
     machine () {
         if (this.state.ready){
             return <div> 
@@ -80,11 +89,11 @@ export default class Main extends React.Component {
             <Header />
             <section>
               <div className='areaVisual'>
-                      {this.desataques()}
+              {this.desataques()}
               </div>
-              <Listas select={this.dados[0]} info={this.dados[1]} frase="lendo"/>
-              <Listas select={this.dados[3]} info={this.dados[1]} frase="minha lista"/>
-              <Listas select={this.dados[4]} info={this.dados[1]} frase="mais lidos" />
+              <Listas select={this.dados[1]} frase="lancamentos"/>
+              <Listas select={this.dados[2]} frase="popular"/>
+              <Listas select={this.dados[0]} frase="atualizados" />
               <Footer />
             </section>
             </div>
