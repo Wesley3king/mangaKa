@@ -383,6 +383,52 @@ margin-top: 70px;
   width: 100%;
   text-align: left;
   text-indent: 1em;
+  
+}
+.all_space{
+  display: none;
+  
+}
+.all_space.ocult{
+  position: fixed;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  z-index: 2;
+}
+.lista_de_capitulos{
+  
+  display: block;
+  width: 70%;
+  
+  background-color: rgba(0, 0, 0, 0.884);
+  color: rgb(197, 197, 197);
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+  
+}
+.lista_de_capitulos::-webkit-scrollbar{
+  display: none;
+}
+.scroll_y_list{
+  padding: 65px 0 100px 0;
+}
+.all_caps{
+  line-height: 22px;
+}
+.lis_tags{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  overflow-x: auto;
+}
+.lis_tags::-webkit-scrollbar{
+  display: none;
 }
 .retirado{
   font-weight: bold;

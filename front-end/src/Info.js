@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import SubHeader from "./componentes/SubHeader";
 import Barra from "./componentes/Barra";
 import Controles from "./componentes/Controles";
-import Globais from "./Globais";
+//import Globais from "./Globais";
 import './index.css';
 
 /*await fetch(`http://127.0.0.1:5000/manga`,{
@@ -23,15 +23,18 @@ export default function Info () {
     const [myS,setmyS] = useState(0);
 
     const  buscar = async ()=>{
+        let urlParams = window.location.hash;
+        let myParam = urlParams.split('=');
+        console.log(myParam);
         await fetch(`http://127.0.0.1:5000/manga`,{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({"url": Globais.link})
+            body: JSON.stringify({"url": `https://mangayabu.top/manga/${myParam[1]}`})
             })
         .then(res => res.json())
         .then(data => {
-            dados.push(data.data);
-            console.log(dados);
+            dados = data.data;
+            console.log("dados : ",dados);
             setReady(true);
         }).catch(e=> {console.log(e);setmyS(0)});
     }
@@ -42,38 +45,58 @@ export default function Info () {
         }
     }
 
+    const tags = (arr)=>{
+        let li = arr.map(str => <li>{str}</li>);
+        return <ul className="lis_tags">{li}</ul>;
+    }
+    const capit = (arr)=>{
+        let li = arr.map(array => <li className="all_caps">{array[0].replace("#","")}</li>);
+
+        return <ul>{li}</ul>;
+    }
+    const showCapitulos = ()=>{
+        let ds = window.document.querySelector(".all_soace");
+        if (ds !== undefined && ds !== null) ds.classList.toggle("ocult");
+
+    }
     const build = (go) =>{
         if (go) {
-            dados.pop();
+            console.log(dados[1]);
             return <div>
                 <Barra />
                 <Controles estilo={{marginTop: `${window.innerHeight - 55}px`,marginLeft: `${window.innerWidth < 700 ? 0 : ((window.innerWidth/2)-350)}px`}}/>
                 <SubHeader />
-                <div className="background_image" style={{backgroundImage: `url(${Globais.image})`}}>
+                
+                    <div className="all_space">
+                        <div className="lista_de_capitulos">
+                                    <div className="scroll_y_list">{capit(dados[2])}</div>
+                                </div>
+                    </div>
+                <div className="background_image" style={{backgroundImage: `url(${dados[4]})`}}>
                         <div className="fosco">
                 
                 <section className="subcenter">
+                
                     <div className="colRow">
-                        <div className="quadro" style={{backgroundImage: `url(${Globais.image})`}}></div>
+                        
+                        <div className="quadro" style={{backgroundImage: `url(${dados[4]})`}}></div>
                         <div className="joinTwo">
                             <div className="mgtop">
-                                <h2 className="nomeprincipal">{Globais.nome}</h2>
+                                <h2 className="nomeprincipal">{dados[3]}</h2>
                             </div>
                             <div className="alignLink">
-                                <a href={dados[0][2][1]} target="_blank" rel="noreferrer" className="link_leitura">
-                                    <div className="div_leitura">
+                                    <div className="div_leitura" onClick={showCapitulos()}>
                                         <div className="icone_leitura"></div>
                                         <p>ler agora!</p>
                                     </div>
-                                </a>
                             </div>
                         </div>
                     </div>
 
                     <div className="leftalign">
-                    <p className="retirado">fonte: </p>
+                    <p className="retirado">{tags(dados[1])}</p>
                     </div>
-                    <div className="sinopse"><p>{dados[0][0]}</p></div>
+                    <div className="sinopse"><p>{dados[0]}</p></div>
                 </section>
                 
                         </div>
@@ -87,7 +110,7 @@ export default function Info () {
 
     return(
         <>
-        {/*build(ready)*/obter()}        
+        {build(ready)}        
         </>
     )
 }

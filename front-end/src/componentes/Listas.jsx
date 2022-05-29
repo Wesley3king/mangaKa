@@ -6,7 +6,8 @@ export default class Centro extends React.Component {
 
     montar () {
         //console.log(this.props.info)
-        let li = this.props.select.map(item=> <Link to={`./manga?n=${item[0]}`} style={{textDecoration:"none"}} onClick={()=> {Globais.link = item[2]; Globais.nome = item[0]; Globais.image = item[1]}}>
+        let txt = this.props.select.map(item=> item[2].split("manga/"));
+        let li = this.props.select.map((item,ind)=> <Link to={`./manga?n=${txt[ind][1]}`} style={{textDecoration:"none"}} >
             <li className='espaco'>
                 <div className="show" style={{backgroundImage : `url(${item[1]}`}}></div>
                 <p className='lettershow'>{item[0]}</p>
@@ -14,7 +15,7 @@ export default class Centro extends React.Component {
         return li;
 
     }
-
+//onClick={()=> {Globais.link = item[2]; Globais.nome = item[0]; Globais.image = item[1]}}
     render () {
         return (
             <>
