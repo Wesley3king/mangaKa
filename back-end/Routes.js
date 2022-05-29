@@ -4,8 +4,14 @@ const fs = require("fs");
 const sc = require("./scraping");
 const { isNull } = require("util");
 const db = require("./db");
+const cors=require("cors");
 const routes = express.Router();
-
+const corsOptions ={
+    origin:'*', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+ }
+ 
 //rota HOME - rota HOME logado
  routes.get('/',async (req,res)=>{
 
@@ -61,6 +67,7 @@ routes.post('/log', async (req,res)=>{
     
 });
  //rota MAIN
+ routes.use(cors(corsOptions));
 routes.post('/manga',async (req,res)=>{
 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -69,9 +76,9 @@ routes.post('/manga',async (req,res)=>{
     let req_data = req.body;
     console.log("requisicao manga : ",req_data.url);
 
-    //let dad = await sc.entrar(req_data.url);
+    let dad = await sc.entrar(req_data.url);
 
-    res.json({"urldorequest": req.body});
+    res.json({"data": dad});
 
     
 });

@@ -37,7 +37,7 @@ async function obter () {
    }).catch(e => console.log(e));
 
    //remove as scans nativas
-   for (let i = 0; i < 15; ++i) {
+   for (let i = 0; i < 16; ++i) {
      elemento.pop();
    }
    //obtem = fatia nome do manga, link link para o main, img imagem
@@ -130,7 +130,7 @@ async function entrar (url) {
             req.continue();
         }
     });*/
-    console.log(url,typeof url);
+    page.setDefaultTimeout(40000);
     await page.goto(url);
     await page.waitForTimeout(3000);
 
@@ -182,7 +182,7 @@ async function entrar (url) {
     return data;
 }
 
-//entrar('https://mangayabu.top/manga/solo-leveling');
+//entrar('https://mangayabu.top/manga/kanojo-okarishimasu');
 
 //leitor de capitulos
 
