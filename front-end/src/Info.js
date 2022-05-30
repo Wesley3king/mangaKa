@@ -52,7 +52,7 @@ export default function Info () {
     const capit = (arr)=>{
         let li = arr.map(array => <li className="all_caps">{array[0].replace("#","")}</li>);
 
-        return <ul>{li}</ul>;
+        return <div><ul>{li}</ul></div>;
     }
     const showCapitulos = ()=>{
         let ds = window.document.querySelector(".all_space");
@@ -69,6 +69,7 @@ export default function Info () {
                 
                     <div className="all_space">
                         <div className="lista_de_capitulos">
+                        <div className="close2"  onClick={()=> showCapitulos()}></div>
                                     <div className="scroll_y_list">{capit(dados[2])}</div>
                                 </div>
                     </div>

@@ -6,6 +6,7 @@ const fs = require("fs");
 
 async function obter () {
     
+  
     const browser = await puppeteer.launch({ 
         args :  [ '--disable-dev-shm-usage', '--shm-size=1gb' ],
         headless: true
@@ -22,8 +23,10 @@ async function obter () {
         }
     });
     
-    await page.goto('https://mangayabu.top/');
+    
+    await page.goto('https://mangayabu.top/').catch(e => console.log(e));;
     await page.waitForTimeout(3000);
+    
    const elemento = await page.evaluate(()=>{
        let nome = document.querySelectorAll(".carousel-item");
 
@@ -108,6 +111,7 @@ for(let i of link) {
   //console.log(dados);
    await browser.close();
    return dados;
+
 }
 
 //obter();
@@ -131,7 +135,7 @@ async function entrar (url) {
         }
     });*/
     page.setDefaultTimeout(40000);
-    await page.goto(url);
+    await page.goto(url).catch(e => console.log(e));
     await page.waitForTimeout(3000);
 
     const elemento = await page.evaluate(()=>{
@@ -152,7 +156,7 @@ async function entrar (url) {
         let capa = document.querySelector(".single-bg");
         
         return [cont[1], cat.innerHTML, cap.innerHTML,tit.innerHTML,capa.innerHTML];
-    });
+    }).catch(e => console.log(e));
     //cortar os capitulos - link, capitulo
     let capitulos = elemento[2].split("</a>");
 
@@ -213,7 +217,7 @@ async function leitor (url) {
         }
     });*/
     
-    await page.goto(url);
+    await page.goto(url).catch(e => console.log(e));
     page.setDefaultTimeout(50000);
     await page.waitForTimeout(3000);
 
@@ -227,7 +231,7 @@ async function leitor (url) {
       //sinopse
       let sin = document.querySelector('.manga-info-synopsis')
       return [cp.innerHTML, imgs.innerHTML, tit.innerHTML,sin.innerHTML];
-    });
+    }).catch(e => console.log(e));
 
     //recortando as imagems
     let img_pt1 = elemento[1].split('">');
