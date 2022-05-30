@@ -160,13 +160,13 @@ async function entrar (url) {
     //cortar os capitulos - link, capitulo
     let capitulos = elemento[2].split("</a>");
 
-    let l_corte1 = capitulos.map(str => str.split('href="'));
+    let l_corte1 = capitulos.map(str => str.split('?p='));
     
     let l_corte2 = l_corte1.map(arr => {
       if (arr.length >= 2){
         return arr[1].split('" class=');
       } } );
-    //console.log(l_corte2); o link esta na posicao 0;
+    console.log(l_corte2);// o link esta na posicao 0;
 
     let n_corte1 = capitulos.map(str => str.split('s-infs">'));
 
@@ -174,7 +174,7 @@ async function entrar (url) {
       if (arr.length >= 2){
         return arr[1].split('<small><d');
       } } );
-    //console.log(n_corte2); o nome esta na posicao 0;
+   // console.log(n_corte2); o nome esta na posicao 0;
     //corta as categorias
     let cc_1 = elemento[1].split(">");
     let cc_2 = cc_1.map(str => str.split("<"));
@@ -203,7 +203,7 @@ async function entrar (url) {
 async function leitor (url) {
       const browser = await puppeteer.launch({ 
         args :  [ '--disable-dev-shm-usage', '--shm-size=1gb' ],
-        headless: true
+        headless: false
       });
     const page = await browser.newPage();
 
@@ -216,9 +216,9 @@ async function leitor (url) {
             req.continue();
         }
     });*/
-    
-    await page.goto(url).catch(e => console.log(e));
     page.setDefaultTimeout(50000);
+    await page.goto(url).catch(e => console.log(e));
+    
     await page.waitForTimeout(3000);
 
     const elemento = await page.evaluate(()=>{
@@ -249,9 +249,11 @@ async function leitor (url) {
     let data =  [elemento[2], f2[1], elemento[3], img_pt2.map(arr=>arr[1])];
     //console.log(elemento[3]);
     browser.close();
+    return data;
 }
 
 //leitor('https://mangayabu.top/?p=102021');
+leitor('https://mangayabu.top/?p=750951');
 
 
 // mundo manga kun
@@ -372,7 +374,7 @@ async function obterInterno (url) {
 
 //obterInterno('https://mundomangakun.com.br/projeto/yuusha-sama-yukagen-wa-ikaga-desu-ka/');
 
-async function leitor (url) {
+async function leitorM (url) {
     let browser = await puppeteer.launch({ 
         args :  [ '--disable-dev-shm-usage', '--shm-size=1gb' ],
         headless: false
@@ -417,4 +419,4 @@ async function leitor (url) {
 }
 //leitor('https://mundomangakun.com.br/leitor-online/projeto/yuusha-sama-yukagen-wa-ikaga-desu-ka/cap-tulo-04/#pagina/1');
 
-module.exports = {entrar, leitor, obter, obterM, obterInterno};
+module.exports = {entrar, leitor, obter, obterM, obterInterno, leitorM};

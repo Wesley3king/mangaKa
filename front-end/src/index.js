@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './Main';
 import Info from './Info';
+import Leitor from './Leitor';
 import reportWebVitals from './reportWebVitals';
 import {HashRouter,Routes,Route} from 'react-router-dom';
 
@@ -13,6 +14,7 @@ root.render(
     <Routes>
       <Route path='/' element={<App />}/>
       <Route path='/manga' element={<Info />} />
+      <Route path='/manga/leitor' element={<Leitor />} />
     </Routes>
   </HashRouter>
   </React.StrictMode>

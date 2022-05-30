@@ -83,4 +83,17 @@ routes.post('/manga',async (req,res)=>{
     
 });
 
+//leitor
+
+routes.post('/manga/leitor', async (req, res)=>{
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    
+    let req_data = req.body;
+    console.log("requisicao leitor : ",req_data.url);
+    let dados = await sc.leitor(req_data.url);
+    console.log(dados);
+    res.json({"data": dados});
+});
+
 module.exports = routes;

@@ -3,6 +3,7 @@ import SubHeader from "./componentes/SubHeader";
 import Barra from "./componentes/Barra";
 import Controles from "./componentes/Controles";
 //import Globais from "./Globais";
+import {Link} from "react-router-dom"
 import './index.css';
 
 /*await fetch(`http://127.0.0.1:5000/manga`,{
@@ -50,7 +51,7 @@ export default function Info () {
         return <ul className="lis_tags">{li}</ul>;
     }
     const capit = (arr)=>{
-        let li = arr.map(array => <li className="all_caps">{array[0].replace("#","")}</li>);
+        let li = arr.map(array => <Link style={{textDecoration: "none",color: "white"}}to={`/manga/leitor?n=${array[1]}`}><li className="all_caps">{array[0].replace("#","")}</li></Link>);
 
         return <div><ul>{li}</ul></div>;
     }
