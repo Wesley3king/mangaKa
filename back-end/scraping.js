@@ -203,7 +203,7 @@ async function entrar (url) {
 async function leitor (url) {
       const browser = await puppeteer.launch({ 
         args :  [ '--disable-dev-shm-usage', '--shm-size=1gb' ],
-        headless: false
+        headless: true
       });
     const page = await browser.newPage();
 
@@ -234,26 +234,35 @@ async function leitor (url) {
     }).catch(e => console.log(e));
 
     //recortando as imagems
+    console.log(elemento);
     let img_pt1 = elemento[1].split('">');
     let img_pt2 = img_pt1.map(str => str.split('-src="'));//link na posicaõ 1;
     
     //img de capa
-    let f1 = elemento[0].split('" data-');
-    let f2 = f1[0].split('src="');//imagem na posicao 1;
+    
+    let f1 = elemento[0].split('src="');//imagem na posicao 1;
+    let f2 = f1[1].split('" data-');
 
-
+    if (f2[0].indexOf('"') !== -1) {
+      f2 = f2[0].split('">');
+    }
+//console.log(f2,  f2[0] || f2);
+    //recorta a sinopse
+    let sinop = elemento[3].split("</h3>");
 
 
     //remove o excesso
     img_pt2.pop();
-    let data =  [elemento[2], f2[1], elemento[3], img_pt2.map(arr=>arr[1])];
-    //console.log(elemento[3]);
+
+    let data =  [elemento[2], f2[0] || f2, sinop[1], img_pt2.map(arr=>arr[1])];
+    console.log(data);
     browser.close();
     return data;
 }
 
 //leitor('https://mangayabu.top/?p=102021');
-leitor('https://mangayabu.top/?p=750951');
+//leitor('https://mangayabu.top/?p=750951');
+leitor('https://mangayabu.top/?p=922544');
 
 
 // mundo manga kun

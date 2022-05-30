@@ -91,7 +91,7 @@ routes.post('/manga/leitor', async (req, res)=>{
     
     let req_data = req.body;
     console.log("requisicao leitor : ",req_data.url);
-    let dados = await sc.leitor(req_data.url);
+    let dados = await sc.leitor(req_data.url).catch(e=>console.log(e));
     console.log(dados);
     res.json({"data": dados});
 });

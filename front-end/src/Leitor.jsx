@@ -67,11 +67,11 @@ export default class leitor extends React.Component {
                 <FixHeader />
                     <div>
                         <div className="informaçoes">
-                            <div style={{backgroundImage: this.dados[1]}}className="info_img"></div>
+                            <div style={{backgroundImage: `url(${this.dados[1]})`}}className="info_img"></div>
                             <div>
                                 <h2>{this.dados[0]}</h2>
                                 <div>
-                                    <p>{this.dados[2]}</p>
+                                    <p>Sinopse : {this.dados[2]}</p>
                                 </div>
                             </div>
                         </div>
