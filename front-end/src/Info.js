@@ -55,7 +55,7 @@ export default function Info () {
         return <ul>{li}</ul>;
     }
     const showCapitulos = ()=>{
-        let ds = window.document.querySelector(".all_soace");
+        let ds = window.document.querySelector(".all_space");
         if (ds !== undefined && ds !== null) ds.classList.toggle("ocult");
 
     }
@@ -85,7 +85,7 @@ export default function Info () {
                                 <h2 className="nomeprincipal">{dados[3]}</h2>
                             </div>
                             <div className="alignLink">
-                                    <div className="div_leitura" onClick={showCapitulos()}>
+                                    <div className="div_leitura" onClick={()=>showCapitulos()}>
                                         <div className="icone_leitura"></div>
                                         <p>ler agora!</p>
                                     </div>
