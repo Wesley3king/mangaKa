@@ -262,7 +262,7 @@ async function leitor (url) {
 
 //leitor('https://mangayabu.top/?p=102021');
 //leitor('https://mangayabu.top/?p=750951');
-leitor('https://mangayabu.top/?p=922544');
+//leitor('https://mangayabu.top/?p=922544');
 
 
 // mundo manga kun

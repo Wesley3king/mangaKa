@@ -37,7 +37,7 @@ export default class leitor extends React.Component {
 
     imagem (arr) {
         let width = window.innerWidth;
-        let img = [];
+        let imgA = [];
         for (let c of arr) {
             let img = new Image();
             let t = [];
@@ -49,12 +49,13 @@ export default class leitor extends React.Component {
              let h = ((t[1]*width)/t[0]);
          //console.log(h,  typeof t[0]);
 
-         img.push(<div style={{width: this.width, height: h, backgroundImage: c}}></div>)
+         imgA.push(<li><div style={{width: this.width, height: h, backgroundImage: `url(${c})`}}></div></li>)
          }
  
          img.src = c;
      }
-     return img;
+     console.log(imgA)
+     return <div><ul>{imgA}</ul></div>;
     }
 
     build () {
@@ -68,16 +69,18 @@ export default class leitor extends React.Component {
                     <div>
                         <div className="informaçoes">
                             <div style={{backgroundImage: `url(${this.dados[1]})`}}className="info_img"></div>
-                            <div>
-                                <h2>{this.dados[0]}</h2>
-                                <div>
-                                    <p>Sinopse : {this.dados[2]}</p>
+                            <div className="flex_column_leitor">
+                                <h2 className="titulo_leitor_manga">{this.dados[0]}</h2>
+                                <div className="scroll_leitor_sinopse">
+                                    <div className="sinopse">
+                                        <p>Sinopse : {this.dados[2]}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className="leitor_area">
-                            
+                            {this.imagem(this.dados[3])}
                         </div>
                     </div>
                    </>

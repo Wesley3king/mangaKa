@@ -298,7 +298,7 @@ margin-top: 70px;
   
 }
 .fosco{
-  backdrop-filter: blur(7px);
+  backdrop-filter: blur(9px);
   background-color: rgba(0, 0, 0, 0.534);
   width: 100%;
   height: 100vh;
@@ -465,14 +465,40 @@ margin-top: 70px;
 }
 
 /*  -   leitor  - */
-
+.informaçoes{
+  display: flex;
+  flex-direction: row;
+  background-color: rgb(53, 53, 53);
+  margin: 7px;
+  box-shadow: 1.5px 1.5px 3px rgba(245, 245, 245, 0.445);
+}
 .info_img{
   width: 100px;
   height: 150px;
+  margin-left: 7px;
   background-repeat: no-repeat;
   background-size: 100%;
+  flex-shrink: 0;
 }
+.titulo_leitor_manga{
+  font-size: 16px;
+  margin-left: 5px;
+}
+.flex_column_leitor{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
+}
+.scroll_leitor_sinopse{
+  height: 100px;
+  overflow-y: auto;
+  font-size: 14px;
+}
+.scroll_leitor_sinopse::-webkit-scrollbar{
+  display: none;
+}
 
 /*animação de desvanecer*/
 @keyframes desvanecer {
