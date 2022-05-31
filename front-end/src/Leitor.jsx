@@ -11,11 +11,13 @@ export default class leitor extends React.Component {
             myS: 0
         };
         this.dados = [];
+        this.intervalo = null;
+        this.mont = false;
     }
     buscar = async ()=>{
         let urlParams = window.location.hash;
         let myParam = urlParams.split('=');
-        console.log(myParam);
+        //console.log(myParam);
         await fetch(`http://127.0.0.1:5000/manga/leitor`,{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
@@ -35,28 +37,38 @@ export default class leitor extends React.Component {
         }
     }
 
-    imagem (arr) {
-        let width = window.innerWidth;
-        let imgA = [];
-        for (let c of arr) {
-            let img = new Image();
-            let t = [];
-           // let h = NaN;
-         img.onload = function () {
-             console.log(`width: ${this.width} - height: ${this.height}`);
-             t.push(Number(`${this.width}`));
-             t.push(Number(`${this.height}`));
-             let h = ((t[1]*width)/t[0]);
-         //console.log(h,  typeof t[0]);
-
-         imgA.push(<li><div style={{width: this.width, height: h, backgroundImage: `url(${c})`}}></div></li>)
-         }
- 
-         img.src = c;
-     }
-     console.log(imgA)
-     return <div><ul>{imgA}</ul></div>;
+     imagem (arr) {
+        
     }
+
+    componentDidMount () {
+        if (!this.mont){
+            this.intervalo = setInterval(()=>{
+                let width = window.innerWidth;
+            let local = document.querySelector(".leitor_area");
+
+            if (local) {
+            for (let c of this.dados[3]) {
+                const img = new Image();
+                img.onload = function() {
+                    let div_img = document.createElement("div");
+                    /*div_img.style.width = width;
+                    div_img.style.height =  ((this.height*width)/this.width);
+                    console.log(`height : ${((this.height*width)/this.width)}`);
+                    div_img.style.backgroundImage = `url(${c})`;*/
+                    div_img.setAttribute("src", c);
+                    div_img.setAttribute("width",width);
+                    div_img.setAttribute("height",((this.height*width)/this.width));
+
+                    local.appendChild(div_img);
+                }
+                img.src = c;
+            }
+            this.mont = true;
+            }
+            },500);
+    }
+   }
 
     build () {
 
@@ -80,7 +92,7 @@ export default class leitor extends React.Component {
                         </div>
 
                         <div className="leitor_area">
-                            {this.imagem(this.dados[3])}
+
                         </div>
                     </div>
                    </>

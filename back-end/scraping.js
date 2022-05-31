@@ -234,10 +234,21 @@ async function leitor (url) {
     }).catch(e => console.log(e));
 
     //recortando as imagems
-    console.log(elemento);
+    //console.log(elemento);
     let img_pt1 = elemento[1].split('">');
-    let img_pt2 = img_pt1.map(str => str.split('-src="'));//link na posicaõ 1;
-    
+    let img_pt2 = img_pt1.map(str => str.split('src="'));//link na posicaõ 1;
+   // console.log(img_pt2);
+    let img_pt3 = img_pt2.map(str=> {
+      if (str.length !== 1){
+      if(str[1].indexOf('" data-') !== -1){
+        
+        return str[2];
+      }else{
+        return str[1];
+      }
+      }else return '';
+    })
+    //console.log(img_pt3);
     //img de capa
     
     let f1 = elemento[0].split('src="');//imagem na posicao 1;
@@ -254,7 +265,7 @@ async function leitor (url) {
     //remove o excesso
     img_pt2.pop();
 
-    let data =  [elemento[2], f2[0] || f2, sinop[1], img_pt2.map(arr=>arr[1])];
+    let data =  [elemento[2], f2[0] || f2, sinop[1], img_pt3.filter(str => str !== '')];
     console.log(data);
     browser.close();
     return data;
@@ -263,6 +274,7 @@ async function leitor (url) {
 //leitor('https://mangayabu.top/?p=102021');
 //leitor('https://mangayabu.top/?p=750951');
 //leitor('https://mangayabu.top/?p=922544');
+//leitor('https://mangayabu.top/?p=603027');
 
 
 // mundo manga kun
