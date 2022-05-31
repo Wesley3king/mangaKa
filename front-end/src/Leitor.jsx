@@ -42,8 +42,8 @@ export default class leitor extends React.Component {
     }
 
     componentDidMount () {
-        if (!this.mont){
-            this.intervalo = setInterval(()=>{
+        if (this.mont !== true){
+            this.intervalo = setTimeout(()=>{
                 let width = window.innerWidth;
             let local = document.querySelector(".leitor_area");
 
@@ -51,14 +51,14 @@ export default class leitor extends React.Component {
             for (let c of this.dados[3]) {
                 const img = new Image();
                 img.onload = function() {
-                    let div_img = document.createElement("div");
+                    let div_img = document.createElement("img");
                     /*div_img.style.width = width;
                     div_img.style.height =  ((this.height*width)/this.width);
                     console.log(`height : ${((this.height*width)/this.width)}`);
                     div_img.style.backgroundImage = `url(${c})`;*/
                     div_img.setAttribute("src", c);
-                    div_img.setAttribute("width",width);
-                    div_img.setAttribute("height",((this.height*width)/this.width));
+                    div_img.setAttribute("width",`${width}px`);
+                    div_img.setAttribute("height",`${((this.height*width)/this.width)}px`);
 
                     local.appendChild(div_img);
                 }
@@ -66,7 +66,8 @@ export default class leitor extends React.Component {
             }
             this.mont = true;
             }
-            },500);
+            },1000);
+        //clearInterval(this.intervalo);
     }
    }
 
