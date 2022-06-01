@@ -1,6 +1,7 @@
 import React from "react";
 import HeaderR from "./componentes/HeaderR";
 import Barra from "./componentes/Barra";
+import {Link} from "react-router-dom"
 import "./index.css";
 
 export default class Search extends React.Component {
@@ -10,6 +11,7 @@ export default class Search extends React.Component {
             texto: "",
             ready: false
         };
+        this.dados = [];
 
     }
 
@@ -30,7 +32,13 @@ export default class Search extends React.Component {
     }
     resultados () {
         if (this.state.ready) {
-            
+            return <>
+                    <div className="div_flex_search">
+                    {this.dados.map(arr => {
+                    let txt = arr[2].split('manga/');
+                    return <div className="div_result_search"><Link to={`./manga?n=${txt[1]}`} style={{textDecoration:"none"}}><div className="search_img" style={{backgroundImage: arr[1]}}></div><p className="lettershow2">{arr[0]}</p></Link></div>})}
+                    </div>
+                   </>
         }
     }
 
@@ -48,9 +56,12 @@ export default class Search extends React.Component {
                         </div>
                     
                 </div>
-                <div className="result">
-                    {this.resultados()}
+                <div className="serch_flex_align">
+                    <div className="result">
+                        {this.resultados()}
+                    </div>
                 </div>
+
                </>
     }
 
