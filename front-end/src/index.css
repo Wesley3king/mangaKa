@@ -502,7 +502,69 @@ margin-top: 70px;
 .scroll_leitor_sinopse::-webkit-scrollbar{
   display: none;
 }
+.leitor_footer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.leitor_footer .bigfooter{
+  color: whitesmoke;
+}
+.control_leitor_footer{
+  width: 90%;
+  height: 100px;
+  margin: 10px;
+  border: 1px solid black;
+  border: 1px 1px 2px black;
+  display: flex;
+  justify-content: space-evenly;
+  background-color: black;
+}
+.prev{
+  width: 50px;
+  height: 50px;
+  background-image: url('./imgs/leftTRiangle.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.next{
+  width: 50px;
+  height: 50px;
+  background-image: url('./imgs/rightTRiangle.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.lis_tags p{
+  padding: 10px;
+}
 
+/*  - serch -  */
+
+
+.margin_top{
+ height: 60px;
+}
+.inp_align{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.inp_search{
+  width: 30%;
+  height: 20px;
+  flex-shrink: 0;
+  text-align: center;
+}
+.active_search{
+  width: 40px;
+  height: 40px;
+  background-image: url('./imgs/lupa.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  margin-right: 2%;
+}
 /*animação de desvanecer*/
 @keyframes desvanecer {
   from{

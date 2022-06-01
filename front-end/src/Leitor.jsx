@@ -39,21 +39,27 @@ export default class leitor extends React.Component {
 
 
     componentDidMount () {
+        //faz a requisição
+        if (this.state.myS === 0){
+            this.setState((state)=>({myS: state.myS+1}));
+            this.buscar();
+        }
 
+        //ajusta o tamanho das imagems
         this.interval = setInterval(()=>{
             if(this.state.tamanhoOrigin) {
             let imgs = window.document.querySelectorAll(".capitulo_img");
-        let width = window.innerHeight;
+        let width = window.innerWidth;
         if (imgs.length !== 0){
             //this.stop_int();
             console.log(imgs)
            for(let e of imgs) {
                console.log(e)
-               let w = e.naturalWidth;
-               let h = e.naturalHeight;
-               console.log(`h : ${h} // w : ${w}`)
+               let w = e.clientWidth;
+               let h = e.clientHeight;
                //e.setAttribute("width", `${width}px`);
                //e.setAttribute("height",`${((h*width)/w)}px`);
+               console.log(`w : ${w} / h : ${h} / width : ${width} / height : ${((h*width)/w)}`);
                e.style.width = `${width}px`;
                e.style.height = `${((h*width)/w)}px`;
            };
@@ -65,9 +71,8 @@ export default class leitor extends React.Component {
     },4000);    
    }
 
-   stop_int () {
+   componentWillUnmount() {
     clearInterval(this.interval);
-    console.log("clearInterval parado");
 }
     build () {
 
@@ -93,10 +98,22 @@ export default class leitor extends React.Component {
                         <div className="leitor_area">
                             {this.dados[3].map(str=> <img className="capitulo_img" src={str} alt="imagem capitulo"></img>)}
                         </div>
+
+                        <div className="leitor_footer">
+                            <div className="control_leitor_footer">
+                                <div className="lis_tags">
+                                    <p>anterior</p>
+                                    <div className="prev"></div>
+                                </div>
+                                <div className="lis_tags">
+                                    <div className="next"></div>
+                                    <p>próximo</p>
+                                </div>
+                            </div>
+                            <p className="bigfooter">mangaKa</p>
+                        </div>
                     </div>
                    </>
-        }else{
-            this.obter();
         }
     }
     render () {

@@ -96,4 +96,18 @@ routes.post('/manga/leitor', async (req, res)=>{
     res.json({"data": dados});
 });
 
+//pesquisar
+
+routes.post('/pesquisar', async (req, res)=>{
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    
+    let req_data = req.body;
+    console.log("requisicao pesquisa : ",req_data.nome);
+    let dados = await sc.search("https://mangayabu.top/lista-de-mangas/#mangasearch",req_data.nome).catch(e=>console.log(e));
+    console.log(dados);
+    res.json({"data": dados});
+});
+
+
 module.exports = routes;

@@ -4,6 +4,7 @@ import './index.css';
 import App from './Main';
 import Info from './Info';
 import Leitor from './Leitor';
+import Search from './Search';
 import reportWebVitals from './reportWebVitals';
 import {HashRouter,Routes,Route} from 'react-router-dom';
 
@@ -15,6 +16,7 @@ root.render(
       <Route path='/' element={<App />}/>
       <Route path='/manga' element={<Info />} />
       <Route path='/manga/leitor' element={<Leitor />} />
+      <Route path='/pesquisar' element={<Search />} />
     </Routes>
   </HashRouter>
   </React.StrictMode>

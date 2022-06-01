@@ -276,6 +276,65 @@ async function leitor (url) {
 //leitor('https://mangayabu.top/?p=922544');
 //leitor('https://mangayabu.top/?p=603027');
 
+//pesquisar
+
+async function search (url,nome_pesquisa) {
+  const browser = await puppeteer.launch({ 
+    args :  [ '--disable-dev-shm-usage', '--shm-size=1gb' ],
+    headless: true
+  });
+const page = await browser.newPage();
+
+ await page.setRequestInterception(true);
+page.on('request', (req) => {
+    if(req.resourceType() === 'image'){
+        req.abort();
+        }
+        else {
+        req.continue();
+    }
+});
+
+page.setDefaultTimeout(50000);
+await page.goto(url).catch(e => console.log(e));
+await page.waitForSelector("#mangasearch");
+await page.type("#mangasearch",nome_pesquisa);
+await page.waitForTimeout(3000);
+
+const elemento = await page.evaluate(()=>{
+//iamgem da capa
+let cap = document.querySelectorAll(".ycard-key-art");
+let ind = Object.keys(cap), img = [];
+       for (let i = 0; i < ind.length; ++i) {
+           img.push(getComputedStyle(cap[ind[i]]).backgroundImage);
+       }
+//nome e link
+let n_l = document.querySelectorAll(".ycard-details");
+let inu = Object.keys(n_l), dt = [];
+       for (let i = 0; i < inu.length; ++i) {
+           dt.push(n_l[inu[i]].innerHTML);
+       }
+return [img, dt];
+
+}).catch(e=>console.log(e));
+
+//cortar o link
+let corte_1 = elemento[1].map(str => str.split('href="'));
+let corte_2 = corte_1.map(arr => arr[1].split('">'));//link posiçao 0
+
+//corter nome
+let c_nome_1 = elemento[1].map(str => str.split('">'));
+let c_nome_2 = c_nome_1.map(arr => arr[1].split('</a'));//nome na posicao 0
+
+delete c_nome_1, corte_1;
+
+let data = elemento[0].map((str,indice)=> [c_nome_2[indice][0], str, corte_2[indice][0]]);
+//console.log(data);
+browser.close();
+return data;
+}
+
+//search("https://mangayabu.top/lista-de-mangas/#mangasearch","my wife");
 
 // mundo manga kun
 
@@ -440,4 +499,4 @@ async function leitorM (url) {
 }
 //leitor('https://mundomangakun.com.br/leitor-online/projeto/yuusha-sama-yukagen-wa-ikaga-desu-ka/cap-tulo-04/#pagina/1');
 
-module.exports = {entrar, leitor, obter, obterM, obterInterno, leitorM};
+module.exports = {entrar, leitor, obter, search, obterM, obterInterno, leitorM};
