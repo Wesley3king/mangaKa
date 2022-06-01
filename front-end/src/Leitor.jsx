@@ -3,16 +3,16 @@ import React from "react";
 import Barra from "./componentes/Barra";
 import FixHeader from "./componentes/FixHeader";
 
+
 export default class leitor extends React.Component {
     constructor (props){
         super (props);
         this.state = {
             ready: false,
-            myS: 0
+            myS: 0,
+            tamanhoOrigin: true
         };
         this.dados = [];
-        this.intervalo = null;
-        this.mont = false;
     }
     buscar = async ()=>{
         let urlParams = window.location.hash;
@@ -37,40 +37,38 @@ export default class leitor extends React.Component {
         }
     }
 
-     imagem (arr) {
-        
-    }
 
     componentDidMount () {
-        if (this.mont !== true){
-            this.intervalo = setTimeout(()=>{
-                let width = window.innerWidth;
-            let local = document.querySelector(".leitor_area");
 
-            if (local) {
-            for (let c of this.dados[3]) {
-                const img = new Image();
-                img.onload = function() {
-                    let div_img = document.createElement("img");
-                    /*div_img.style.width = width;
-                    div_img.style.height =  ((this.height*width)/this.width);
-                    console.log(`height : ${((this.height*width)/this.width)}`);
-                    div_img.style.backgroundImage = `url(${c})`;*/
-                    div_img.setAttribute("src", c);
-                    div_img.setAttribute("width",`${width}px`);
-                    div_img.setAttribute("height",`${((this.height*width)/this.width)}px`);
-
-                    local.appendChild(div_img);
-                }
-                img.src = c;
-            }
-            this.mont = true;
-            }
-            },1000);
-        //clearInterval(this.intervalo);
-    }
+        this.interval = setInterval(()=>{
+            if(this.state.tamanhoOrigin) {
+            let imgs = window.document.querySelectorAll(".capitulo_img");
+        let width = window.innerHeight;
+        if (imgs.length !== 0){
+            //this.stop_int();
+            console.log(imgs)
+           for(let e of imgs) {
+               console.log(e)
+               let w = e.naturalWidth;
+               let h = e.naturalHeight;
+               console.log(`h : ${h} // w : ${w}`)
+               //e.setAttribute("width", `${width}px`);
+               //e.setAttribute("height",`${((h*width)/w)}px`);
+               e.style.width = `${width}px`;
+               e.style.height = `${((h*width)/w)}px`;
+           };
+           this.setState(()=>({tamanhoOrigin: false}));
+        }else{
+            console.log("nada no array",imgs);
+        }
+       }
+    },4000);    
    }
 
+   stop_int () {
+    clearInterval(this.interval);
+    console.log("clearInterval parado");
+}
     build () {
 
         if (this.state.ready) {
@@ -93,7 +91,7 @@ export default class leitor extends React.Component {
                         </div>
 
                         <div className="leitor_area">
-
+                            {this.dados[3].map(str=> <img className="capitulo_img" src={str} alt="imagem capitulo"></img>)}
                         </div>
                     </div>
                    </>
