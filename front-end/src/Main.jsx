@@ -100,7 +100,7 @@ export default class Main extends React.Component {
               <div> 
             <section>
               <div className='areaVisual'>
-              <Falselist />
+              <Falselist estilo_gradient={{height:"150px"}}/>
               </div>
               <Falselist frase="lancamentos"/>
               <Falselist frase="popular"/>

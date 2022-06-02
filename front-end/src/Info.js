@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import SubHeader from "./componentes/SubHeader";
 import Barra from "./componentes/Barra";
 import Controles from "./componentes/Controles";
-//import Globais from "./Globais";
+import Falselist from "./componentes/Falselist";
 import {Link} from "react-router-dom"
 import './index.css';
 
@@ -64,10 +64,6 @@ export default function Info () {
         if (go) {
             console.log(dados[1]);
             return <div>
-                <Barra />
-                <Controles estilo={{marginTop: `${window.innerHeight - 55}px`,marginLeft: `${window.innerWidth < 700 ? 0 : ((window.innerWidth/2)-350)}px`}}/>
-                <SubHeader />
-                
                     <div className="all_space">
                         <div className="lista_de_capitulos">
                         <div className="close2"  onClick={()=> showCapitulos()}></div>
@@ -106,12 +102,19 @@ export default function Info () {
             </div>
         }else{
             obter();
+            return <>
+                    <Falselist estilo_gradient={{height:"98vh"}}/>
+                   </>
             
         }
     }
 
     return(
         <>
+        <Barra />
+        <Controles estilo={{marginTop: `${window.innerHeight - 55}px`,marginLeft: `${window.innerWidth < 700 ? 0 : ((window.innerWidth/2)-350)}px`}}/>
+        <SubHeader />
+                
         {build(ready)}        
         </>
     )

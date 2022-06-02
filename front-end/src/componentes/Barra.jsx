@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default class Barra extends React.Component {
 
@@ -35,11 +36,11 @@ export default class Barra extends React.Component {
                     <div className="conf"></div>
                     <p>Configurações</p>
                 </li>
-                <li className="emlinha">
+                <Link to="/" style={{textDecoration: "none",color:"white"}}><li className="emlinha">
                     <div className="hom"></div>
                     <p>Home</p>
-                </li>
-                <li className="emlinha">
+                </li></Link>
+                <li className="emlinha" onClick={()=> window.close()}>
                     <div className="out"></div>
                     <p>Sair</p>
                 </li>

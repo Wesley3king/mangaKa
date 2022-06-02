@@ -552,7 +552,7 @@ margin-top: 70px;
   align-items: center;
 }
 .inp_search{
-  width: 30%;
+  width: 70%;
   height: 20px;
   flex-shrink: 0;
   text-align: center;
@@ -573,7 +573,7 @@ margin-top: 70px;
   color: whitesmoke;
 }
 .result{
-  width: 95%;
+  width: 100%;
   height: 80vh;
   overflow-y: auto;
   border: 1px solid black;
@@ -602,7 +602,7 @@ margin-top: 70px;
 .search_img{
   width: 150px;
   height: 230px;
-  background-size: 100%;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 .lettershow2{
@@ -623,7 +623,7 @@ margin-top: 70px;
   height: 260px;
   background-image: linear-gradient(90deg,rgb(32, 32, 32), rgb(32, 32, 32),rgb(31, 31, 31),rgb(46, 45, 45) , rgb(31, 31, 31),rgb(32, 32, 32),rgb(32, 32, 32));
   background-size: 400%;
-  animation: carregando 3s linear infinite;
+  animation: carregando2 3s linear infinite;
 }
 /*animação de desvanecer*/
 @keyframes desvanecer {
@@ -635,9 +635,17 @@ margin-top: 70px;
   }
 }
 
-@keyframes carregando {
+@keyframes carregando1 {
   from{
-    background-position: -1600px;
+    background-position: -5000px;
+  }
+  to{
+    background-position: 0;
+  }
+}
+@keyframes carregando2 {
+  from{
+    background-position: -2600px;
   }
   to{
     background-position: 0;
@@ -668,5 +676,9 @@ margin-top: 70px;
   }
   .joinTwo{
     flex-shrink: 1;
+  }
+
+  .loading_gradient{
+    animation: carregando1 3s linear infinite;
   }
 }

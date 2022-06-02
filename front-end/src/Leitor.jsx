@@ -1,5 +1,5 @@
 import React from "react";
-//import Controles from "./componentes/Controles";
+import Falselist from "./componentes/Falselist";
 import Barra from "./componentes/Barra";
 import FixHeader from "./componentes/FixHeader";
 
@@ -80,8 +80,7 @@ export default class leitor extends React.Component {
 
 
             return <>
-                    <Barra />
-                <FixHeader />
+                   
                     <div>
                         <div className="informaçoes">
                             <div style={{backgroundImage: `url(${this.dados[1]})`}}className="info_img"></div>
@@ -114,11 +113,19 @@ export default class leitor extends React.Component {
                         </div>
                     </div>
                    </>
+        }else{
+            return <>
+                    <Falselist estilo_gradient={{height:"150px"}}/>
+
+                    <Falselist estilo_gradient={{height:"92vh"}}/>
+                  </>
         }
     }
     render () {
         return (
             <>
+             <Barra />
+            <FixHeader />
              {this.build()}
             </>
         )

@@ -10,7 +10,7 @@ export default class FixHeader extends React.Component {
     menu.classList.toggle("ativa");
   }}></div>
                 <div className="menu_icone">mangaKa</div>
-                <div className="return"></div>
+                <div className="return" onClick={()=> window.history.back()}></div>
             </header>
             </>
         )
