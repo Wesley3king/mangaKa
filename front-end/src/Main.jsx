@@ -4,6 +4,7 @@ import Barra from "./componentes/Barra";
 import Controles from "./componentes/Controles";
 import Listas from "./componentes/Listas";
 import Footer from "./componentes/Footer";
+import Falselist from "./componentes/Falselist";
 
 export default class Main extends React.Component {
     
@@ -84,9 +85,6 @@ export default class Main extends React.Component {
     machine () {
         if (this.state.ready){
             return <div> 
-            <Barra estilo={{marginTop:"-70px"}}/>
-            <Controles estilo={{marginTop: `${window.innerHeight - 125}px`,marginLeft: `${window.innerWidth < 700 ? 0 : ((window.innerWidth/2)-350)}px`}}/>
-            <Header />
             <section>
               <div className='areaVisual'>
               {this.desataques()}
@@ -97,12 +95,29 @@ export default class Main extends React.Component {
               <Footer />
             </section>
             </div>
+          }else{
+              return <>
+              <div> 
+            <section>
+              <div className='areaVisual'>
+              <Falselist />
+              </div>
+              <Falselist frase="lancamentos"/>
+              <Falselist frase="popular"/>
+              <Falselist frase="atualizados" />
+              <Footer />
+            </section>
+            </div>
+              </>
           }
     }
 
     render () {
         return (
             <>
+            <Barra estilo={{marginTop:"-70px"}}/>
+            <Controles estilo={{marginTop: `${window.innerHeight - 125}px`,marginLeft: `${window.innerWidth < 700 ? 0 : ((window.innerWidth/2)-350)}px`}}/>
+            <Header />
             {this.machine()}
             </>
         )

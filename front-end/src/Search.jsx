@@ -36,7 +36,7 @@ export default class Search extends React.Component {
                     <div className="div_flex_search">
                     {this.dados.map(arr => {
                     let txt = arr[2].split('manga/');
-                    return <div className="div_result_search"><Link to={`./manga?n=${txt[1]}`} style={{textDecoration:"none"}}><div className="search_img" style={{backgroundImage: arr[1]}}></div><p className="lettershow2">{arr[0]}</p></Link></div>})}
+                    return <div className="div_result_search"><Link to={`/manga?n=${txt[1]}`} style={{textDecoration:"none"}}><div className="search_img" style={{backgroundImage: arr[1]}}></div><p className="lettershow2">{arr[0]}</p></Link></div>})}
                     </div>
                    </>
         }
