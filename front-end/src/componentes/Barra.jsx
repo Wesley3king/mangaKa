@@ -1,5 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { CgHeart, CgMenuGridR, CgLogOff } from "react-icons/cg";
+import { BsCloudArrowDownFill, BsFillBellFill, BsHouseFill } from "react-icons/bs";
+import { RiToolsFill } from "react-icons/ri";
+import { VscChromeClose } from "react-icons/vsc";
 
 export default class Barra extends React.Component {
 
@@ -8,40 +12,40 @@ export default class Barra extends React.Component {
         return (
             <div style={this.props.estilo} className="barra_menu">
             <div className="mm_center">
-                <div className="close"  onClick={()=> {
+                <VscChromeClose className="close"  onClick={()=> {
     let menu = window.document.querySelector('.barra_menu');
     menu.classList.toggle("ativa"); console.log("ddddd");
-  }}></div>
+  }}/>
                 <h1>mangaKa</h1>
             </div>
 
             <ul>
                 <li className="emlinha">
-                    <div className="fav"></div>
+                    <CgHeart className="fav"/>
                     <p>Favoritos</p>
                 </li>
                 <li className="emlinha">
-                    <div className="cat"></div>
+                    <CgMenuGridR className="cat"/>
                     <p>Categorias</p>
                 </li>
                 <li className="emlinha">
-                    <div className="down"></div>
+                    <BsCloudArrowDownFill className="down"/>
                     <p>Downloads</p>
                 </li>
                 <li className="emlinha">
-                    <div className="coming"></div>
+                    <BsFillBellFill className="coming"/>
                     <p>Em Breve</p>
                 </li>
                 <li className="emlinha">
-                    <div className="conf"></div>
+                    <RiToolsFill className="conf"/>
                     <p>Configurações</p>
                 </li>
                 <Link to="/" style={{textDecoration: "none",color:"white"}}><li className="emlinha">
-                    <div className="hom"></div>
+                    <BsHouseFill className="hom"/>
                     <p>Home</p>
                 </li></Link>
                 <li className="emlinha" onClick={()=> window.close()}>
-                    <div className="out"></div>
+                    <CgLogOff className="out"/>
                     <p>Sair</p>
                 </li>
             </ul>

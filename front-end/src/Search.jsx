@@ -1,7 +1,8 @@
 import React from "react";
 import HeaderR from "./componentes/HeaderR";
 import Barra from "./componentes/Barra";
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
+
 import "./index.css";
 
 export default class Search extends React.Component {

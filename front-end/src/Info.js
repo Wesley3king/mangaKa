@@ -3,7 +3,8 @@ import SubHeader from "./componentes/SubHeader";
 import Barra from "./componentes/Barra";
 import Controles from "./componentes/Controles";
 import Falselist from "./componentes/Falselist";
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
+import { VscChromeClose, VscChevronRight } from "react-icons/vsc";
 import './index.css';
 
 /*await fetch(`http://127.0.0.1:5000/manga`,{
@@ -66,7 +67,7 @@ export default function Info () {
             return <div>
                     <div className="all_space">
                         <div className="lista_de_capitulos">
-                        <div className="close2"  onClick={()=> showCapitulos()}></div>
+                        <VscChevronRight className="close2"  onClick={()=> showCapitulos()}/>
                                     <div className="scroll_y_list">{capit(dados[2])}</div>
                                 </div>
                     </div>
@@ -85,7 +86,7 @@ export default function Info () {
                             <div className="alignLink">
                                     <div className="div_leitura" onClick={()=>showCapitulos()}>
                                         <div className="icone_leitura"></div>
-                                        <p>ler agora!</p>
+                                        <p>capitulos</p>
                                     </div>
                             </div>
                         </div>

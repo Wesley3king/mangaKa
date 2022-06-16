@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { VscArrowLeft } from "react-icons/vsc";
 
 export default class FixHeader extends React.Component {
     render () {
@@ -11,7 +12,7 @@ export default class FixHeader extends React.Component {
     menu.classList.toggle("ativa");
   }}></div>
                 <div className="menu_icone">mangaKa</div>
-                <Link to="/"><div className="return"></div></Link>
+                <Link to="/"><VscArrowLeft className="return"/></Link>
             </header>
             </>
         )

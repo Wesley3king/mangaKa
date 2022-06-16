@@ -117,7 +117,9 @@ export default class leitor extends React.Component {
             return <>
                     <Falselist estilo_gradient={{height:"150px"}}/>
 
-                    <Falselist estilo_gradient={{height:"92vh"}}/>
+                    <Falselist estilo_gradient={{height:"88vh"}}/>
+
+                    <Falselist estilo_gradient={{height:"160px"}}/>
                   </>
         }
     }
