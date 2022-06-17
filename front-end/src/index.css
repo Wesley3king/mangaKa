@@ -475,20 +475,17 @@ margin-top: 70px;
   display: flex;
   justify-content: space-evenly;
   background-color: black;
+  box-shadow: 2px 2px 3px rgba(255, 255, 255, 0.075);
+
 }
 .prev{
-  width: 50px;
-  height: 50px;
-  background-image: url('./imgs/leftTRiangle.png');
-  background-repeat: no-repeat;
-  background-size: contain;
+  font-size: 2em;
 }
 .next{
-  width: 50px;
-  height: 50px;
-  background-image: url('./imgs/rightTRiangle.png');
-  background-repeat: no-repeat;
-  background-size: contain;
+  font-size: 2em;
+}
+.toTop{
+  font-size: 2em;
 }
 .lis_tags p{
   padding: 10px;

@@ -1,6 +1,7 @@
 import React from "react";
 import Falselist from "./componentes/Falselist";
 import Barra from "./componentes/Barra";
+import { VscFoldUp, VscChevronLeft, VscChevronRight } from "react-icons/vsc";
 import FixHeader from "./componentes/FixHeader";
 
 
@@ -102,10 +103,13 @@ export default class leitor extends React.Component {
                             <div className="control_leitor_footer">
                                 <div className="lis_tags">
                                     <p>anterior</p>
-                                    <div className="prev"></div>
+                                    <VscChevronLeft className="prev"/>
+                                </div>
+                                <div className="lis_tags" onClick={()=> window.scrollTo(0, 0)}>
+                                    <VscFoldUp className="toTop"/>
                                 </div>
                                 <div className="lis_tags">
-                                    <div className="next"></div>
+                                    <VscChevronRight className="next"/>
                                     <p>próximo</p>
                                 </div>
                             </div>
