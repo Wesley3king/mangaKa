@@ -109,5 +109,4 @@ routes.post('/pesquisar', async (req, res)=>{
     res.json({"data": dados});
 });
 
-
 module.exports = routes;

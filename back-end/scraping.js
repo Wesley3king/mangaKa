@@ -5,8 +5,6 @@ const fs = require("fs");
 
 
 async function obter () {
-    
-  
     const browser = await puppeteer.launch({ 
         args :  [ '--disable-dev-shm-usage', '--shm-size=1gb' ],
         headless: true
@@ -40,7 +38,7 @@ async function obter () {
    }).catch(e => console.log(e));
 
    //remove as scans nativas
-   for (let i = 0; i < 16; ++i) {
+   for (let i = 0; i < 21; ++i) {
      elemento.pop();
    }
    //obtem = fatia nome do manga, link link para o main, img imagem
@@ -113,8 +111,7 @@ for(let i of link) {
    return dados;
 
 }
-
-//obter();
+//obter()
 
 //pagina de selecão de capitulos
 
