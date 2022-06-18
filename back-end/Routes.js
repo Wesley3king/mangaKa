@@ -83,6 +83,38 @@ routes.post('/manga',async (req,res)=>{
     
 });
 
+//busca completa do manga
+routes.post('/total',async (req,res)=>{
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    
+    let req_data = req.body;
+    console.log("requisicao total manga : ",req_data.link);
+
+    let dad = await sc.entrar(req_data.link).catch(console.log);
+
+    let cap = []
+    for (let i of dad[2]) {
+        let data_cap = await sc.leitor(`https://mangayabu.top/?p=${i[1]}`).catch(console.log);
+        console.log(i);
+        cap.push([i[0],i[1], data_cap[0], data_cap[1], data_cap[3]]);
+    };
+
+    let dados = {
+        nome : dad[3],
+        capa1 : dad[4],
+        capa2 : "",
+        sinopse : dad[0],
+        link : req_data.link,
+        categorias : dad[1],
+        capitulos : cap
+    }
+
+    res.json(dados);
+
+    //https://mangayabu.top/?p=
+});
+
 //leitor
 
 routes.post('/manga/leitor', async (req, res)=>{
