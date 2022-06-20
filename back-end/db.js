@@ -1,69 +1,83 @@
-// database mySQL
+//mongo db connection
+const mongoClient = require("mongodb").MongoClient;
 
-//datbase mySQL 2
+const url = "mongodb+srv://king_of_project:UwXWp7BPdGrY1R4l@cluster0.5bcwwx7.mongodb.net/?retryWrites=true&w=majority";
+const database = "mangaka", user_banco = "usuario", main_banco = "mainpage", data_banco = "dataall";
+const server_banco = "servidor"
 
+//estabelece a conexão:
 const conectar = async ()=> {
-    if (global.conexao && global.conexao.state != 'disconected')
-        return global.conexao;
-    const mysql = require('mysql2/promise');
-    const connect = mysql.createConnection("mysql://root:root@127.0.0.1:3306/mangaKa");
-    console.log("connectado ao db");
-    global.conexao = connect;
-    return connect;
+        const client = await mongoClient.connect(url, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        })
+        console.log('conectado!')
+        return client.db(database)
+};
+//atualizar url MAINSERVER
+const urlUpdate = async (url) => {
+    let banco = await conectar();
+
+    await banco.collection(server_banco).updateOne({}, {$set: {url: url}});
+
+    return true;
+}
+//gravar o main
+const main_save = async (nomes) => {
+    let banco = await conectar();
+    await banco.collection(main_banco).deleteOne({}, (err, result)=>{
+        if (err) console.log(err)
+        else console.log("deletado");
+    });
+
+    let ok = await banco.collection(main_banco).insertOne(nomes, (err, result)=>{
+        if (err) console.log(err)
+        else console.log("inserido");
+    });
+
+    if (ok) return true;
 };
 
-const User_dados = async (dados)=>{
-    const con = await conectar();
-    let val = [dados.user];
-    let sql = "select * from usuario where s_nome_usuario=?;";
-    const [linhas] = await con.query(sql,val);
-    return await linhas;
+//enviar o main
+const find_main = async ()=> {
+    let db = await conectar();
+    let data = await db.collection(main_banco).findOne({},{projection: {_id: 0}});
+    return await data;
+}
+
+//inserir no data_banco
+const inserir_novo_manga = async (manga) =>{
+    let db = await conectar();
+    let ad = await db.collection(data_banco).insertOne(manga);
+    return await ad ? true : false;
 };
-//retorna os favoritos e lidos
-const fav_lidos = async (data)=>{
-    const con = await conectar();
-    //let val = ;
-   // console.log("val : ",val);
-    let sql = `select * from ${data.tabela};`;
-    const [linhas] = await con.query(sql);
-    return await linhas;
-};
-const inserir = async (usuario) => {
-    let con = await conectar();
-    let sql = "insert into usuario values ((select max(u.i_ind_usuario)+1 from usuario u),?,?,?)";
 
-    let second_table = `${usuario.nome}${Math.round(Math.random()*99)}`;
+// procurar no banco
+const verificar_manga = async (nome_m) => {
+    let db = await conectar();
+    let encontrar = await db.collection(data_banco).findOne({nome: nome_m},{projection: {_id: 0}});
+    //console.log("db : ",await encontrar);
+    return await encontrar;
+}
+//enviar o manga do banco
+const obter_manga = async (link) => {
+    let db = await conectar();
+    let encontrar = await db.collection(data_banco).find({"link": link}, (err, result)=>{
+        if (err) console.log(err)
+        else console.log("inserido");
+    });
+    return encontrar;
+}
+//adicionar um capitulo
+const adicionar_capitulo_velho = async (nome,data) => {
+    let db = await conectar();
+    let inserir = await db.collection(data_banco).updateMany({"nome": nome}, {"$push": {capitulos : {"$each" : [data]}}});
+    return typeof inserir === "object" ? true : false;
 
-    let valores = [usuario.nome, usuario.password, second_table];
-    await con.query(sql, valores);
-    try {
-        let sql2 = `create table ${second_table} (i_ind_lido int primary key auto_increment);`;
-        await con.query(sql2);
-    } catch (err) {
-        console.log("erro em inserir : ",err);
-    }
-    return "criado"
 }
-
-//adicionar favorito
-const favoritar = async (user,manga) => {
-    const con = await conectar();
-    const sql = `alter table ${user} add column ${manga.nome} boolean ;`;
-    const valores = [cliente.nasc, id];
-    await con.query(sql,valores);
-    return "ok! adicionado";
+const adicionar_capitulo_novo = async (nome,data) => {
+    let db = await conectar();
+    let inserir = await db.collection(data_banco).updateMany({"nome": nome}, {"$push": {capitulos : {"$each": [data], "$position": 0}}});
+    return typeof inserir === "object" ? true : false;
 }
-const atualizar = async (id,cliente) => { 
-    const con = await conectar();
-    const sql = "update cliente set nasc=? where indice=?";
-    const valores = [cliente.nasc, id];
-    await con.query(sql,valores);
-}
-
-const deletar = async (id)=>{
-    const con = await conectar();
-    const sql = "delete from cliente where indice=?";
-    const valores = [id];
-    await con.query(sql,valores);
-}
-module.exports = {User_dados, fav_lidos, inserir, atualizar, deletar};
+module.exports = {main_save, find_main, inserir_novo_manga, urlUpdate, verificar_manga, obter_manga, adicionar_capitulo_novo, adicionar_capitulo_velho}
