@@ -9,7 +9,13 @@ const app = express();
 
 app.use(routes);
 
-//atualização automatica
-func.vasculhar_main(/*"https://mangayabu.top/manga/naze-boku-no-sekai-wo-daremo-oboeteinai-no-ka/""Naze Boku no Sekai wo Daremo Oboeteinai no ka"*/);
+//adicionar (nome, url , length)
+//func.adicionar_manga_especifico("Martial Peak","https://mangayabu.top/manga/martial-peak", 59);
+
+// fazer a atualização dos mangas no main
+//func.vasculhar_main();
+
+//inserir um capitulo preciso (nome, ['Capítulo #18', '917161'], position);
+//func.inserir_especifico();
 
 app.listen(porta, ()=> console.log("servidor rodando na porta : "+ porta));

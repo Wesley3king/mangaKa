@@ -163,7 +163,7 @@ async function entrar (url) {
       if (arr.length >= 2){
         return arr[1].split('" class=');
       } } );
-    console.log(l_corte2);// o link esta na posicao 0;
+    //console.log(l_corte2);// o link esta na posicao 0;
 
     let n_corte1 = capitulos.map(str => str.split('s-infs">'));
 

@@ -80,4 +80,9 @@ const adicionar_capitulo_novo = async (nome,data) => {
     let inserir = await db.collection(data_banco).updateMany({"nome": nome}, {"$push": {capitulos : {"$each": [data], "$position": 0}}});
     return typeof inserir === "object" ? true : false;
 }
-module.exports = {main_save, find_main, inserir_novo_manga, urlUpdate, verificar_manga, obter_manga, adicionar_capitulo_novo, adicionar_capitulo_velho}
+const adicionar_cap_preciso = async (nome, data, pos) => {
+    let db = await conectar();
+    let inserir = await db.collection(data_banco).updateMany({"nome": nome}, {"$push": {capitulos : {"$each": [data], "$position": pos}}});
+    return typeof inserir === "object" ? true : false;
+}
+module.exports = {main_save, find_main, inserir_novo_manga, urlUpdate, verificar_manga, obter_manga, adicionar_capitulo_novo, adicionar_capitulo_velho, adicionar_cap_preciso}
