@@ -4,6 +4,7 @@ import Barra from "./componentes/Barra";
 import Controles from "./componentes/Controles";
 import Falselist from "./componentes/Falselist";
 import {Link} from "react-router-dom";
+import Globais from "./Globais";
 import { VscChromeClose, VscChevronRight } from "react-icons/vsc";
 import './index.css';
 
@@ -19,31 +20,50 @@ import './index.css';
         setReady(true);
     })*/
 var dados = [];
-export default function Info () {
+export default function Info (final_url) {
 
     const [ready,setReady] = useState(false);
     const [myS,setmyS] = useState(0);
 
-    const  buscar = async ()=>{
-        let urlParams = window.location.hash;
-        let myParam = urlParams.split('=');
-        console.log(myParam);
+    const  buscar = async (final_url)=>{
+
         await fetch(`http://127.0.0.1:5000/manga`,{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({"url": `https://mangayabu.top/manga/${myParam[1]}`})
+            body: JSON.stringify({"url": `https://mangayabu.top/manga/${final_url}`})
             })
         .then(res => res.json())
         .then(data => {
             dados = data.data;
             console.log("dados : ",dados);
+            Globais["dados_armazenados"].push(data);
             setReady(true);
         }).catch(e=> {console.log(e);setmyS(0)});
     }
     const obter = ()=>{
-        if (myS === 0){
-            setmyS(myS+1);
-            buscar();
+        let urlParams = window.location.hash;
+        let myParam = urlParams.split('=');
+        //console.log(myParam[1])
+        //console.log(Globais["dados_armazenados"]);
+        let fazer_requisicao = false;
+        
+        for (let i in Globais["dados_armazenados"]) {
+            console.log(`teste : ${Globais["dados_armazenados"][i]["data"]["link"]}`)
+            if (Globais["dados_armazenados"][i]["data"]["link"] === `https://mangayabu.top/manga/${myParam[1]}`) {
+                console.log("encontado !");
+                dados = Globais["dados_armazenados"][i]["data"];
+                setReady(true);
+                fazer_requisicao = true;
+                break;
+            }
+        }
+        
+        if (!fazer_requisicao) {
+            if (myS === 0 && !ready){
+                console.log("não encontrado fazendo o fetch");
+                setmyS(myS+1);
+                buscar(myParam[1]);
+            }
         }
     }
 
@@ -63,25 +83,25 @@ export default function Info () {
     }
     const build = (go) =>{
         if (go) {
-            console.log(dados[1]);
+            //console.log("capitulos",dados["capitulos"]);
             return <div>
                     <div className="all_space">
                         <div className="lista_de_capitulos">
                         <VscChevronRight className="close2"  onClick={()=> showCapitulos()}/>
-                                    <div className="scroll_y_list">{capit(dados[2])}</div>
+                                    <div className="scroll_y_list">{capit(dados["capitulos"])}</div>
                                 </div>
                     </div>
-                <div className="background_image" style={{backgroundImage: `url(${dados[4]})`}}>
+                <div className="background_image" style={{backgroundImage: `url(${dados["capa1"]})`}}>
                         <div className="fosco">
                 
                 <section className="subcenter">
                 
                     <div className="colRow">
                         
-                        <div className="quadro" style={{backgroundImage: `url(${dados[4]})`}}></div>
+                        <div className="quadro" style={{backgroundImage: `url(${dados["capa1"]})`}}></div>
                         <div className="joinTwo">
                             <div className="mgtop">
-                                <h2 className="nomeprincipal">{dados[3]}</h2>
+                                <h2 className="nomeprincipal">{dados["nome"]}</h2>
                             </div>
                             <div className="alignLink">
                                     <div className="div_leitura" onClick={()=>showCapitulos()}>
@@ -93,9 +113,9 @@ export default function Info () {
                     </div>
 
                     <div className="leftalign">
-                    <p className="retirado">{tags(dados[1])}</p>
+                    <p className="retirado">{tags(dados["categorias"])}</p>
                     </div>
-                    <div className="sinopse"><p>{dados[0]}</p></div>
+                    <div className="sinopse"><p>{dados["sinopse"]}</p></div>
                 </section>
                 
                         </div>
