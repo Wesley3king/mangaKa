@@ -71,8 +71,10 @@ export default function Info (final_url) {
         let li = arr.map(str => <li>{str}</li>);
         return <ul className="lis_tags">{li}</ul>;
     }
-    const capit = (arr)=>{
-        let li = arr.map(array => <Link style={{textDecoration: "none",color: "white"}}to={`/manga/leitor?n=${array[1]}`}><li className="all_caps">{array[0].replace("#","")}</li></Link>);
+    const capit = (arr, link)=>{
+        //console.log(arr);
+        let txt = link.split("manga/");
+        let li = arr.map(array => <Link style={{textDecoration: "none",color: "white"}}to={`/manga/leitor?n=${array[1]}&l=${txt[1]}`}><li className="all_caps">{array[0].replace("#","")}</li></Link>);
 
         return <div><ul>{li}</ul></div>;
     }
@@ -88,7 +90,7 @@ export default function Info (final_url) {
                     <div className="all_space">
                         <div className="lista_de_capitulos">
                         <VscChevronRight className="close2"  onClick={()=> showCapitulos()}/>
-                                    <div className="scroll_y_list">{capit(dados["capitulos"])}</div>
+                                    <div className="scroll_y_list">{capit(dados["capitulos"], dados["link"])}</div>
                                 </div>
                     </div>
                 <div className="background_image" style={{backgroundImage: `url(${dados["capa1"]})`}}>

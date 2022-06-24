@@ -13,14 +13,14 @@ export default class Main extends React.Component {
         super(props);
         this.state = {
             ready: false,
-            tempo: 100
+            tempo: 100,
+            foto: 0
         };
         this.dados_lacamentos = null;
         this.dados_popular = null;
         this.dados_atualizados = null;
         this.destaques = null;
         
-        this.foto = 1;
         this.intervalo = null;
     }
 
@@ -41,7 +41,7 @@ export default class Main extends React.Component {
                         Globais["dados_atualizados"] = data.atualizados;
                         Globais["dados_lancamentos"] = data.lancamentos;
                         Globais["dados_popular"] = data.popular;
-
+                        console.log(data);
                         this.setState({ready: true});
                     }).catch(e => console.log("erro aqui : "+e));
 
@@ -64,17 +64,8 @@ export default class Main extends React.Component {
             }
 
             this.intervalo = setInterval(()=>{
-                
-                let e = window.document.querySelectorAll('.select');
-                  if (this.state.tempo === 100) this.setState({tempo:6000});
-                  console.log(`valor : ${this.state.tempo} | teste : ${this.state.tempo === 100} | `)
-                        if (e[4] !== undefined){
-                            for(let i of e){i.style.display = "none"};
-                            e[this.foto].style.display = "block";
-                            }
-                            console.log(this.foto)
-                            this.foto++;
-                    if(this.foto === 8) this.foto = 0;
+                    this.setState((state)=> ({foto: state.foto+1}));
+                    if(this.state.foto === 8) this.setState((state)=> ({foto: 0}));
             },6000);
 
        
@@ -83,20 +74,15 @@ export default class Main extends React.Component {
     componentWillUnmount() {
         clearInterval(this.intervalo);
     }
-    desataques () {
+    desataques (num) {
         if (this.state.ready) {
-            let li = [];
             //console.log("dest : ", this.destaques[0]);
             let iter = Object.keys(this.destaques);
 
-            for (let e of iter){
-            //console.log(this.destaques[0][e]);
-                li.push(<li className="select" style={{display: e === "numero1" ?"block" : "none",backgroundColor:`${this.destaques[e].color}`}}>
-                <div key={`destaque${this.destaques[e].poster}`} className="mainImagem" style={{backgroundImage: `url(https://wesley3king.github.io/mangaKa/frontCapas/${this.destaques[e].poster})`}}></div>
-                </li>);
-                
-            }
-            return <ul> {li} </ul>;
+            
+            return <div className="select" style={{backgroundColor:`${this.destaques[iter[num]].color}`}}>
+            <div key={`destaque${this.destaques[iter[num]].poster}`} className="mainImagem" style={{backgroundImage: `url(https://wesley3king.github.io/mangaKa/frontCapas/${this.destaques[iter[num]].poster})`}}></div>
+            </div>;
         }
     }
     
@@ -105,7 +91,7 @@ export default class Main extends React.Component {
             return <div> 
             <section>
               <div className='areaVisual'>
-              {this.desataques()}
+              {this.desataques(this.state.foto)}
               </div>
               <Listas select={this.dados_lancamentos} frase="lancamentos"/>
               <Listas select={this.dados_popular} frase="popular"/>

@@ -3,6 +3,7 @@ import Falselist from "./componentes/Falselist";
 import Barra from "./componentes/Barra";
 import { VscFoldUp, VscChevronLeft, VscChevronRight } from "react-icons/vsc";
 import FixHeader from "./componentes/FixHeader";
+import Globais from "./Globais";
 
 
 export default class leitor extends React.Component {
@@ -13,16 +14,14 @@ export default class leitor extends React.Component {
             myS: 0,
             tamanhoOrigin: true
         };
-        this.dados = [];
+        this.dados = {};
     }
-    buscar = async ()=>{
-        let urlParams = window.location.hash;
-        let myParam = urlParams.split('=');
-        //console.log(myParam);
-        await fetch(`http://127.0.0.1:5000/manga/leitor`,{
+
+    buscar = async (myParam)=>{
+        await fetch(`http://127.0.0.1:5000/manga`,{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({"url": `https://mangayabu.top/?p=${myParam[1]}`})
+            body: JSON.stringify({"url": `https://mangayabu.top/manga/${myParam}`})
             })
         .then(res => res.json())
         .then(data => {
@@ -31,7 +30,24 @@ export default class leitor extends React.Component {
             this.setState(()=>({ready: true}));
         }).catch(e=> {console.log(e);this.setState(()=>({myS: 0}));});
     }
+    
     obter = ()=>{
+        let urlParams = window.location.hash;
+        let myParam = urlParams.split('=');
+        let myNum = myParam[1].split("&");
+        console.log(myParam,myNum);
+        let fazer_requisicao = false;
+
+        for (let i in Globais["dados_armazenados"]) {
+            if (Globais["dados_armazenados"][i]["data"]["link"] === `https://mangayabu.top/manga/${myParam[2]}`) {
+                console.log("encontado !");
+                this.dados = Globais["dados_armazenados"][i]["data"];
+                this.setState(()=>({ready: true}));
+                fazer_requisicao = true;
+                break;
+            }
+        }
+
         if (this.state.myS === 0){
             this.setState((state)=>({myS: state.myS+1}));
             this.buscar();
