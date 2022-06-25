@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Falselist from "./componentes/Falselist";
 import Barra from "./componentes/Barra";
 import { VscFoldUp, VscChevronLeft, VscChevronRight } from "react-icons/vsc";
@@ -14,7 +15,9 @@ export default class leitor extends React.Component {
             myS: 0,
             tamanhoOrigin: true
         };
-        this.dados = {};
+        this.dados = [];
+        this.allData = {};
+        this.indice = 0;
     }
 
     buscar = async (myParam)=>{
@@ -27,11 +30,10 @@ export default class leitor extends React.Component {
         .then(data => {
             this.dados = data.data;
             console.log("dados : ",this.dados);
-            this.setState(()=>({ready: true}));
         }).catch(e=> {console.log(e);this.setState(()=>({myS: 0}));});
     }
     
-    obter = ()=>{
+    obter = async ()=>{
         let urlParams = window.location.hash;
         let myParam = urlParams.split('=');
         let myNum = myParam[1].split("&");
@@ -41,26 +43,61 @@ export default class leitor extends React.Component {
         for (let i in Globais["dados_armazenados"]) {
             if (Globais["dados_armazenados"][i]["data"]["link"] === `https://mangayabu.top/manga/${myParam[2]}`) {
                 console.log("encontado !");
-                this.dados = Globais["dados_armazenados"][i]["data"];
-                this.setState(()=>({ready: true}));
+                this.allData = Globais["dados_armazenados"][i]["data"];
                 fazer_requisicao = true;
                 break;
             }
         }
 
-        if (this.state.myS === 0){
-            this.setState((state)=>({myS: state.myS+1}));
-            this.buscar();
+        if (!fazer_requisicao) {
+            if (this.state.myS === 0){
+                this.setState((state)=>({myS: state.myS+1}));
+                console.log("não encontardo fazendo a requisição");
+                await this.buscar();
+            }
+        }
+
+        //já tendo os dados
+        let allCaps = this.allData["capitulos"];
+        //console.log(myNum[0])
+        for (let i in allCaps) {
+            if (allCaps[i][1] === myNum[0]) {
+                this.dados = allCaps[i];
+                this.indice = i;
+                console.log(this.dados);
+                this.setState(()=>({ready: true}));
+                break;
+            }
         }
     }
 
+    buildFooter = () => {
+        let allCaps = this.allData["capitulos"];
+
+        let next = allCaps[++this.indice][1];
+        let prev = allCaps[--this.indice][1];
+
+        return <>
+        <div className="lis_tags">
+            <Link to={`/manga/leitor?n=${prev}&l=${txt[1]}`}>
+                <p>anterior</p>
+                <VscChevronLeft className="prev"/>
+            </Link>
+        </div>
+        <div className="lis_tags" onClick={()=> window.scrollTo(0, 0)}>
+            <VscFoldUp className="toTop"/>
+        </div>
+        <div className="lis_tags">
+            <Link to={`/manga/leitor?n=${next}&l=${txt[1]}`}>
+                <VscChevronRight className="next"/>
+                <p>próximo</p>
+            </Link>
+        </div>
+        </>
+    }
 
     componentDidMount () {
-        //faz a requisição
-        if (this.state.myS === 0){
-            this.setState((state)=>({myS: state.myS+1}));
-            this.buscar();
-        }
+        this.obter();
 
         //ajusta o tamanho das imagems
         this.interval = setInterval(()=>{
@@ -100,34 +137,24 @@ export default class leitor extends React.Component {
                    
                     <div>
                         <div className="informaçoes">
-                            <div style={{backgroundImage: `url(${this.dados[1]})`}}className="info_img"></div>
+                            <div style={{backgroundImage: `url(${this.dados[3]})`}}className="info_img"></div>
                             <div className="flex_column_leitor">
-                                <h2 className="titulo_leitor_manga">{this.dados[0]}</h2>
+                                <h2 className="titulo_leitor_manga">{this.dados[2]}</h2>
                                 <div className="scroll_leitor_sinopse">
                                     <div className="sinopse">
-                                        <p>Sinopse : {this.dados[2]}</p>
+                                        <p>Sinopse : {this.allData["sinopse"]}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className="leitor_area">
-                            {this.dados[3].map(str=> <img className="capitulo_img" src={str} alt="imagem capitulo"></img>)}
+                            {this.dados[4].map(str=> <img className="capitulo_img" src={str} alt="imagem capitulo"></img>)}
                         </div>
 
                         <div className="leitor_footer">
                             <div className="control_leitor_footer">
-                                <div className="lis_tags">
-                                    <p>anterior</p>
-                                    <VscChevronLeft className="prev"/>
-                                </div>
-                                <div className="lis_tags" onClick={()=> window.scrollTo(0, 0)}>
-                                    <VscFoldUp className="toTop"/>
-                                </div>
-                                <div className="lis_tags">
-                                    <VscChevronRight className="next"/>
-                                    <p>próximo</p>
-                                </div>
+                                {this.buildFooter()}
                             </div>
                             <p className="bigfooter">mangaKa</p>
                         </div>
