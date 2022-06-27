@@ -10,7 +10,7 @@ const app = express();
 app.use(routes);
 
 //adicionar (nome, url , length)
-func.adicionar_manga_especifico("Martial Peak","https://mangayabu.top/manga/martial-peak", 59);
+func.adicionar_manga_especifico("Martial Peak","https://mangayabu.top/manga/martial-peak", 443);
 
 // fazer a atualização dos mangas no main
 //func.vasculhar_main();

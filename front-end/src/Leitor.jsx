@@ -18,18 +18,21 @@ export default class leitor extends React.Component {
         this.dados = [];
         this.allData = {};
         this.indice = 0;
+        this.link_manga = '';
     }
 
     buscar = async (myParam)=>{
-        await fetch(`http://127.0.0.1:5000/manga`,{
+        console.log(myParam);
+       await fetch(`http://127.0.0.1:5000/manga`,{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({"url": `https://mangayabu.top/manga/${myParam}`})
             })
         .then(res => res.json())
         .then(data => {
-            this.dados = data.data;
-            console.log("dados : ",this.dados);
+            this.allData = data.data;
+            Globais["dados_armazenados"].push(data);
+           // console.log("dados : ",this.dados);
         }).catch(e=> {console.log(e);this.setState(()=>({myS: 0}));});
     }
     
@@ -39,7 +42,8 @@ export default class leitor extends React.Component {
         let myNum = myParam[1].split("&");
         console.log(myParam,myNum);
         let fazer_requisicao = false;
-
+        this.link_manga = myParam[2];
+        console.log(Globais["dados_armazenados"]);
         for (let i in Globais["dados_armazenados"]) {
             if (Globais["dados_armazenados"][i]["data"]["link"] === `https://mangayabu.top/manga/${myParam[2]}`) {
                 console.log("encontado !");
@@ -53,12 +57,13 @@ export default class leitor extends React.Component {
             if (this.state.myS === 0){
                 this.setState((state)=>({myS: state.myS+1}));
                 console.log("não encontardo fazendo a requisição");
-                await this.buscar();
+                await this.buscar(myParam[2]);
             }
         }
 
         //já tendo os dados
         let allCaps = this.allData["capitulos"];
+        console.log("ja ta aqui")
         //console.log(myNum[0])
         for (let i in allCaps) {
             if (allCaps[i][1] === myNum[0]) {
@@ -73,35 +78,54 @@ export default class leitor extends React.Component {
 
     buildFooter = () => {
         let allCaps = this.allData["capitulos"];
+        let result;
+        
+        if (this.indice === 0) {
 
-        let next = allCaps[++this.indice][1];
-        let prev = allCaps[--this.indice][1];
+        }else if (this.indice === this.allData["capitulos"].length) {
 
-        return <>
-        <div className="lis_tags">
-            <Link to={`/manga/leitor?n=${prev}&l=${txt[1]}`}>
-                <p>anterior</p>
-                <VscChevronLeft className="prev"/>
-            </Link>
-        </div>
-        <div className="lis_tags" onClick={()=> window.scrollTo(0, 0)}>
-            <VscFoldUp className="toTop"/>
-        </div>
-        <div className="lis_tags">
-            <Link to={`/manga/leitor?n=${next}&l=${txt[1]}`}>
-                <VscChevronRight className="next"/>
-                <p>próximo</p>
-            </Link>
-        </div>
-        </>
+        }else{
+            let indice = this.indice;
+            let indice2 = this.indice;
+            let next = allCaps[--indice][1];
+            let prev = allCaps[++indice2][1];
+            console.log(`next : ${next} / prev : ${prev} / indice : ${this.indice}`);
+            console.log(this.allData["capitulos"], this.dados);
+
+            result = <>
+            <div onClick={()=> {
+                this.setState(()=>({ready: false}));
+                 window.scrollTo(0, 0);
+                 this.obter();
+                 }}>
+                <Link style={{textDecoration: "none"}} to={`/manga/leitor?n=${prev}&l=${this.link_manga}`} className="lis_tags">
+                    <p>anterior</p>
+                    <VscChevronLeft className="prev"/>
+                </Link>
+            </div>
+            <div className="lis_tags" onClick={()=> window.scrollTo(0, 0)}>
+                <VscFoldUp className="toTop"/>
+            </div>
+            <div onClick={()=> {
+                this.setState(()=>({ready: false}));
+                window.scrollTo(0, 0);
+                this.obter();
+                }}>
+                <Link style={{textDecoration: "none"}} to={`/manga/leitor?n=${next}&l=${this.link_manga}`} className="lis_tags">
+                    <VscChevronRight className="next"/>
+                    <p>próximo</p>
+                </Link>
+            </div>
+            </>
+        }
+        return result;
     }
 
     componentDidMount () {
         this.obter();
-
         //ajusta o tamanho das imagems
         this.interval = setInterval(()=>{
-            if(this.state.tamanhoOrigin) {
+           
             let imgs = window.document.querySelectorAll(".capitulo_img");
         let width = window.innerWidth;
         if (imgs.length !== 0){
@@ -109,8 +133,8 @@ export default class leitor extends React.Component {
             console.log(imgs)
            for(let e of imgs) {
                console.log(e)
-               let w = e.clientWidth;
-               let h = e.clientHeight;
+               let w = e.naturalWidth;
+               let h = e.naturalHeight;
                //e.setAttribute("width", `${width}px`);
                //e.setAttribute("height",`${((h*width)/w)}px`);
                console.log(`w : ${w} / h : ${h} / width : ${width} / height : ${((h*width)/w)}`);
@@ -121,7 +145,7 @@ export default class leitor extends React.Component {
         }else{
             console.log("nada no array",imgs);
         }
-       }
+       
     },4000);    
    }
 

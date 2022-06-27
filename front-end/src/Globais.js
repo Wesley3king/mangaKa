@@ -4,4 +4,6 @@ export default class Globais {
     static dados_popular = {deafult : false};
     static dados_atualizados = {deafult : false};
     static destaques = {deafult : false};
+    static user = {deafult : false};
+    static log = false;
 }
