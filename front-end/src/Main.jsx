@@ -7,7 +7,7 @@ import ListaFav from "./componentes/ListaFav";
 import Footer from "./componentes/Footer";
 import Falselist from "./componentes/Falselist";
 import Globais from "./Globais";
-//import { login } from "./Functions";
+import login from "./Functions";
 
 export default class Main extends React.Component {
     
@@ -17,7 +17,7 @@ export default class Main extends React.Component {
             ready: false,
             tempo: 100,
             foto: 0,
-            fav : []
+            fav : false
         };
         this.dados_lacamentos = null;
         this.dados_popular = null;
@@ -27,7 +27,7 @@ export default class Main extends React.Component {
         this.intervalo = null;
     }
     async logar () {
-        const user_fetch= async (email, senha) => {
+        /*const user_fetch= async (email, senha) => {
             let response = await fetch(`http://127.0.0.1:5000/login`,{
                  method: 'POST',
                  headers: {"Content-Type": "application/json"},
@@ -42,7 +42,7 @@ export default class Main extends React.Component {
             if (!data) {
                 let str_ls_mail = localStorage.getItem("mangaka_user_mail");
                 let str_ls_pass = localStorage.getItem("mangaka_user_password");
-        
+                console.log(str_ls_mail);
                 let response = await user_fetch(str_ls_mail, str_ls_pass);
         
                 Globais.user = response;
@@ -51,7 +51,7 @@ export default class Main extends React.Component {
                 return response;
         
             }else{
-                localStorage.setItem("mangaka_user", data.mail);
+                localStorage.setItem("mangaka_user_mail", data.mail);
                 localStorage.setItem("mangaka_user_password", data.pass);
         
                 let response = await user_fetch(data.mail, data.pass);
@@ -61,7 +61,7 @@ export default class Main extends React.Component {
         
                 return response;
             }
-        }
+        }*/
         let res = await login(/*{mail: "moraeswesley290@gmail.com", pass: "mangaka#1"}*/);
         //this.setState(state => ({fav: res[""]}))
 
@@ -110,6 +110,7 @@ export default class Main extends React.Component {
             this.intervalo = setInterval(()=>{
                     this.setState((state)=> ({foto: state.foto+1}));
                     if(this.state.foto === 7) this.setState((state)=> ({foto: 0}));
+                    //this.fav = Globais.log;
             },6000);
 
        
