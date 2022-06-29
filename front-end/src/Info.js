@@ -5,7 +5,10 @@ import Controles from "./componentes/Controles";
 import Falselist from "./componentes/Falselist";
 import {Link} from "react-router-dom";
 import Globais from "./Globais";
-import { VscChromeClose, VscChevronRight } from "react-icons/vsc";
+import { VscChevronRight } from "react-icons/vsc";
+import { AiFillHeart } from "react-icons/ai";
+import { BsCheckAll } from "react-icons/bs";
+import login from './Functions';
 import './index.css';
 
 /*await fetch(`http://127.0.0.1:5000/manga`,{
@@ -20,7 +23,7 @@ import './index.css';
         setReady(true);
     })*/
 var dados = [];
-export default function Info (final_url) {
+export default function Info () {
 
     const [ready,setReady] = useState(false);
     const [myS,setmyS] = useState(0);
@@ -40,7 +43,11 @@ export default function Info (final_url) {
             setReady(true);
         }).catch(e=> {console.log(e);setmyS(0)});
     }
-    const obter = ()=>{
+    const obter = async ()=>{
+        if (!Globais.log) {
+            console.log("não esta logado. fazendo o login!");
+            let res = await login(/*{mail: "moraeswesley290@gmail.com", pass: "mangaka#1"}*/);
+        }
         let urlParams = window.location.hash;
         let myParam = urlParams.split('=');
         //console.log(myParam[1])
@@ -71,10 +78,37 @@ export default function Info (final_url) {
         let li = arr.map(str => <li>{str}</li>);
         return <ul className="lis_tags">{li}</ul>;
     }
+    const marcar = (cap) => {
+         fetch(`http://127.0.0.1:5000/alterarcap`,{
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({"nome": dados["nome"], capitulo : cap})
+            })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+        }).catch(e=> {console.log(e);setmyS(0)});
+    }
     const capit = (arr, link)=>{
         //console.log(arr);
-        let txt = link.split("manga/");
-        let li = arr.map(array => <Link style={{textDecoration: "none",color: "white"}}to={`/manga/leitor?n=${array[1]}&l=${txt[1]}`}><li className="all_caps">{array[0].replace("#","")}</li></Link>);
+        let txt = link.split("manga/");//BsCheckAll dados["nome"]
+        let lidos = Globais.user["lidos"];
+        let arrlidos = [];
+        for (let e in lidos) {
+            if (lidos[e]["nome"] === dados["nome"]) {
+                console.log("igual");
+                arrlidos = lidos[e]["mark"];
+            }
+        }
+        console.log(lidos)
+        let li = arr.map(array => { 
+            let ok = false;
+            for (let i in arrlidos) {
+                if (array[1] === arrlidos[i]) {
+                    ok = <BsCheckAll className="read_yes" onClick={()=> marcar(array[1])}/>
+                }
+            }
+            return <div className="capitulos_align_flex"> {ok ? ok : <BsCheckAll className="read_no" onClick={()=> marcar(array[1])}/>} <Link style={{textDecoration: "none",color: "white"}}to={`/manga/leitor?n=${array[1]}&l=${txt[1]}`}><li className="all_caps">{array[0].replace("#","")}</li></Link></div>});
 
         return <div><ul>{li}</ul></div>;
     }
@@ -103,6 +137,9 @@ export default function Info (final_url) {
                         <div className="quadro" style={{backgroundImage: `url(${dados["capa1"]})`}}></div>
                         <div className="joinTwo">
                             <div className="mgtop">
+                            <div className="heart_fav">
+                                        <AiFillHeart />
+                                    </div>
                                 <h2 className="nomeprincipal">{dados["nome"]}</h2>
                             </div>
                             <div className="alignLink">
@@ -110,6 +147,7 @@ export default function Info (final_url) {
                                         <div className="icone_leitura"></div>
                                         <p>capitulos</p>
                                     </div>
+                                    
                             </div>
                         </div>
                     </div>

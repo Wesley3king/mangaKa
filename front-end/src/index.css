@@ -334,6 +334,19 @@ margin-top: 70px;
   font-weight: bold;
   font-size: 30px;
 }
+.mgtop{
+  display: flex;
+  align-items: center;
+}
+.heart_fav{
+  font-size: 40px;
+  margin-right: 10px;
+  margin-bottom: -10px;
+  color: white;
+}
+.heart_fav.fav{
+  color: red;
+}
 
 .leftalign{
   width: 100%;  
@@ -352,6 +365,19 @@ margin-top: 70px;
 }
 .all_space.ocult{
  transform: translate(0%);
+}
+.capitulos_align_flex{
+  display: flex;
+  align-items: center;
+}
+.read_yes{
+  color: green;
+  font-size: 22px;
+  margin-right: 5px;
+}
+.read_no{
+  font-size: 22px;
+  margin-right: 5px;
 }
 .lista_de_capitulos{
   

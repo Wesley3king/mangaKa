@@ -79,14 +79,49 @@ export default class leitor extends React.Component {
     buildFooter = () => {
         let allCaps = this.allData["capitulos"];
         let result;
-        
+        console.log(Number(this.indice) === ((this.allData["capitulos"].length)-1))
         if (this.indice === 0) {
+            //caso for o ultimo capitulo
+            let indice2 = this.indice;
+            let prev = allCaps[++indice2][1];
+            result = <>
+            <div onClick={()=> {
+                this.setState(()=>({ready: false}));
+                 window.scrollTo(0, 0);
+                 this.obter();
+                 }}>
+                <Link style={{textDecoration: "none"}} to={`/manga/leitor?n=${prev}&l=${this.link_manga}`} className="lis_tags">
+                    <p>anterior</p>
+                    <VscChevronLeft className="prev"/>
+                </Link>
+            </div>
+            <div className="lis_tags" onClick={()=> window.scrollTo(0, 0)}>
+                <VscFoldUp className="toTop"/>
+            </div>
+            </>;
+        }else if (Number(this.indice) === (this.allData["capitulos"].length-1)) {
+            //caso for o ultimo capitulo
+            let indice = this.indice;
+            let next = allCaps[--indice][1];
 
-        }else if (this.indice === this.allData["capitulos"].length) {
-
+            result = <><div className="lis_tags" onClick={()=> window.scrollTo(0, 0)}>
+            <VscFoldUp className="toTop"/>
+        </div>
+        <div onClick={()=> {
+            this.setState(()=>({ready: false}));
+            window.scrollTo(0, 0);
+            this.obter();
+            }}>
+            <Link style={{textDecoration: "none"}} to={`/manga/leitor?n=${next}&l=${this.link_manga}`} className="lis_tags">
+                <VscChevronRight className="next"/>
+                <p>próximo</p>
+            </Link>
+        </div>
+        </>;
         }else{
             let indice = this.indice;
             let indice2 = this.indice;
+            console.log(allCaps)
             let next = allCaps[--indice][1];
             let prev = allCaps[++indice2][1];
             console.log(`next : ${next} / prev : ${prev} / indice : ${this.indice}`);

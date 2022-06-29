@@ -115,12 +115,20 @@ const add_readed = async (mail, senha, data) => {
 //remover favorito
 
 //remover capitulo lido
-
+const pull_readed = async (mail, senha, data, t) => {
+    const db = await conectar_user();
+    //let url = "favoritos.0.lidos"
+    //{"$each": [data], "$position": 0}
+    let inserir = await db.collection(user_banco).updateOne({address: mail, password : senha}, {"$pull": {"lidos" : {nome : data}}});
+    //return typeof inserir === "object" ? true : false;
+    console.log(inserir);
+}
+pull_readed("moraeswesley290@gmail.com", "mangaka#1", "Solo Leveling", "37828");
 //ler usuario
 const read_user = async (mail, senha) => {
     let db = await conectar_user();
     let data = await db.collection(user_banco).findOne({address : mail, password: senha},{projection : {_id : 0}});
     return data ? data : false;
 }
-add_readed("moraeswesley290@gmail.com", "mangaka#1", "https://mangayabu.top/manga/solo-leveling", "78369872").catch(console.log);
-module.exports = {main_save, find_main, inserir_novo_manga, urlUpdate, verificar_manga, obter_manga, add_user, read_user}
+//add_readed("moraeswesley290@gmail.com", "mangaka#1", "https://mangayabu.top/manga/solo-leveling", "78369872").catch(console.log);
+module.exports = {main_save, find_main, inserir_novo_manga, urlUpdate, verificar_manga, obter_manga, add_user, read_user, pull_readed}
