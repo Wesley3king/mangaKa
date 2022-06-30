@@ -71,7 +71,7 @@ export default class Main extends React.Component {
                 console.log(`teste de fetch : ${""}`)
                 if (Globais["dados_atualizados"]["deafult"] === false) {
                     console.log('"realizando o fetch')
-                    fetch('http://127.0.0.1:5000')
+                    fetch('https://server-heroku-deploy.herokuapp.com/')
                     .then(res => res.json())
                     .then(data => {
                         //0 - favoritos , 1 - lista favoritos ,2 - destaques, 3 - number fav list, 4 - mais lidos
@@ -88,7 +88,7 @@ export default class Main extends React.Component {
                     }).catch(e => console.log("erro aqui : "+e));
 
                     //destaques
-                    fetch("http://127.0.0.1:5000/destaques")
+                    fetch("https://server-heroku-deploy.herokuapp.com/destaques")
                     .then(res => res.json())
                     .then(data =>{
                         this.destaques = data;
