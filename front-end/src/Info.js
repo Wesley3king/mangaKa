@@ -27,6 +27,7 @@ export default function Info () {
 
     const [ready,setReady] = useState(false);
     const [myS,setmyS] = useState(0);
+    const [arrlidos, setArrlidos] = useState([]);
 
     const  buscar = async (final_url)=>{
 
@@ -79,25 +80,55 @@ export default function Info () {
         return <ul className="lis_tags">{li}</ul>;
     }
     const marcar = (cap) => {
-         fetch(`http://127.0.0.1:5000/alterarcap`,{
-            method: 'POST',
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({"nome": dados["nome"], capitulo : cap})
-            })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-        }).catch(e=> {console.log(e);setmyS(0)});
-    }
+        if (Globais.log) {
+            let adicionar = true;
+            let copy_arrlidos = [];
+            for (let i in arrlidos) {
+                if (cap === arrlidos[i]) {
+                    adicionar = false;
+                    console.log("capitulo removido!");
+                }else{
+                    copy_arrlidos.push(arrlidos[i]);
+                }
+            }
+            if (adicionar) {
+                copy_arrlidos.push(cap);
+            }
+            let ready_to_env = {
+                "nome": dados["nome"],
+                "mark" : copy_arrlidos
+            }
+
+            fetch(`http://127.0.0.1:5000/alterarcap`,{
+                method: 'POST',
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({mail: Globais.user["address"], password: Globais.user["password"], dados:  ready_to_env})
+                })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data) {
+                    setArrlidos(copy_arrlidos);//Globais.user["lidos"];
+                    for (let key in Globais.user["lidos"]) {
+                        if (Globais.user["lidos"][key]["nome"]=== dados["nome"]) {
+                            Globais.user["lidos"][key] = ready_to_env;
+                            break;
+                        }
+                    }
+                }
+            }).catch(e=> {console.log(e);setmyS(0)});
+        }
+    };
+
     const capit = (arr, link)=>{
         //console.log(arr);
         let txt = link.split("manga/");//BsCheckAll dados["nome"]
         let lidos = Globais.user["lidos"];
-        let arrlidos = [];
         for (let e in lidos) {
-            if (lidos[e]["nome"] === dados["nome"]) {
+            if (lidos[e]["nome"] === dados["nome"] && arrlidos !== lidos[e]["mark"]) {
                 console.log("igual");
-                arrlidos = lidos[e]["mark"];
+                setArrlidos(lidos[e]["mark"]);
+                break;
             }
         }
         console.log(lidos)
@@ -105,7 +136,8 @@ export default function Info () {
             let ok = false;
             for (let i in arrlidos) {
                 if (array[1] === arrlidos[i]) {
-                    ok = <BsCheckAll className="read_yes" onClick={()=> marcar(array[1])}/>
+                    ok = <BsCheckAll className="read_yes" onClick={()=> marcar(array[1])}/>;
+                    break;
                 }
             }
             return <div className="capitulos_align_flex"> {ok ? ok : <BsCheckAll className="read_no" onClick={()=> marcar(array[1])}/>} <Link style={{textDecoration: "none",color: "white"}}to={`/manga/leitor?n=${array[1]}&l=${txt[1]}`}><li className="all_caps">{array[0].replace("#","")}</li></Link></div>});

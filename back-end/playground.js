@@ -115,13 +115,11 @@ const add_readed = async (mail, senha, data) => {
 //remover favorito
 
 //remover capitulo lido
-const pull_readed = async (mail, senha, data, t) => {
-    const db = await conectar_user();
-    //let url = "favoritos.0.lidos"
-    //{"$each": [data], "$position": 0}
+const pull_readed = async (mail, senha, data) => {
+    let db = await conectar_user(); // data === nome
     let inserir = await db.collection(user_banco).updateOne({address: mail, password : senha}, {"$pull": {"lidos" : {nome : data}}});
-    //return typeof inserir === "object" ? true : false;
     console.log(inserir);
+    return typeof inserir === "object" ? true : false;
 }
 pull_readed("moraeswesley290@gmail.com", "mangaka#1", "Solo Leveling", "37828");
 //ler usuario
