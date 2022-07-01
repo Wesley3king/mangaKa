@@ -23,7 +23,7 @@ export default class leitor extends React.Component {
 
     buscar = async (myParam)=>{
         console.log(myParam);
-       await fetch(`http://127.0.0.1:5000/manga`,{
+       await fetch(`https://vast-falls-98079.herokuapp.com/manga`,{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({"url": `https://mangayabu.top/manga/${myParam}`})

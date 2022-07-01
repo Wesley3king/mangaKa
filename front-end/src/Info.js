@@ -31,7 +31,7 @@ export default function Info () {
 
     const  buscar = async (final_url)=>{
 
-        await fetch(`http://127.0.0.1:5000/manga`,{
+        await fetch(`https://vast-falls-98079.herokuapp.com/manga`,{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({"url": `https://mangayabu.top/manga/${final_url}`})
@@ -99,7 +99,7 @@ export default function Info () {
                 "mark" : copy_arrlidos
             }
 
-            fetch(`http://127.0.0.1:5000/alterarcap`,{
+            fetch(`https://vast-falls-98079.herokuapp.com/alterarcap`,{
                 method: 'POST',
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({mail: Globais.user["address"], password: Globais.user["password"], dados:  ready_to_env})

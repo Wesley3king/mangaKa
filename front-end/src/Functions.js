@@ -1,7 +1,7 @@
 import Globais from "./Globais";
 
 async function user_fetch (email, senha) {
-    let response = await fetch(`https://server-heroku-deploy.herokuapp.com/login`,{
+    let response = await fetch(`https://vast-falls-98079.herokuapp.com/login`,{
          method: 'POST',
          headers: {"Content-Type": "application/json"},
          body: JSON.stringify({"mail": email, "password": senha})
