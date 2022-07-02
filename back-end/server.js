@@ -8,6 +8,9 @@ const porta = process.env.PORT || 5000;
 const app = express();
 
 app.use(routes);
+//  |
+//          LEMBRETE : colocar a url do banco ao iniciar o servidor
+//  |  
 
 //adicionar (nome, url , length)
 // ultimo_cap_no_mangayabu = 2329 / ultimo_ready = 2313 / total_length = 17 / added = 1583;
