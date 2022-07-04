@@ -19,6 +19,7 @@ export default class leitor extends React.Component {
         this.allData = {};
         this.indice = 0;
         this.link_manga = '';
+        this.logs = '';
     }
 
     buscar = async (myParam)=>{
@@ -167,12 +168,13 @@ export default class leitor extends React.Component {
             //this.stop_int();
             console.log(imgs)
            for(let e of imgs) {
-               console.log(e)
+               console.log(e);
                let w = e.naturalWidth;
                let h = e.naturalHeight;
                //e.setAttribute("width", `${width}px`);
                //e.setAttribute("height",`${((h*width)/w)}px`);
                console.log(`w : ${w} / h : ${h} / width : ${width} / height : ${((h*width)/w)}`);
+               this.logs += `w : ${w} / h : ${h} / width_local : ${width} / height_final : ${((h*width)/w)} \n`;
                e.style.width = `${width}px`;
                e.style.height = `${((h*width)/w)}px`;
            };
@@ -202,6 +204,7 @@ export default class leitor extends React.Component {
                                 <div className="scroll_leitor_sinopse">
                                     <div className="sinopse">
                                         <p>Sinopse : {this.allData["sinopse"]}</p>
+                                        <p>logs : {this.logs}</p>
                                     </div>
                                 </div>
                             </div>

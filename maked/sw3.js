@@ -3,10 +3,10 @@ const staticCache = "0.0.1";
 
 // Lista de arquivos que devem ser cacheados
 const files = [
-  './'/*,
+  './',
   './index.html',
   './static/css/main.b2209928.css',
-  './static/js/main.46e8bfe2.js'*/
+  './static/js/main.46e8bfe2.js'
 ];
 
 // Faz cache dos arquivos ao instalar
@@ -27,7 +27,7 @@ this.addEventListener('activate', event => {
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames
-          .filter(cacheName => (cacheName.startsWith('static')))
+          .filter(cacheName => (cacheName.startsWith('meu-site-')))
           .filter(cacheName => (cacheName !== staticCache))
           .map(cacheName => caches.delete(cacheName))
       );
