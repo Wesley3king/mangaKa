@@ -118,7 +118,7 @@ for(let i of link) {
 async function entrar (url) {
       const browser = await puppeteer.launch({ 
         args :  [ '--disable-dev-shm-usage', '--shm-size=1gb' ],
-        headless: true
+        headless: false
       });
     const page = await browser.newPage();
 
@@ -194,7 +194,90 @@ async function entrar (url) {
 }
 
 //entrar('https://mangayabu.top/manga/kanojo-okarishimasu');
+//entar tipo 2
+async function entrar2 (url) {
+    const browser = await puppeteer.launch({ 
+      args :  [ '--disable-dev-shm-usage', '--shm-size=1gb' ],
+      headless: false
+    });
+    const page = await browser.newPage();
 
+  await page.goto(url).catch(e => console.log(e));
+    await page.waitForTimeout(3000);
+
+    const capit = await page.evaluate(()=>{
+      let cap = document.querySelector(".row.rowls").innerHTML;
+      return cap
+    });
+    //console.log(capit); "<small><div class=")
+
+    let cort_cap_a = capit.split("</a>");
+    let cort_cap_2 = cort_cap_a.map(arr => arr.split("<small><div class="));
+    console.log(cort_cap_2);
+    let cort_cap_3 = cort_cap_2.map(arr => arr[0].split('<div class="chaps-infs">'));
+    console.log(cort_cap_3);
+
+
+    const elemento = await page.evaluate(()=>{
+      //sinopse
+        let paragrafos = document.querySelectorAll("p");
+        let chaves = Object.keys(paragrafos), cont = [];
+        for (let i = 0; i < chaves.length; ++i) {
+          cont.push(paragrafos[chaves[i]].innerHTML);
+        }
+        //categorias
+        let cat = document.querySelector(".single-tags");
+        
+        //capitulos
+        let cap = document.querySelector(".row.rowls");
+        //nome do manga
+        let tit = document.querySelector("h1");
+        //capa do manga
+        let capa = document.querySelector(".single-bg");
+        
+        return [cont[1], cat.innerHTML, cap.innerHTML,tit.innerHTML,capa.innerHTML];
+    }).catch(e => console.log(e));
+    //cortar os capitulos - link, capitulo
+    let capitulos = elemento[2].split("</a>");
+    //console.log(capitulos);
+    let l_corte1 = capitulos.map(str => str.split('?p='));
+    
+    let l_corte2 = l_corte1.map(arr => {
+      if (arr.length >= 2){
+        return arr[1].split('" class=');
+      } } );
+    //console.log(l_corte2);// o link esta na posicao 0;
+
+    let n_corte1 = capitulos.map(str => str.split('s-infs">'));
+
+    let n_corte2 = n_corte1.map(arr => {
+      if (arr.length >= 2){
+        return arr[1].split('<small><d');
+      } } );
+   // console.log(n_corte2); o nome esta na posicao 0;
+    //corta as categorias
+    let cc_1 = elemento[1].split(">");
+    let cc_2 = cc_1.map(str => str.split("<"));
+    let tag_1 = cc_2.filter(arr => arr[0] !== '');
+    let tag_2 = tag_1.map(arr => arr[0]);
+    //corta a imagem
+    let img_c_1 = elemento[4].split('src="');
+    let img_c_2 = img_c_1[1].split('"><')
+    
+    //corte para retirar uma falha
+    n_corte2.pop();
+    l_corte2.pop();
+
+    delete l_corte1, n_corte1, capitulos,img_c_1,cc_1, cc_2, tag_1;
+    let a_final = l_corte2.map((arr, ind)=> [n_corte2[ind][0],arr[0]]);
+
+    let data = [elemento[0], tag_2, a_final,elemento[3], img_c_2[0]];
+    //console.log(data);
+    await browser.close();
+    return data;
+};
+
+entrar2("https://mangayabu.top/manga/martial-peak/");
 //leitor de capitulos
 
 async function leitor (url) {
