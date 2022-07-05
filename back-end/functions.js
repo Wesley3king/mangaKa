@@ -144,7 +144,8 @@ const vasculhar_main = async () => {
 
 const adicionar_manga_especifico = async (nome, url, qt) => {
     let existe = await db.verificar_manga(nome).catch(console.log);
-    let novo_data = await tstf.verificar_capitulos_existentes(url).catch(console.log);
+    //let novo_data = await tstf.verificar_capitulos_existentes(url).catch(console.log);
+    let novo_data = await tstf.verificar_capitulos_existentes2(url).catch(console.log);
 
         if (typeof existe === "object" && existe != null) {
             console.log(`o manga : ${nome} EXISTE`);

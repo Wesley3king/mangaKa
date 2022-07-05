@@ -27,6 +27,9 @@ const retirar_cap_no_link = async (i, nome) => {
 const verificar_capitulos_existentes = async (url) => {
     return await sc.entrar(url).catch(console.log);
 }
+const verificar_capitulos_existentes2 = async (url) => {
+    return await sc.entrar2(url).catch(console.log);
+}
 
 
-module.exports = {retirar_cap, verificar_capitulos_existentes, retirar_cap_no_link};
+module.exports = {retirar_cap, verificar_capitulos_existentes, verificar_capitulos_existentes2, retirar_cap_no_link};

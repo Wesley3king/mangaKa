@@ -195,6 +195,32 @@ async function entrar (url) {
 
 //entrar('https://mangayabu.top/manga/kanojo-okarishimasu');
 //entar tipo 2
+
+async function next (page) {
+  let res = await page.evaluate(()=> {
+    let link = document.querySelector(".page-link.next");
+    link.click();
+  });
+
+  return res;
+};
+
+async function coletar (page) {
+  const capit = await page.evaluate(()=>{
+    let cap = document.querySelector(".row.rowls").innerHTML;
+    return cap;
+  });
+
+  let cort_cap_a = capit.split("\n          <small>\n");
+    let cort_cap_2 = cort_cap_a.map(arr => arr.split("infs\">\n          "));//nome na posição 1 
+    let cort_cap_l = cort_cap_a.map(arr => arr.split('\" class=\"col s12'));
+    let cort_cap_3 = cort_cap_l.map(arr => arr[0].split('href=\"https://mangayabu.top/?p='));// link na posição 1
+
+    let leva = cort_cap_2.map((arr,indice) => [arr[1], cort_cap_3[indice][1]]);
+    leva.pop();
+
+  return leva;
+}
 async function entrar2 (url) {
     const browser = await puppeteer.launch({ 
       args :  [ '--disable-dev-shm-usage', '--shm-size=1gb' ],
@@ -205,21 +231,32 @@ async function entrar2 (url) {
   await page.goto(url).catch(e => console.log(e));
     await page.waitForTimeout(3000);
 
-    const capit = await page.evaluate(()=>{
-      let cap = document.querySelector(".row.rowls").innerHTML;
-      return cap
-    });
-    //console.log(capit); "<small><div class=")
-    //let no_space = capit.replace(/[' ']/g,"");
-    let cort_cap_a = capit.split("\n          <small>\n");
-    let cort_cap_2 = cort_cap_a.map(arr => arr.split("infs\">\n          "));//nome na posição 1 
-    let cort_cap_l = cort_cap_a.map(arr => arr.split('\" class=\"col s12'));
-    let cort_cap_3 = cort_cap_l.map(arr => arr[0].split('href=\"https://mangayabu.top/?p='));// link na posição 1
+    //retirar os capitulos
 
-    let leva = cort_cap_2.map((arr,indice) => [arr[1], cort_cap_3[indice][1]]);
-    leva.pop();
-    await browser.close();
-    return leva;
+    let arr_cap = [];
+    let buscar = true, autorizacao = true;
+    await page.waitForSelector(".row.rowls");
+    let first_data = await coletar(page);
+    arr_cap.push(...first_data);
+
+    while (buscar) {
+      await page.waitForSelector(".page-link.next",{timeout: 5000}).catch(e => {console.log(e); autorizacao = false;});
+
+      await next(page).catch(console.log);
+
+      if (autorizacao) {
+
+        await page.waitForSelector(".row.rowls");
+
+        let dat = await coletar(page).catch(console.log);
+        console.log(dat);
+        arr_cap.push(...dat);
+      }else{
+        buscar = false;
+      }
+    }
+
+    console.log("saiu do laço!", arr_cap);
     
 
 
@@ -233,50 +270,28 @@ async function entrar2 (url) {
         //categorias
         let cat = document.querySelector(".single-tags");
         
-        //capitulos
-        let cap = document.querySelector(".row.rowls");
         //nome do manga
         let tit = document.querySelector("h1");
         //capa do manga
         let capa = document.querySelector(".single-bg");
         
-        return [cont[1], cat.innerHTML, cap.innerHTML,tit.innerHTML,capa.innerHTML];
+        return [cont[1], cat.innerHTML,tit.innerHTML,capa.innerHTML];
     }).catch(e => console.log(e));
-    //cortar os capitulos - link, capitulo
-    let capitulos = elemento[2].split("</a>");
-    //console.log(capitulos);
-    let l_corte1 = capitulos.map(str => str.split('?p='));
-    
-    let l_corte2 = l_corte1.map(arr => {
-      if (arr.length >= 2){
-        return arr[1].split('" class=');
-      } } );
-    //console.log(l_corte2);// o link esta na posicao 0;
 
-    let n_corte1 = capitulos.map(str => str.split('s-infs">'));
-
-    let n_corte2 = n_corte1.map(arr => {
-      if (arr.length >= 2){
-        return arr[1].split('<small><d');
-      } } );
-   // console.log(n_corte2); o nome esta na posicao 0;
     //corta as categorias
     let cc_1 = elemento[1].split(">");
     let cc_2 = cc_1.map(str => str.split("<"));
     let tag_1 = cc_2.filter(arr => arr[0] !== '');
     let tag_2 = tag_1.map(arr => arr[0]);
     //corta a imagem
-    let img_c_1 = elemento[4].split('src="');
+    let img_c_1 = elemento[3].split('src="');
     let img_c_2 = img_c_1[1].split('"><')
     
     //corte para retirar uma falha
-    n_corte2.pop();
-    l_corte2.pop();
 
-    delete l_corte1, n_corte1, capitulos,img_c_1,cc_1, cc_2, tag_1;
-    let a_final = l_corte2.map((arr, ind)=> [n_corte2[ind][0],arr[0]]);
+    delete img_c_1,cc_1, cc_2, tag_1;
 
-    let data = [elemento[0], tag_2, a_final,elemento[3], img_c_2[0]];
+    let data = [elemento[0], tag_2, arr_cap ,elemento[2], img_c_2[0]];
     //console.log(data);
     await browser.close();
     return data;
