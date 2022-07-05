@@ -210,12 +210,17 @@ async function entrar2 (url) {
       return cap
     });
     //console.log(capit); "<small><div class=")
+    //let no_space = capit.replace(/[' ']/g,"");
+    let cort_cap_a = capit.split("\n          <small>\n");
+    let cort_cap_2 = cort_cap_a.map(arr => arr.split("infs\">\n          "));//nome na posição 1 
+    let cort_cap_l = cort_cap_a.map(arr => arr.split('\" class=\"col s12'));
+    let cort_cap_3 = cort_cap_l.map(arr => arr[0].split('href=\"https://mangayabu.top/?p='));// link na posição 1
 
-    let cort_cap_a = capit.split("</a>");
-    let cort_cap_2 = cort_cap_a.map(arr => arr.split("<small><div class="));
-    console.log(cort_cap_2);
-    let cort_cap_3 = cort_cap_2.map(arr => arr[0].split('<div class="chaps-infs">'));
-    console.log(cort_cap_3);
+    let leva = cort_cap_2.map((arr,indice) => [arr[1], cort_cap_3[indice][1]]);
+    leva.pop();
+    await browser.close();
+    return leva;
+    
 
 
     const elemento = await page.evaluate(()=>{
@@ -277,7 +282,7 @@ async function entrar2 (url) {
     return data;
 };
 
-entrar2("https://mangayabu.top/manga/martial-peak/");
+//entrar2("https://mangayabu.top/manga/martial-peak/");
 //leitor de capitulos
 
 async function leitor (url) {
@@ -579,4 +584,4 @@ async function leitorM (url) {
 }
 //leitor('https://mundomangakun.com.br/leitor-online/projeto/yuusha-sama-yukagen-wa-ikaga-desu-ka/cap-tulo-04/#pagina/1');
 
-module.exports = {entrar, leitor, obter, search, obterM, obterInterno, leitorM};
+module.exports = {entrar, entrar2, leitor, obter, search, obterM, obterInterno, leitorM};

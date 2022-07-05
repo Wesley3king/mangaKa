@@ -21,6 +21,14 @@ const corsOptions ={
     res.json(await sc.obter());
  });
 
+ routes.get('/tst',async (req,res)=>{
+
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    
+    res.json(await sc.entrar2("https://mangayabu.top/manga/martial-peak/"/*'https://mangayabu.top/manga/solo-leveling/'*/));
+ });
+
  //eviar destaques
  routes.get("/destaques",(req,res)=>{
     res.setHeader("Access-Control-Allow-Origin", "*");
