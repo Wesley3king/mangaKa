@@ -165,10 +165,10 @@ let atualizarMain = async () => {
                 if (mais_antigo === list_sc[2][i][1]) {
                     console.log("mais velho capitulo identificado: "+ list_sc[2][i][0] +", length = "+ i);
     
-                    let conta1 = list_sc[2].length - i;
+                    let start_length = i+1;
                     let add_olds = list_sc[2].length;
                     console.log(`add_olds : ${i}`);
-                    for (let add = i; add < add_olds; ++ add) {
+                    for (let add = start_length; add < add_olds; ++add) {
                         lista.push(list_sc[2][add]);
                     }
                     break;
