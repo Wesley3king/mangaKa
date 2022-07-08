@@ -3,7 +3,7 @@ const mongoClient = require("mongodb").MongoClient;
 
 const url = "";
 const database = "mangaka", user_banco = "usuario", main_banco = "mainpage", data_banco = "dataall";
-const server_banco = "servidor"
+const server_banco = "servidor";
 
 //estabelece a conexão:
 const conectar = async ()=> {
