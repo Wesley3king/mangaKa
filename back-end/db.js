@@ -10,7 +10,7 @@ const conectar = async ()=> {
         const client = await mongoClient.connect(url, {
             useNewUrlParser: true,
             useUnifiedTopology: true
-        })
+        });
         console.log('conectado!')
         return client.db(database)
 };

@@ -163,7 +163,7 @@ let atualizarMain = async () => {
         if (mais_antigo != mais_novo) {
             for (let i = 0; i < list_db["capitulos"].length; ++i) {
                 if (mais_antigo === list_sc[2][i][1]) {
-                    console.log("mais velho capitulo identificado: "+ list_sc[2][i][0] +", length = "+ i);
+                    console.log("mais velho capitulo identificado: "+ list_sc[2][i][0] +" - "+ list_db["capitulos"][old_length-1][0]+", length = "+ i);
     
                     let start_length = i+1;
                     let add_olds = list_sc[2].length;
@@ -186,15 +186,15 @@ const vasculhar_main = async () => {
 
    for(let e of main["lancamentos"]){
 
-       let existe = await db.verificar_manga(e[0]).catch(console.log);
+       //let existe = await db.verificar_manga(e[0]).catch(console.log);
 
-        if (typeof existe === "object" && existe != null) {
+        /*if (typeof existe === "object" && existe != null) {
             
             let len = existe["capitulos"].length;
 
             if (len === 0) {
                 console.log("nenhum capitulo no manga");
-                await adicionar_manga_especifico(existe["nome"], existe["link"], false);
+                await adicionar_manga_especifico(existe["nome"], existe["link"]);
             }else{
                 
             }
@@ -202,15 +202,24 @@ const vasculhar_main = async () => {
         }else{
             console.log(`o manga : ${e[0]} não existe`);
             await vasculhar_manga(e[2]);
-        }
+        }*/
+
+        await adicionar_manga_especifico(e[0], e[2]).catch(console.log);
+        console.log(`o manga ${e[0]} acabou de ser verificado`);
+
     };
 }
 
 //type = 1-velha GUI, 2-NOVA GUI
-const adicionar_manga_especifico = async (nome, url, qt = null, type = 2) => {
+const adicionar_manga_especifico = async (nome, url, qt = null, type = null) => {
     let existe = await db.verificar_manga(nome).catch(console.log);
     let novo_data = [];
     //diferencia a GUI do site;
+    if (!type) {
+        let teste = await sc.verificarGUI(url).catch(console.log);
+        teste ? type = 2 : type = 1;
+    }
+    console.log(`type === ${type}`);
     if (type === 1) {
         novo_data = await tstf.verificar_capitulos_existentes(url).catch(console.log);
     }else if (type === 2) {
@@ -229,12 +238,16 @@ const adicionar_manga_especifico = async (nome, url, qt = null, type = 2) => {
                 console.log("vasculhando a lista : ", lista);
                 await vasculhar_capitulos_lista(lista, true, nome, 2).catch(console.log);
             }else{
+                
                 if (existe["capitulos"].length = 0) {
+                    //caso o manga exista mas não tem nenhum cap
                     lista = novo_data[2]
                     console.log("vasculhando a lista do 0 : ", lista);
                     await vasculhar_capitulos_lista(lista, true, nome).catch(console.log);
                 }else{
+                    //fara a verificação de novos e velhos cap(apenas os ultimos caso não tenham sido adicionados);
                     await atualizar_cap(url, nome, type, novo_data).catch(console.log);
+                    console.log("terminado! : ", nome);
                 }
               /*lista = novo_data[2]
                 console.log("vasculhando a lista do 0 : ", lista);

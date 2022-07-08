@@ -113,6 +113,31 @@ for(let i of link) {
 }
 //obter()
 
+//testar a GUI
+async function verificarGUI (url) {
+  const browser = await puppeteer.launch({ 
+    args :  [ '--disable-dev-shm-usage', '--shm-size=1gb' ],
+    headless: true
+  });
+  const page = await browser.newPage();
+
+  page.setDefaultTimeout(40000);
+  await page.goto(url).catch(e => console.log(e));
+  await page.waitForTimeout(3000);
+  await page.waitForSelector("input.validate", {timeout: 5000});
+
+  const response = await page.evaluate(()=>{
+    let elemento = window.document.querySelector("input.validate");
+    if (elemento) {
+      return true;
+    }else{
+      return false;
+    };
+  });
+console.log(`nova GUI : ${response}`);
+  await browser.close();
+  return response;
+}
 //pagina de selecão de capitulos
 
 async function entrar (url) {
@@ -599,4 +624,4 @@ async function leitorM (url) {
 }
 //leitor('https://mundomangakun.com.br/leitor-online/projeto/yuusha-sama-yukagen-wa-ikaga-desu-ka/cap-tulo-04/#pagina/1');
 
-module.exports = {entrar, entrar2, leitor, obter, search, obterM, obterInterno, leitorM};
+module.exports = { verificarGUI, entrar, entrar2, leitor, obter, search, obterM, obterInterno, leitorM };
