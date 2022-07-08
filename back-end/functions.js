@@ -5,9 +5,11 @@ const tstf = require("./testefunctions");
 //const axios = require("axios");
 
 //vasculha o manga
-async function vasculhar_manga (url, GUItype) {
+async function vasculhar_manga (url, GUItype, dataAll = null) {
     let dad = [];
-    if (GUItype === "old") {
+    if (dataAll) {
+        dad = dataAll;
+    }else if (GUItype === "old") {
         dad = await sc.entrar(url).catch(console.log);
     }else if (GUItype === "new") {
         dad = await tstf.verificar_capitulos_existentes2(url).catch(console.log);
@@ -98,7 +100,8 @@ async function insert_Manga (data) {
 //atualiza o main
 let atualizarMain = async () => {
     let dt = await sc.obter();
-    let sucess = await db.main_save(JSON.parse(dt));
+    console.log(dt);
+    let sucess = await db.main_save(dt);
     console.log(sucess ? "atualizado":"falha ao atualizar");
  }
 
@@ -256,9 +259,9 @@ const adicionar_manga_especifico = async (nome, url, qt = null, type = null) => 
         }else{
             console.log(`o manga : ${nome} não existe`);
             if (type === 1) {
-                await vasculhar_manga(url, "old");
+                await vasculhar_manga(url, "old", novo_data);
             }else{
-                await vasculhar_manga(url, "new");
+                await vasculhar_manga(url, "new", novo_data);
             }
         }
 }

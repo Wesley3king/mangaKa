@@ -38,7 +38,7 @@ async function obter () {
    }).catch(e => console.log(e));
 
    //remove as scans nativas
-   for (let i = 0; i < 21; ++i) {
+   for (let i = 0; i < 22; ++i) {
      elemento.pop();
    }
    //obtem = fatia nome do manga, link link para o main, img imagem

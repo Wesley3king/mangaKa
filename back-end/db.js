@@ -25,15 +25,9 @@ const urlUpdate = async (url) => {
 //gravar o main
 const main_save = async (nomes) => {
     let banco = await conectar();
-    await banco.collection(main_banco).deleteOne({}, (err, result)=>{
-        if (err) console.log(err)
-        else console.log("deletado");
-    });
+    await banco.collection(main_banco).deleteOne({});
 
-    let ok = await banco.collection(main_banco).insertOne(nomes, (err, result)=>{
-        if (err) console.log(err)
-        else console.log("inserido");
-    });
+    let ok = await banco.collection(main_banco).insertOne(nomes);
 
     if (ok) return true;
 };
