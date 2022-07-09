@@ -112,7 +112,7 @@ let atualizarMain = async () => {
     console.log(sucess ? "inserido" : "falha");
  }
  //atualizar
- const atualizar_cap = async (url, nome, type = 2, allData = null) => {
+ const atualizar_cap = async (url, nome, type = 2, allData = null, old_data = null) => {
     let list_sc = [];
     if (allData) {
         list_sc = allData;
@@ -123,9 +123,16 @@ let atualizarMain = async () => {
         // nova GUI
         list_sc = await tstf.verificar_capitulos_existentes2(url).catch(console.log);
     };
-    let list_db = await db.verificar_manga(nome).catch(console.log);
 
-    console.log(list_sc[2]);
+    let list_db = {}
+
+    if (!old_data) {
+        list_db = await db.verificar_manga(nome).catch(console.log);
+    }else{
+        list_db = old_data;
+    }
+
+    //console.log(list_sc[2]);
     let old_length = list_db["capitulos"].length;
     let new_length = list_sc[2].length;
 
@@ -135,7 +142,7 @@ let atualizarMain = async () => {
 
         let lista = [];
         // novos capitulos
-
+        //console.log("tst", list_db["capitulos"]);
         let ultimo = list_db["capitulos"][0][1];
         console.log(`ultimo : ${ultimo}, scraping : ${list_sc[2][0][1]} `);
         if (ultimo != list_sc[2][0][1]) { //verifica se já não esta no ultimo cap
@@ -153,7 +160,7 @@ let atualizarMain = async () => {
             await vasculhar_capitulos_lista(lista, false, nome).catch(console.log);
             lista = [];
             //fazer a verficação novamente pois os capitulos podem ter sidos atualizados
-            list_db = await db.verificar_manga(nome).catch(console.log);
+            //list_db = await db.verificar_manga(nome).catch(console.log);
         }
         
 
@@ -161,12 +168,13 @@ let atualizarMain = async () => {
         
         let mais_antigo = list_db["capitulos"][old_length-1][1];
         let mais_novo = list_sc[2][list_sc[2].length-1][1];
-        console.log(`mais antigo : ${mais_antigo}, scraping : ${mais_novo} `);
+        console.log(`mais antigo : ${mais_antigo} `);
 
         if (mais_antigo != mais_novo) {
-            for (let i = 0; i < list_db["capitulos"].length; ++i) {
+            for (let i = 0; i < list_sc[2].length; ++i) {
+                //console.log(`mais velho capitulo identificado: ${list_sc[2][i][0]} - ${list_sc[2][i][1]} / ${list_db["capitulos"][old_length-1][1]} length = ${i}`);
                 if (mais_antigo === list_sc[2][i][1]) {
-                    console.log("mais velho capitulo identificado: "+ list_sc[2][i][0] +" - "+ list_db["capitulos"][old_length-1][0]+", length = "+ i);
+                    console.log(`mais velho capitulo identificado: ${list_sc[2][i][0]} - ${list_sc[2][i][0]} / ${list_db["capitulos"][old_length-1][0]} length = ${i}`);
     
                     let start_length = i+1;
                     let add_olds = list_sc[2].length;
@@ -216,6 +224,8 @@ const vasculhar_main = async () => {
 //type = 1-velha GUI, 2-NOVA GUI
 const adicionar_manga_especifico = async (nome, url, qt = null, type = null) => {
     let existe = await db.verificar_manga(nome).catch(console.log);
+    //const cap = () => existe["capitulos"];
+    //console.log("-------",cap());
     let novo_data = [];
     //diferencia a GUI do site;
     if (!type) {
@@ -232,7 +242,7 @@ const adicionar_manga_especifico = async (nome, url, qt = null, type = null) => 
 
         if (typeof existe === "object" && existe != null) {
             console.log(`o manga : ${nome} EXISTE`);
-
+        
             let lista = [];
             if (qt) {
                 for (let num = qt; num < novo_data[2].length; ++num) {
@@ -241,15 +251,15 @@ const adicionar_manga_especifico = async (nome, url, qt = null, type = null) => 
                 console.log("vasculhando a lista : ", lista);
                 await vasculhar_capitulos_lista(lista, true, nome, 2).catch(console.log);
             }else{
-                
-                if (existe["capitulos"].length = 0) {
+
+                if (existe["capitulos"].length === 0) {
                     //caso o manga exista mas não tem nenhum cap
                     lista = novo_data[2]
                     console.log("vasculhando a lista do 0 : ", lista);
                     await vasculhar_capitulos_lista(lista, true, nome).catch(console.log);
                 }else{
                     //fara a verificação de novos e velhos cap(apenas os ultimos caso não tenham sido adicionados);
-                    await atualizar_cap(url, nome, type, novo_data).catch(console.log);
+                    await atualizar_cap(url, nome, type, novo_data, existe).catch(console.log);
                     console.log("terminado! : ", nome);
                 }
               /*lista = novo_data[2]
