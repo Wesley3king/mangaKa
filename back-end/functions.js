@@ -138,7 +138,7 @@ let atualizarMain = async () => {
 
     if (old_length != new_length) {
         let diferenca = new_length-old_length;
-        console.log(`${diferenca} capitulos de diferença`);
+        console.log(` ${old_length} / ${new_length} - ${diferenca} capitulos de diferença`);
 
         let lista = [];
         // novos capitulos
