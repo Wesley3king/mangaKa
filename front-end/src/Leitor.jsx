@@ -163,7 +163,7 @@ export default class leitor extends React.Component {
         this.interval = setInterval(()=>{
            
             let imgs = window.document.querySelectorAll(".capitulo_img");
-        let width = window.innerWidth;
+        //let width = window.innerWidth;
         if (imgs.length !== 0){
             //this.stop_int();
             console.log(imgs)
@@ -173,10 +173,10 @@ export default class leitor extends React.Component {
                let h = e.naturalHeight;
                //e.setAttribute("width", `${width}px`);
                //e.setAttribute("height",`${((h*width)/w)}px`);
-               console.log(`w : ${w} / h : ${h} / width : ${width} / height : ${((h*width)/w)}`);
-               this.logs += `w : ${w} / h : ${h} / width_local : ${width} / height_final : ${((h*width)/w)} \n`;
-               e.style.width = `${width}px`;
-               e.style.height = `${((h*width)/w)}px`;
+               console.log(`w : ${w} / h : ${h} / width : ${window.innerWidth} / height : ${((h*window.innerWidth)/w)}`);
+               this.logs += `w : ${w} / h : ${h} / width_local : ${window.innerWidth} /scren : ${window.screen.width}/ height_final : ${((h*window.innerWidth)/w)} \n`;
+               e.style.width = `${window.innerWidth}px`;
+               e.style.height = `${((h*window.innerWidth)/w)}px`;
            };
            this.setState(()=>({tamanhoOrigin: false}));
         }else{

@@ -27,6 +27,7 @@ export default class Barra extends React.Component {
                 <li className="emlinha">
                     <CgMenuGridR className="cat"/>
                     <p>Categorias</p>
+                    <p>{window.innerWidth}</p>
                 </li>
                 <li className="emlinha">
                     <BsCloudArrowDownFill className="down"/>
