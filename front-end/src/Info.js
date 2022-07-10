@@ -120,6 +120,45 @@ export default function Info () {
         }
     };
 
+    const favoritos = (userData) => {
+        let retornar = <div className="heart_fav" onClick={()=> add_or_pull_fav()}><AiFillHeart /></div>;
+        console.log(userData["favoritos"]);
+        for (let i in userData["favoritos"]) {
+            if (dados["nome"] === userData["favoritos"][i]["nome"]) {
+                retornar = <div className="heart_fav_on" onClick={()=> add_or_pull_fav()}><AiFillHeart /></div>;
+                break;
+            }
+        };
+        return retornar;
+    };
+
+    const add_or_pull_fav = async () => {
+        let adicionar = true;
+        let favoritos_new_list = [];
+        for (let i in Globais.user["favoritos"]) {
+            if (dados["nome"] === Globais.user["favoritos"][i]["nome"]) {
+                adicionar = false;
+            }else{
+                favoritos_new_list.push(Globais.user["favoritos"][i]);
+            }
+        };
+
+        if (adicionar) {
+            favoritos_new_list.push({nome: dados["nome"], url: dados["link"], img: dados["capa1"]});
+        };
+        fetch("http://127.0.0.1:5000/favoritos", {
+        method: 'POST',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({mail: Globais.user["address"], password: Globais.user["password"], nome: dados["nome"], link: dados["link"], img :dados["capa1"]})
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log("favorito configurado!");
+            if (data) {
+                Globais.user["favoritos"] = favoritos_new_list;
+            }
+        });
+    }
     const capit = (arr, link)=>{
         //console.log(arr);
         let txt = link.split("manga/");//BsCheckAll dados["nome"]
@@ -169,10 +208,8 @@ export default function Info () {
                         <div className="quadro" style={{backgroundImage: `url(${dados["capa1"]})`}}></div>
                         <div className="joinTwo">
                             <div className="mgtop">
-                            <div className="heart_fav">
-                                        <AiFillHeart />
-                                    </div>
-                                <h2 className="nomeprincipal">{dados["nome"]}</h2>
+                            {Globais.log ? favoritos(Globais.user) : <div className="heart_fav.fav"><AiFillHeart /></div>}
+                            <h2 className="nomeprincipal">{dados["nome"]}</h2>
                             </div>
                             <div className="alignLink">
                                     <div className="div_leitura" onClick={()=>showCapitulos()}>
