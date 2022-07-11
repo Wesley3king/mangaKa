@@ -28,6 +28,8 @@ export default function Info () {
     const [ready,setReady] = useState(false);
     const [myS,setmyS] = useState(0);
     const [arrlidos, setArrlidos] = useState([]);
+    const [fav, setFav] = useState(false);
+    var configuracao_inicial_favorito = false;
 
     const  buscar = async (final_url)=>{
 
@@ -120,15 +122,24 @@ export default function Info () {
         }
     };
 
-    const favoritos = (userData) => {
+    const favoritos = (userData, state) => {
         let retornar = <div className="heart_fav" onClick={()=> add_or_pull_fav()}><AiFillHeart /></div>;
-        console.log(userData["favoritos"]);
-        for (let i in userData["favoritos"]) {
-            if (dados["nome"] === userData["favoritos"][i]["nome"]) {
-                retornar = <div className="heart_fav_on" onClick={()=> add_or_pull_fav()}><AiFillHeart /></div>;
-                break;
-            }
-        };
+
+        let favorito = false;
+        if (!configuracao_inicial_favorito) {
+            for (let i in userData["favoritos"]) {
+                if (dados["nome"] === userData["favoritos"][i]["nome"]) {
+                    console.log("encontrei");
+                    retornar = <div className="heart_fav_on" onClick={()=> add_or_pull_fav()}><AiFillHeart /></div>;
+                    break;
+                }
+            };
+        }
+
+        if (favorito) {
+
+        }
+        console.log(state,userData) 
         return retornar;
     };
 
@@ -140,22 +151,24 @@ export default function Info () {
                 adicionar = false;
             }else{
                 favoritos_new_list.push(Globais.user["favoritos"][i]);
-            }
+            };
         };
 
         if (adicionar) {
             favoritos_new_list.push({nome: dados["nome"], url: dados["link"], img: dados["capa1"]});
         };
-        fetch("http://127.0.0.1:5000/favoritos", {
+        await fetch("https://vast-falls-98079.herokuapp.com/favoritos", {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({mail: Globais.user["address"], password: Globais.user["password"], nome: dados["nome"], link: dados["link"], img :dados["capa1"]})
         })
         .then(res => res.json())
         .then(data => {
-            console.log("favorito configurado!");
+            console.log("favorito configurado!", data);
             if (data) {
                 Globais.user["favoritos"] = favoritos_new_list;
+                setFav(!fav);
+                console.log(fav);
             }
         });
     }
@@ -208,7 +221,7 @@ export default function Info () {
                         <div className="quadro" style={{backgroundImage: `url(${dados["capa1"]})`}}></div>
                         <div className="joinTwo">
                             <div className="mgtop">
-                            {Globais.log ? favoritos(Globais.user) : <div className="heart_fav.fav"><AiFillHeart /></div>}
+                            {Globais.log ? favoritos(Globais.user, fav) : <div className="heart_fav.fav"><AiFillHeart /></div>}
                             <h2 className="nomeprincipal">{dados["nome"]}</h2>
                             </div>
                             <div className="alignLink">
