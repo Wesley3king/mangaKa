@@ -211,7 +211,7 @@ export default class leitor extends React.Component {
                         </div>
 
                         <div className="leitor_area">
-                            {this.dados[4].map(str=> <img className="capitulo_img" src={str} alt="imagem capitulo"></img>)}
+                            {this.dados[4].map((str, ind) => <img className="capitulo_img" src={str} width="350px" alt={`imagem ${ind}`}></img>)}
                         </div>
 
                         <div className="leitor_footer">
