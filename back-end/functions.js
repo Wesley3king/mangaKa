@@ -238,6 +238,7 @@ const adicionar_manga_especifico = async (nome, url, qt = null, type = null) => 
     }else if (type === 2) {
         novo_data = await tstf.verificar_capitulos_existentes2(url).catch(console.log);
     }
+    //console.log(`database: ${novo_data[3]} / new: ${existe["nome"]}`);
     //let novo_data = await tstf.verificar_capitulos_existentes(url).catch(console.log);
 
         if (typeof existe === "object" && existe != null) {

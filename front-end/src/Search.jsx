@@ -13,13 +13,14 @@ export default class Search extends React.Component {
             ready: false
         };
         this.dados = [];
+        this.urlServer = "";
 
     }
 
     async send () {
         console.log(`valor de texto : ${this.state.texto}`);
         this.setState(()=>({ready: false}));
-        await fetch(`http://127.0.0.1:5000/pesquisar`,{
+        await fetch(`${this.urlServer}/pesquisar`,{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({"nome": this.state.texto})
@@ -29,8 +30,18 @@ export default class Search extends React.Component {
             this.dados = data.data;
             console.log("dados : ",this.dados);
             this.setState(()=>({ready: true}));
-        })
-    }
+        });
+    };
+    async getUrlServer () {
+        await fetch(`http://127.0.0.1:5000/pesquisar`,)
+        .then(res => res.json())
+        .then(data => {
+            this.urlServer = data.url;
+        });
+    };
+    componentDidMount() {
+        this.getUrlServer();
+    };
     resultados () {
         if (this.state.ready) {
             return <>
@@ -40,8 +51,8 @@ export default class Search extends React.Component {
                     return <div className="div_result_search"><Link to={`/manga?n=${txt[1]}`} style={{textDecoration:"none"}}><div className="search_img" style={{backgroundImage: arr[1]}}></div><p className="lettershow2">{arr[0]}</p></Link></div>})}
                     </div>
                    </>
-        }
-    }
+        };
+    };
 
     build () {
         return <>
