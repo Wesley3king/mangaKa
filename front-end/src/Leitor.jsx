@@ -160,12 +160,12 @@ export default class leitor extends React.Component {
     componentDidMount () {
         this.obter();
         //ajusta o tamanho das imagems
-        this.interval = setInterval(()=>{
+       /* this.interval = setInterval(()=>{
            
             let imgs = window.document.querySelectorAll(".capitulo_img");
         //let width = window.innerWidth;
         if (imgs.length !== 0){
-            //this.stop_int();
+           /* //this.stop_int();
             console.log(imgs)
            for(let e of imgs) {
                console.log(e);
@@ -183,11 +183,11 @@ export default class leitor extends React.Component {
             console.log("nada no array",imgs);
         }
        
-    },4000);    
+    },4000);    */
    }
 
    componentWillUnmount() {
-    clearInterval(this.interval);
+    //clearInterval(this.interval);
 }
     build () {
 
@@ -211,7 +211,7 @@ export default class leitor extends React.Component {
                         </div>
 
                         <div className="leitor_area">
-                            {this.dados[4].map((str, ind) => <img className="capitulo_img" src={str} width="350px" alt={`imagem ${ind}`}></img>)}
+                            {this.dados[4].map((str, ind) => <img className="capitulo_img" src={str} width={`${window.innerWidth}px`} alt={`imagem ${ind}`}></img>)}
                         </div>
 
                         <div className="leitor_footer">

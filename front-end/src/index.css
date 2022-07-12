@@ -252,6 +252,7 @@ margin-top: 70px;
   height: 100vh;
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center center;
   background-attachment: fixed;
   
 }
@@ -433,6 +434,7 @@ margin-top: 70px;
   padding: 0 15px;
   margin: 0 3px;
   text-align: center;
+  white-space: nowrap;
 }
 .retirado{
   font-weight: bold;
@@ -482,6 +484,7 @@ margin-top: 70px;
 
 }
 .capitulo_img{
+  height: auto;
   box-sizing: border-box;
 }
 .scroll_leitor_sinopse{
