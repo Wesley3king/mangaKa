@@ -1,7 +1,7 @@
 // - mangaKa - version : 0.0.1
 const express = require("express");
-const fs = require('fs');
-//const func = require("./functions");
+//const fs = require('fs');
+const func = require("./functions");
 const routes = require("./Routes");
 const porta = process.env.PORT || 5000;
 
@@ -14,7 +14,7 @@ app.use(routes);
 
 //adicionar (nome, url , length)
 // ultimo_cap_no_mangayabu = 2379 / ultimo_ready = 2313 / total_length = 67/78 / added = 457;   1933
-//func.adicionar_manga_especifico("Yuusha ga Shinda!: Murabito no Ore ga Hotta Otoshiana ni Yuusha ga Ochita Kekka","https://mangayabu.top/manga/yuusha-ga-shinda-murabito-no-ore-ga-hotta-otoshiana-ni-yuusha-ga-ochita-kekka", null, null);
+func.adicionar_manga_especifico("Yao Shen Ji (Tales Of Demons and Gods)","https://mangayabu.top/manga/yao-shen-ji/", null, null);
 
 // fazer a atualização dos mangas no main
 //func.vasculhar_main();
