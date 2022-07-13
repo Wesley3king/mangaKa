@@ -161,7 +161,7 @@ routes.post('/adicionar', async (req, res) => {
     let dados = req.body;
     console.log(dados);
 
-    func.adicionar_manga_especifico(dados.nome, dados.link).catch(console.log);
+    func.ponte(dados.nome, dados.link).catch(console.log);
 
     res.send(true);
 })

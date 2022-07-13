@@ -30,19 +30,19 @@ export default function Info () {
     const [arrlidos, setArrlidos] = useState([]);
     const [fav, setFav] = useState(false);
     var configuracao_inicial_favorito = false;
-    var urlServer = "";
+    var [urlServer, setUrlServer] = useState("");
 
     const getUrlServer = async () => {
         await fetch(`http://127.0.0.1:5000/server`)
         .then(res => res.json())
         .then(data => {
-            urlServer = data.url;
-            console.log("enable");
+            setUrlServer(data.url);
+            console.log("enable : ", data);
             setStart(true);
         });
     };
     const  buscar = async (final_url)=>{
-
+        console.log("ready to staret : ", urlServer)
         await fetch(`${urlServer}manga/fetch`,{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
@@ -50,9 +50,9 @@ export default function Info () {
             })
         .then(res => res.json())
         .then(data => {
-            dados = data.data;
+            dados = data;
             console.log("dados : ",dados);
-            Globais["dados_armazenados"].push(data);
+            //Globais["dados_armazenados"].push(data);
             setReady(true);
         }).catch(e=> {console.log(e);setmyS(0)});
     }
@@ -66,6 +66,8 @@ export default function Info () {
 
         if (pronto) {
             buscar(myParam[1]);
+        }else{
+            getUrlServer();
         }
         //console.log(myParam[1])
         //console.log(Globais["dados_armazenados"]);
@@ -92,7 +94,7 @@ export default function Info () {
     }
 
     const adicionar_ao_banco = async (data) => {
-        await fetch(`${urlServer}pesquisar`,{
+        await fetch(`${urlServer}adicionar`,{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ nome: data[0], link: data[1] })
@@ -226,7 +228,7 @@ export default function Info () {
     };
     const build = (go) =>{
         if (go) {
-            //console.log("capitulos",dados["capitulos"]);
+            console.log("capitulos",dados["capitulos"]);
             return <div>
                     <div className="all_space">
                         <div className="lista_de_capitulos">
@@ -252,7 +254,7 @@ export default function Info () {
                                         <div className="icone_leitura"></div>
                                         <p>capitulos</p>
                                     </div>
-                                    <div className="div_leitura" onClick={()=>adicionar_ao_banco([ dados["nome"], dados["link"] ])}>
+                                    <div className="div_add_leitura" onClick={()=>adicionar_ao_banco([ dados["nome"], dados["link"] ])}>
                                         <div className="icone_leitura"></div>
                                         <p>adicionar</p>
                                     </div>

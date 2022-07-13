@@ -1,7 +1,7 @@
 // - mangaKa - version : 0.0.1
 const express = require("express");
 const fs = require('fs');
-const func = require("./functions");
+//const func = require("./functions");
 const routes = require("./Routes");
 const porta = process.env.PORT || 5000;
 

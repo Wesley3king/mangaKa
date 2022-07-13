@@ -275,6 +275,10 @@ const adicionar_manga_especifico = async (nome, url, qt = null, type = null) => 
                 await vasculhar_manga(url, "new", novo_data);
             }
         }
+};
+
+const ponte = async (nome, link) => {
+    adicionar_manga_especifico(nome, link, null, null).catch(console.log);
 }
 
-module.exports = { atualizarMain, vasculhar_main , adicionar_manga_especifico, inserir_especifico};
+module.exports = { atualizarMain, vasculhar_main , adicionar_manga_especifico, inserir_especifico, ponte };

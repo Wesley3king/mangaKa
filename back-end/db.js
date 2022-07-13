@@ -1,7 +1,7 @@
 //mongo db connection
 const mongoClient = require("mongodb").MongoClient;
 
-const url = "mongodb+srv://king_of_project:UwXWp7BPdGrY1R4l@cluster0.5bcwwx7.mongodb.net/?retryWrites=true&w=majority";
+const url = "";
 const database = "mangaka", user_banco = "usuario", main_banco = "mainpage", data_banco = "dataall";
 const server_banco = "servidor";
 
