@@ -1,7 +1,7 @@
 //mongo db connection
 const mongoClient = require("mongodb").MongoClient;
 
-const url = "";
+const url = "mongodb+srv://king_of_project:UwXWp7BPdGrY1R4l@cluster0.5bcwwx7.mongodb.net/?retryWrites=true&w=majority";
 const database = "mangaka", user_banco = "usuario", main_banco = "mainpage", data_banco = "dataall";
 const server_banco = "servidor";
 
@@ -21,7 +21,14 @@ const urlUpdate = async (url) => {
     await banco.collection(server_banco).updateOne({}, {$set: {url: url}});
 
     return true;
-}
+};
+//pegar o servidor id
+const urlGet = async () => {
+    let banco = await conectar().catch(console.log);
+    let res = await banco.collection(server_banco).findOne({}, {projection: {_id: 0}});
+    return res;
+};
+
 //gravar o main
 const main_save = async (nomes) => {
     let banco = await conectar();
@@ -50,9 +57,11 @@ const inserir_novo_manga = async (manga) =>{
 const verificar_manga = async (nome_m) => {
     let db = await conectar();
     let encontrar = await db.collection(data_banco).findOne({nome: nome_m},{projection: {_id: 0}});
-    //console.log("db : ",await encontrar);
+    console.log("db : ",encontrar);
     return await encontrar;
 }
+//let reg = new RegExp(`solo`,'g');
+//verificar_manga(reg);
 //enviar o manga do banco
 const obter_manga = async (link) => {
     let db = await conectar();
@@ -79,4 +88,4 @@ const adicionar_cap_preciso = async (nome, data, pos) => {
     let inserir = await db.collection(data_banco).updateMany({"nome": nome}, {"$push": {capitulos : {"$each": [data], "$position": pos}}});
     return typeof inserir === "object" ? true : false;
 }
-module.exports = {main_save, find_main, inserir_novo_manga, urlUpdate, verificar_manga, obter_manga, adicionar_capitulo_novo, adicionar_capitulo_velho, adicionar_cap_preciso}
+module.exports = {main_save, find_main, inserir_novo_manga, urlUpdate, urlGet, verificar_manga, obter_manga, adicionar_capitulo_novo, adicionar_capitulo_velho, adicionar_cap_preciso}

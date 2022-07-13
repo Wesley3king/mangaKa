@@ -17,7 +17,7 @@ app.use(routes);
 //func.adicionar_manga_especifico("Yuusha ga Shinda!: Murabito no Ore ga Hotta Otoshiana ni Yuusha ga Ochita Kekka","https://mangayabu.top/manga/yuusha-ga-shinda-murabito-no-ore-ga-hotta-otoshiana-ni-yuusha-ga-ochita-kekka", null, null);
 
 // fazer a atualização dos mangas no main
-func.vasculhar_main();
+//func.vasculhar_main();
 
 //inserir um capitulo preciso (nome, ['Capítulo #18', '917161'], position);
 //func.inserir_especifico();

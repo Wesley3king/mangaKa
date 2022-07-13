@@ -4,6 +4,7 @@ const fs = require("fs");
 const sc = require("./scraping");
 const { isNull } = require("util");
 const db = require("./db");
+const func = require("./functions");
 const cors=require("cors");
 const routes = express.Router();
 const corsOptions ={
@@ -12,7 +13,7 @@ const corsOptions ={
     optionSuccessStatus:200,
  }
  
-//rota HOME - rota HOME logado
+//rota HOME
  routes.get('/',async (req,res)=>{
 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -78,9 +79,6 @@ routes.post('/log', async (req,res)=>{
  routes.use(cors(corsOptions));
 routes.post('/manga',async (req,res)=>{
 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    
     let req_data = req.body;
     console.log("requisicao manga : ",req_data.url);
 
@@ -93,8 +91,6 @@ routes.post('/manga',async (req,res)=>{
 
 //busca completa do manga
 routes.post('/total',async (req,res)=>{
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     
     let req_data = req.body;
     console.log("requisicao total manga : ",req_data.link);
@@ -126,8 +122,6 @@ routes.post('/total',async (req,res)=>{
 //leitor
 
 routes.post('/manga/leitor', async (req, res)=>{
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     
     let req_data = req.body;
     console.log("requisicao leitor : ",req_data.url);
@@ -136,17 +130,38 @@ routes.post('/manga/leitor', async (req, res)=>{
     res.json({"data": dados});
 });
 
+//adicionar manga ao banco
+routes.post('/adicionar', async (req, res) => {
+    let dados = req.body;
+    console.log(dados);
+
+    func.adicionar_manga_especifico(dados.nome, dados.link).catch(console.log);
+
+    res.send(true);
+})
+
 //pesquisar
 
 routes.post('/pesquisar', async (req, res)=>{
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     
     let req_data = req.body;
     console.log("requisicao pesquisa : ",req_data.nome);
+    //verificar no banco
+    let regex = new RegExp(`${req_data.nome}`,'g');
+    let local_data = await db.verificar_manga(regex).catch(console.log);
+
     let dados = await sc.search("https://mangayabu.top/lista-de-mangas/#mangasearch",req_data.nome).catch(e=>console.log(e));
     console.log(dados);
-    res.json({"data": dados});
+    res.json({
+        dadosExistentes: local_data,
+        dadosNovos: dados
+    });
+});
+//servidor
+routes.get('/server', async (req, res)=>{
+    
+    let dados = await db.urlGet().catch(console.log);
+    res.json(dados);
 });
 
 module.exports = routes;

@@ -9,7 +9,7 @@ export default class Centro extends React.Component {
         let txt = this.props.select.map(item=> item[2].split("manga/"));
         let li = this.props.select.map((item,ind)=> {
             let corte = item[1].split('">');
-            console.log(corte);
+            //console.log(corte);
             return <Link to={`./manga?n=${txt[ind][1]}`} style={{textDecoration:"none"}} >
             <li className='espaco'>
                 <div className="show" style={{backgroundImage : `url(${corte[0]}`}}></div>

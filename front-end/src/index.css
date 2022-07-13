@@ -549,12 +549,14 @@ margin-top: 70px;
   text-align: center;
 }
 .active_search{
-  width: 40px;
-  height: 40px;
-  background-image: url('./imgs/lupa.png');
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  margin-right: 2%;
+  font-size: 25px;
+  margin-left: 2%;
+  color: white;
+}
+.active_search_ready{
+  font-size: 25px;
+  margin-left: 2%;
+  color: green;
 }
 .serch_flex_align{
   display: flex;
