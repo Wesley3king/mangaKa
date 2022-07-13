@@ -35,18 +35,6 @@ export default class Search extends React.Component {
         }).catch(console.log);
     };
 
-    async adicionar_ao_banco (data) {
-        await fetch(`${this.urlServer}pesquisar`,{
-            method: 'POST',
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({ nome: data[0], link: data[2] })
-            })
-        .then(res => res.json())
-        .then(data => {
-            console.log("resposta : ",data);
-        }).catch(console.log);
-    };
-
     async getUrlServer () {
         await fetch(`http://127.0.0.1:5000/server`)
         .then(res => res.json())
@@ -62,7 +50,7 @@ export default class Search extends React.Component {
 
     resultadosDisponiveis (dados) {
         console.log(dados);
-        if (this.state.ready) {
+        if (this.state.ready && dados) {
             if (typeof dados === "object") {
                 let txt = dados["link"].split('manga/');
                 return <>
@@ -85,12 +73,12 @@ export default class Search extends React.Component {
 
     resultados (dados) {
         console.log(dados);
-        if (this.state.ready) {
+        if (this.state.ready && dados) {
             return <>
                     <div className="div_flex_search">
                     {dados.map(arr => {
-                    //let txt = arr[2].split('manga/');
-                    return <div className="div_result_search" onClick={()=> this.adicionar_ao_banco(arr)}><div className="search_img" style={{backgroundImage: arr[1]}}></div><p className="lettershow2">{arr[0]}</p></div>})}
+                    let txt = arr[2].split('manga/');
+                    return <div className="div_result_search"><Link to={`/adicionar?n=${txt[1]}`}><div className="search_img" style={{backgroundImage: arr[1]}}></div><p className="lettershow2">{arr[0]}</p></Link></div>})}
                     </div>
                    </>
         };

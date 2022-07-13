@@ -129,6 +129,32 @@ routes.post('/manga/leitor', async (req, res)=>{
     console.log(dados);
     res.json({"data": dados});
 });
+routes.post('/manga/fetch', async (req, res)=>{
+    
+    let req_data = req.body;
+    console.log("requisicao fetch : ",req_data.url);
+    //diferenciar a GUI
+    let teste = await sc.verificarGUI(req_data.url).catch(console.log);
+    console.log(`type === ${teste}`);
+
+    let dados = [];
+    if (!teste) {
+        dados = await sc.entrar(req_data.url).catch(e=>console.log(e));
+    } else {
+        dados = await sc.entrar2(req_data.url).catch(e=>console.log(e));
+    };
+
+    
+    console.log(dados);
+    res.json({
+        "nome": dados[3],
+        "capa1": dados[4],
+        "sinopse": dados[0],
+        "link": req_data.url,
+        "categorias": dados[1],
+        "capitulos": dados[2]
+    });
+});
 
 //adicionar manga ao banco
 routes.post('/adicionar', async (req, res) => {
