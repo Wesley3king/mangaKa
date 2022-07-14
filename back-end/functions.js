@@ -108,7 +108,7 @@ let atualizarMain = async () => {
  //inserir um cap especifico
  const inserir_especifico = async (nome, i, position) => {
     let data = await tstf.retirar_cap(i, nome).catch(console.log);
-    let sucess = await db.adicionar_cap_preciso(nome, link, position);
+    let sucess = await db.adicionar_cap_preciso(nome,data, position);
     console.log(sucess ? "inserido" : "falha");
  }
  //atualizar
