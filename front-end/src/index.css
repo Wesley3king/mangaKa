@@ -304,6 +304,10 @@ margin-top: 70px;
 }
 .alignLink{
   margin-top: 15px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 .link_leitura{
   text-decoration: none;
@@ -336,7 +340,7 @@ margin-top: 70px;
   margin: 10px;
 }
 .div_add_leitura:hover{
-  background-color: rgba(89, 253, 89, 0.884);
+  background-color: rgba(208, 211, 50, 0.884);
 }
 .icone_leitura{
   width: 30px;

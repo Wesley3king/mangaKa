@@ -1,12 +1,13 @@
 const express = require("express");
-const url = require("url");
+//const url = require("url");
 const fs = require("fs");
 const sc = require("./scraping");
-const { isNull } = require("util");
+//const { isNull } = require("util");
 const db = require("./db");
 const func = require("./functions");
 const cors=require("cors");
 const routes = express.Router();
+
 const corsOptions ={
     origin:'*', 
     credentials:true,            //access-control-allow-credentials:true
@@ -161,10 +162,10 @@ routes.post('/adicionar', async (req, res) => {
     let dados = req.body;
     console.log(dados);
 
-    func.ponte(dados.nome, dados.link).catch(console.log);
+    await func.ponte(dados.nome, dados.link).catch(console.log);
 
     res.send(true);
-})
+});
 
 //pesquisar
 
