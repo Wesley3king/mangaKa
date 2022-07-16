@@ -133,11 +133,13 @@ async function verificarGUI (url) {
     }else{
       return false;
     };
-  });
+  }).catch((e)=> {console.log(e);return false;});
 console.log(`nova GUI : ${response}`);
   await browser.close();
   return response;
-}
+};
+
+//verificarGUI("https://mangayabu.top/manga/my-wife-is-a-demon-queen/")//"Solo Leveling",
 //pagina de selecão de capitulos
 
 async function entrar (url) {
@@ -281,7 +283,7 @@ async function entrar2 (url) {
       }
     }
 
-    console.log("saiu do laço!", arr_cap);
+   // console.log("saiu do laço!", arr_cap);
     
 
 
@@ -313,6 +315,11 @@ async function entrar2 (url) {
     let img_c_2 = img_c_1[1].split('"><')
     
     //corte para retirar uma falha
+    for(let i = 0; i < 10; ++i) {
+      arr_cap.shift();
+    }
+    console.log("resultado cap : ", arr_cap);
+
 
     delete img_c_1,cc_1, cc_2, tag_1;
 
