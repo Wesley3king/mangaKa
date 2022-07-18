@@ -262,13 +262,17 @@ async function entrar2 (url) {
 
     let arr_cap = [];
     let buscar = true, autorizacao = true;
-    await page.waitForSelector(".row.rowls");
-    let first_data = await coletar(page);
-    arr_cap.push(...first_data);
+    let contador = 0;
+    //arr_cap.push(...first_data);
 
     while (buscar) {
       await page.waitForSelector(".page-link.next",{timeout: 5000}).catch(e => {console.log(e); autorizacao = false;});
 
+      if (!autorizacao && contador===0) {
+        await page.waitForSelector(".row.rowls");
+        let first_data = await coletar(page);
+        arr_cap.push(...first_data);
+      };
       await next(page).catch(console.log);
 
       if (autorizacao) {
@@ -278,10 +282,12 @@ async function entrar2 (url) {
         let dat = await coletar(page).catch(console.log);
         console.log(dat);
         arr_cap.push(...dat);
+
+        ++contador;
       }else{
         buscar = false;
-      }
-    }
+      };
+    };
 
    // console.log("saiu do laço!", arr_cap);
     
@@ -315,9 +321,9 @@ async function entrar2 (url) {
     let img_c_2 = img_c_1[1].split('"><')
     
     //corte para retirar uma falha
-    for(let i = 0; i < 10; ++i) {
+    /*for(let i = 0; i < 10; ++i) {
       arr_cap.shift();
-    }
+    }*/
     console.log("resultado cap : ", arr_cap);
 
 
@@ -328,8 +334,7 @@ async function entrar2 (url) {
     await browser.close();
     return data;
 };
-
-//entrar2("https://mangayabu.top/manga/martial-peak/");
+//entrar2(/*"https://mangayabu.top/manga/martial-peak/"/*"https://mangayabu.top/manga/aishiteimasu-kyouko-san/"*/'https://mangayabu.top/manga/kanojo-okarishimasu');
 //leitor de capitulos
 
 async function leitor (url) {
