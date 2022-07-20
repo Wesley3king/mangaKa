@@ -1,17 +1,29 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { VscMenu ,VscArrowLeft } from "react-icons/vsc";
 
 export default class FixHeader extends React.Component {
+
+    preparar (url) {
+        //console.log(url);
+        if (url) {
+            let corte = url.split('manga/');
+            return `/manga?n=${corte[1]}`;
+        }else {
+            return <VscArrowLeft className="return" onClick={()=> window.history.back()}/>
+        }
+    }
+
     render () {
         return (
             <>
             <header style={{marginTop:"0",position:"relative"}} className="header">
                 <VscMenu className="bt_menu" onClick={()=> {
-    let menu = window.document.querySelector('.barra_menu');
-    menu.classList.toggle("ativa");
-  }}/>
+                let menu = window.document.querySelector('.barra_menu');
+                menu.classList.toggle("ativa");
+                }}/>
                 <div className="menu_icone">mangaKa</div>
-                <VscArrowLeft className="return" onClick={()=> window.history.back()}/>
+                <Link to={this.preparar(this.props.link)}><VscArrowLeft className="return" onClick={()=> window.history.back()}/></Link>
             </header>
             </>
         )

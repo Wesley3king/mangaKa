@@ -8,20 +8,9 @@ import Globais from "./Globais";
 import { VscChevronRight } from "react-icons/vsc";
 import { AiFillHeart } from "react-icons/ai";
 import { BsCheckAll } from "react-icons/bs";
-import login from './Functions';
+import login from './Login';
 import './index.css';
 
-/*await fetch(`http://127.0.0.1:5000/manga`,{
-        method: 'POST',
-        
-        body: {"url": myParam}
-        })
-    .then(res => res.json())
-    .then(data => {
-        dados = data;
-        console.log(dados);
-        setReady(true);
-    })*/
 var dados = [];
 export default function Info () {
 
@@ -49,7 +38,7 @@ export default function Info () {
     const obter = async ()=>{
         if (!Globais.log) {
             console.log("não esta logado. fazendo o login!");
-            let res = await login(/*{mail: "moraeswesley290@gmail.com", pass: "mangaka#1"}*/);
+            await login(/*{mail: "moraeswesley290@gmail.com", pass: "mangaka#1"}*/);
         }
         let urlParams = window.location.hash;
         let myParam = urlParams.split('=');

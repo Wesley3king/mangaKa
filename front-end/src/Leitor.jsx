@@ -62,10 +62,9 @@ export default class leitor extends React.Component {
             }
         }
 
+        console.log("alldata", this.allData);
         //já tendo os dados
         let allCaps = this.allData["capitulos"];
-        console.log("ja ta aqui")
-        //console.log(myNum[0])
         for (let i in allCaps) {
             if (allCaps[i][1] === myNum[0]) {
                 this.dados = allCaps[i];
@@ -73,16 +72,17 @@ export default class leitor extends React.Component {
                 console.log(this.dados);
                 this.setState(()=>({ready: true}));
                 break;
-            }
+            };
         }
     }
 
     buildFooter = () => {
         let allCaps = this.allData["capitulos"];
         let result;
-        console.log(Number(this.indice) === ((this.allData["capitulos"].length)-1))
-        if (this.indice === 0) {
+        console.log(Number(this.indice) === ((this.allData["capitulos"].length)-1), typeof this.indice)
+        if (this.indice === 0 || this.indice === '0') {
             //caso for o ultimo capitulo
+            console.log("entriu aqui ultimo cap");
             let indice2 = this.indice;
             let prev = allCaps[++indice2][1];
             result = <>
@@ -101,7 +101,9 @@ export default class leitor extends React.Component {
             </div>
             </>;
         }else if (Number(this.indice) === (this.allData["capitulos"].length-1)) {
-            //caso for o ultimo capitulo
+            //caso for o primeiro capitulo
+            console.log("entrou aqui primeiro cap");
+
             let indice = this.indice;
             let next = allCaps[--indice][1];
 
@@ -122,7 +124,8 @@ export default class leitor extends React.Component {
         }else{
             let indice = this.indice;
             let indice2 = this.indice;
-            console.log(allCaps)
+            //console.log(allCaps," --- ", this.indice);
+            //console.log("entrou aqui capitulos");
             let next = allCaps[--indice][1];
             let prev = allCaps[++indice2][1];
             console.log(`next : ${next} / prev : ${prev} / indice : ${this.indice}`);
@@ -153,49 +156,21 @@ export default class leitor extends React.Component {
                 </Link>
             </div>
             </>
-        }
+        };
         return result;
-    }
+    };
 
     componentDidMount () {
         this.obter();
-        //ajusta o tamanho das imagems
-       /* this.interval = setInterval(()=>{
-           
-            let imgs = window.document.querySelectorAll(".capitulo_img");
-        //let width = window.innerWidth;
-        if (imgs.length !== 0){
-           /* //this.stop_int();
-            console.log(imgs)
-           for(let e of imgs) {
-               console.log(e);
-               let w = e.naturalWidth;
-               let h = e.naturalHeight;
-               //e.setAttribute("width", `${width}px`);
-               //e.setAttribute("height",`${((h*width)/w)}px`);
-               console.log(`w : ${w} / h : ${h} / width : ${window.innerWidth} / height : ${((h*window.innerWidth)/w)}`);
-               this.logs += `w : ${w} / h : ${h} / width_local : ${window.innerWidth} /scren : ${window.screen.width}/ height_final : ${((h*window.innerWidth)/w)} \n`;
-               e.style.width = `${window.innerWidth}px`;
-               e.style.height = `${((h*window.innerWidth)/w)}px`;
-           };
-           this.setState(()=>({tamanhoOrigin: false}));
-        }else{
-            console.log("nada no array",imgs);
-        }
-       
-    },4000);    */
-   }
+    };
 
-   componentWillUnmount() {
-    //clearInterval(this.interval);
-}
     build () {
 
         if (this.state.ready) {
 
-
+            //console.log(this.allData.link)
             return <>
-                   
+                   <FixHeader link={this.allData.link}/>
                     <div>
                         <div className="informaçoes">
                             <div style={{backgroundImage: `url(${this.dados[3]})`}}className="info_img"></div>
@@ -224,6 +199,8 @@ export default class leitor extends React.Component {
                    </>
         }else{
             return <>
+                    <FixHeader  link={null}/>
+
                     <Falselist estilo_gradient={{height:"150px"}}/>
 
                     <Falselist estilo_gradient={{height:"88vh"}}/>
@@ -236,7 +213,6 @@ export default class leitor extends React.Component {
         return (
             <>
              <Barra />
-            <FixHeader />
              {this.build()}
             </>
         )

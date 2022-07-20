@@ -194,32 +194,21 @@ let atualizarMain = async () => {
 //testa se o manga existe
 const vasculhar_main = async () => {
     let main = await db.find_main().catch(console.log);
-
+/*
    for(let e of main["lancamentos"]){
+        await adicionar_manga_especifico(e[0], e[2]).catch(console.log);
+        console.log(`o manga ${e[0]} acabou de ser verificado`);
 
-       //let existe = await db.verificar_manga(e[0]).catch(console.log);
+    };*/
 
-        /*if (typeof existe === "object" && existe != null) {
-            
-            let len = existe["capitulos"].length;
+    console.log("lançamentos verificados! ");
 
-            if (len === 0) {
-                console.log("nenhum capitulo no manga");
-                await adicionar_manga_especifico(existe["nome"], existe["link"]);
-            }else{
-                
-            }
-            //atualizar
-        }else{
-            console.log(`o manga : ${e[0]} não existe`);
-            await vasculhar_manga(e[2]);
-        }*/
-
+    for(let e of main["popular"]){
         await adicionar_manga_especifico(e[0], e[2]).catch(console.log);
         console.log(`o manga ${e[0]} acabou de ser verificado`);
 
     };
-}
+};
 
 //type = 1-velha GUI, 2-NOVA GUI
 const adicionar_manga_especifico = async (nome, url, qt = null, type = null) => {

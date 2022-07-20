@@ -7,7 +7,7 @@ import ListaFav from "./componentes/ListaFav";
 import Footer from "./componentes/Footer";
 import Falselist from "./componentes/Falselist";
 import Globais from "./Globais";
-import login from "./Functions";
+import login from "./Login";
 
 export default class Main extends React.Component {
     
@@ -62,7 +62,7 @@ export default class Main extends React.Component {
                 return response;
             }
         }*/
-        let res = await login({mail: "moraeswesley290@gmail.com", pass: "mangaka#1"});
+        await login({mail: "moraeswesley290@gmail.com", pass: "mangaka#1"});
         //this.setState(state => ({fav: res[""]}))
 
     }

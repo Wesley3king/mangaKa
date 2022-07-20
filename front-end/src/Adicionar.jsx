@@ -3,12 +3,12 @@ import SubHeader from "./componentes/SubHeader";
 import Barra from "./componentes/Barra";
 import Controles from "./componentes/Controles";
 import Falselist from "./componentes/Falselist";
-import {Link} from "react-router-dom";
+//import {Link} from "react-router-dom";
 import Globais from "./Globais";
 import { VscChevronRight } from "react-icons/vsc";
 import { AiFillHeart } from "react-icons/ai";
-import { BsCheckAll } from "react-icons/bs";
-import login from './Functions';
+//import { BsCheckAll } from "react-icons/bs";
+//import login from './Login';
 import './index.css';
 
 /*await fetch(`http://127.0.0.1:5000/manga`,{
@@ -26,8 +26,8 @@ export default function Info () {
 
     const [ready,setReady] = useState(false);
     const [start, setStart] = useState(false);
-    const [myS,setmyS] = useState(0);
-    const [arrlidos, setArrlidos] = useState([]);
+    //const [myS,setmyS] = useState(0);
+    //const [arrlidos, setArrlidos] = useState([]);
     const [fav, setFav] = useState(false);
     var configuracao_inicial_favorito = false;
     var [urlServer, setUrlServer] = useState("");
@@ -54,7 +54,7 @@ export default function Info () {
             console.log("dados : ",dados);
             //Globais["dados_armazenados"].push(data);
             setReady(true);
-        }).catch(e=> {console.log(e);setmyS(0)});
+        }).catch(e=> {console.log(e)});
     }
     const obter = async (pronto)=>{
        /* if (!Globais.log) {
@@ -199,7 +199,7 @@ export default function Info () {
     };
     const capit = (arr, link)=>{
         //console.log(arr);
-       let txt = link.split("manga/");//BsCheckAll dados["nome"]
+       //let txt = link.split("manga/"); //BsCheckAll dados["nome"]
        /* let lidos = Globais.user["lidos"];
         for (let e in lidos) {
             if (lidos[e]["nome"] === dados["nome"] && arrlidos !== lidos[e]["mark"]) {
