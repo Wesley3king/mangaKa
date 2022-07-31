@@ -2,7 +2,8 @@ import React,{useState} from "react";
 import SubHeader from "./componentes/SubHeader";
 import Barra from "./componentes/Barra";
 import Controles from "./componentes/Controles";
-import Falselist from "./componentes/Falselist";
+//import Falselist from "./componentes/Falselist";
+import SkeletonInfo from "./skeletons/SkeletonInfo";
 import {Link} from "react-router-dom";
 import Globais from "./Globais";
 import { VscChevronRight } from "react-icons/vsc";
@@ -40,6 +41,7 @@ export default function Info () {
             console.log("não esta logado. fazendo o login!");
             await login(/*{mail: "moraeswesley290@gmail.com", pass: "mangaka#1"}*/);
         }
+        
         let urlParams = window.location.hash;
         let myParam = urlParams.split('=');
         //console.log(myParam[1])
@@ -60,7 +62,7 @@ export default function Info () {
         if (!fazer_requisicao) {
             if (myS === 0 && !ready){
                 console.log("não encontrado fazendo o fetch");
-                setmyS(myS+1);
+                //setmyS(myS+1);
                 buscar(myParam[1]);
             }
         }
@@ -235,19 +237,19 @@ export default function Info () {
         }else{
             obter();
             return <>
-                    <Falselist estilo_gradient={{height:"98vh"}}/>
+                    <SkeletonInfo />
                    </>
             
         }
     }
-
+    
     return(
         <>
         <Barra />
         <Controles estilo={{marginTop: `${window.innerHeight - 55}px`,marginLeft: `${window.innerWidth < 700 ? 0 : ((window.innerWidth/2)-350)}px`}}/>
         <SubHeader />
                 
-        {build(ready)}        
+        {build(ready)}
         </>
     )
 }

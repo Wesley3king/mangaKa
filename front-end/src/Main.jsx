@@ -5,7 +5,8 @@ import Controles from "./componentes/Controles";
 import Listas from "./componentes/Listas";
 import ListaFav from "./componentes/ListaFav";
 import Footer from "./componentes/Footer";
-import Falselist from "./componentes/Falselist";
+//import Falselist from "./componentes/Falselist";
+import SkeletonMain from "./skeletons/SkeletonMain";
 import Globais from "./Globais";
 import login from "./Login";
 
@@ -147,22 +148,13 @@ export default class Main extends React.Component {
             </div>
           }else{
               return <>
-              <div> 
-            <section>
-              <div className='areaVisual'>
-              <Falselist estilo_gradient={{height:"150px"}}/>
-              </div>
-              <Falselist frase="lancamentos"/>
-              <Falselist frase="popular"/>
-              <Falselist frase="atualizados" />
-              <Footer />
-            </section>
-            </div>
+              <SkeletonMain />
               </>
           }
     }
 
     render () {
+    
         return (
             <>
             <Barra estilo={{marginTop:"-70px"}}/>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Falselist from "./componentes/Falselist";
+//import Falselist from "./componentes/Falselist";
+import SkeletonLeitor from "./skeletons/SkeletonLeitor";
 import Barra from "./componentes/Barra";
 import { VscFoldUp, VscChevronLeft, VscChevronRight } from "react-icons/vsc";
 import FixHeader from "./componentes/FixHeader";
@@ -19,7 +20,6 @@ export default class leitor extends React.Component {
         this.allData = {};
         this.indice = 0;
         this.link_manga = '';
-        this.logs = '';
     }
 
     buscar = async (myParam)=>{
@@ -41,10 +41,13 @@ export default class leitor extends React.Component {
         let urlParams = window.location.hash;
         let myParam = urlParams.split('=');
         let myNum = myParam[1].split("&");
+
         console.log(myParam,myNum);
         let fazer_requisicao = false;
         this.link_manga = myParam[2];
+
         console.log(Globais["dados_armazenados"]);
+
         for (let i in Globais["dados_armazenados"]) {
             if (Globais["dados_armazenados"][i]["data"]["link"] === `https://mangayabu.top/manga/${myParam[2]}`) {
                 console.log("encontado !");
@@ -102,8 +105,6 @@ export default class leitor extends React.Component {
             </>;
         }else if (Number(this.indice) === (this.allData["capitulos"].length-1)) {
             //caso for o primeiro capitulo
-            console.log("entrou aqui primeiro cap");
-
             let indice = this.indice;
             let next = allCaps[--indice][1];
 
@@ -179,7 +180,6 @@ export default class leitor extends React.Component {
                                 <div className="scroll_leitor_sinopse">
                                     <div className="sinopse">
                                         <p>Sinopse : {this.allData["sinopse"]}</p>
-                                        <p>logs : {this.logs}</p>
                                     </div>
                                 </div>
                             </div>
@@ -199,13 +199,12 @@ export default class leitor extends React.Component {
                    </>
         }else{
             return <>
-                    <FixHeader  link={null}/>
+                    <FixHeader  link={null} />
 
-                    <Falselist estilo_gradient={{height:"150px"}}/>
-
-                    <Falselist estilo_gradient={{height:"88vh"}}/>
-
-                    <Falselist estilo_gradient={{height:"160px"}}/>
+                    <SkeletonLeitor />
+                    <div className="leitor_footer">
+                        <p className="bigfooter">mangaKa</p>
+                    </div>
                   </>
         }
     }

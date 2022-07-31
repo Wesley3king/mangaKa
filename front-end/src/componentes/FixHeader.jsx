@@ -8,7 +8,7 @@ export default class FixHeader extends React.Component {
         //console.log(url);
         if (url) {
             let corte = url.split('manga/');
-            return `/manga?n=${corte[1]}`;
+            return <Link to={`/manga?n=${corte[1]}`}><VscArrowLeft className="return"/></Link>;
         }else {
             return <VscArrowLeft className="return" onClick={()=> window.history.back()}/>
         }
@@ -23,7 +23,8 @@ export default class FixHeader extends React.Component {
                 menu.classList.toggle("ativa");
                 }}/>
                 <div className="menu_icone">mangaKa</div>
-                <Link to={this.preparar(this.props.link)}><VscArrowLeft className="return" onClick={()=> window.history.back()}/></Link>
+                
+                {this.preparar(this.props.link)}
             </header>
             </>
         )

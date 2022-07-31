@@ -9,7 +9,7 @@ export default class Footer extends React.Component {
                 <p className="bigfooter">mangaKa</p>
                 <div>
                     <p>created by: @KING</p>
-                    <p>version: 0.0.3 dev</p>
+                    <p>version: 0.1.2 dev</p>
                 </div>
             </footer>
         )
