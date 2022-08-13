@@ -221,6 +221,7 @@ const adicionar_manga_especifico = async (nome, url, qt = null, type = null) => 
         let teste = await sc.verificarGUI(url).catch(console.log);
         teste ? type = 2 : type = 1;
     }
+    
     console.log(`type === ${type}`);
     if (type === 1) {
         novo_data = await tstf.verificar_capitulos_existentes(url).catch(console.log);
