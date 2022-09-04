@@ -212,7 +212,7 @@ const vasculhar_main = async () => {
 
 //type = 1-velha GUI, 2-NOVA GUI
 const adicionar_manga_especifico = async (nome, url, qt = null, type = null) => {
-    let existe = await db.verificar_manga(nome).catch(console.log);
+    let existe = await db.searchMangaWithLink(url).catch(console.log);
     //const cap = () => existe["capitulos"];
     //console.log("-------",cap());
     let novo_data = [];

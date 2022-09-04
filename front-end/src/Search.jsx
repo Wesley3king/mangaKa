@@ -39,7 +39,7 @@ export default class Search extends React.Component {
         await fetch(`http://127.0.0.1:5000/server`)
         .then(res => res.json())
         .then(data => {
-            this.urlServer = data.url;
+            this.urlServer = `${data.url}/`;
             console.log("enable");
             this.setState(()=> ({enabled: true}));
         });

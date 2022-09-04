@@ -1,7 +1,7 @@
 //mongo db connection
 const mongoClient = require("mongodb").MongoClient;
 
-const url = "";
+const url = "mongodb+srv://king_of_project:UwXWp7BPdGrY1R4l@cluster0.5bcwwx7.mongodb.net/?retryWrites=true&w=majority";
 const database = "mangaka", user_banco = "usuario", main_banco = "mainpage", data_banco = "dataall";
 const server_banco = "servidor";
 
@@ -60,6 +60,14 @@ const verificar_manga = async (nome_m) => {
     console.log("db : ",encontrar);
     return await encontrar;
 }
+// procurar no banco com o link
+const searchMangaWithLink = async (link) => {
+    let db = await conectar();
+    let regex = new RegExp(`${link}`, 'ig');
+    let encontrar = await db.collection(data_banco).findOne({link: regex},{projection: {_id: 0}});
+    console.log("db : ",encontrar);
+    return await encontrar;
+}
 
 // verificar todos os mangas correspndentes
 const verificar_todos_mangas = async (regex) => {
@@ -104,4 +112,4 @@ const adicionar_cap_preciso = async (nome, data, pos) => {
     let inserir = await db.collection(data_banco).updateMany({"nome": nome}, {"$push": {capitulos : {"$each": [data], "$position": pos}}});
     return typeof inserir === "object" ? true : false;
 }
-module.exports = {main_save, find_main, inserir_novo_manga, urlUpdate, urlGet, verificar_manga, verificar_todos_mangas, obter_manga, adicionar_capitulo_novo, adicionar_capitulo_velho, adicionar_cap_preciso};
+module.exports = {main_save, find_main, inserir_novo_manga, urlUpdate, urlGet, verificar_manga,searchMangaWithLink, verificar_todos_mangas, obter_manga, adicionar_capitulo_novo, adicionar_capitulo_velho, adicionar_cap_preciso};
