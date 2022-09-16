@@ -1,7 +1,7 @@
 //mongo db connection
 const mongoClient = require("mongodb").MongoClient;
 
-const url = "mongodb+srv://king_of_project:UwXWp7BPdGrY1R4l@cluster0.5bcwwx7.mongodb.net/?retryWrites=true&w=majority";
+const url = "";
 const database = "mangaka", user_banco = "usuario", main_banco = "mainpage", data_banco = "dataall";
 const server_banco = "servidor";
 
@@ -96,15 +96,16 @@ const obter_manga = async (link) => {
     return encontrar;
 }
 //adicionar um capitulo
-const adicionar_capitulo_velho = async (nome,data) => {
+const adicionar_capitulo_velho = async (link,data) => {
     let db = await conectar();
-    let inserir = await db.collection(data_banco).updateMany({"nome": nome}, {"$push": {capitulos : {"$each" : [data]}}});
+    let inserir = await db.collection(data_banco).updateMany({"link": link}, {"$push": {capitulos : {"$each" : [data]}}});
     return typeof inserir === "object" ? true : false;
 
 }
-const adicionar_capitulo_novo = async (nome,data) => {
+const adicionar_capitulo_novo = async (link,data) => {
+    console.log(`link db: ${link}`);
     let db = await conectar();
-    let inserir = await db.collection(data_banco).updateMany({"nome": nome}, {"$push": {capitulos : {"$each": [data], "$position": 0}}});
+    let inserir = await db.collection(data_banco).updateMany({"link": link}, {"$push": {capitulos : {"$each": [data], "$position": 0}}});
     return typeof inserir === "object" ? true : false;
 }
 const adicionar_cap_preciso = async (nome, data, pos) => {

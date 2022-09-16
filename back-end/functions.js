@@ -35,7 +35,7 @@ async function vasculhar_manga (url, GUItype, dataAll = null) {
             if (data_cap){
                 console.log(`capitulo ${dad[2][i][0]} de length = ${i} / inserindo...`);
                 //await db.adicionar_capitulo_velho(dad[3],[dad[2][i][0],dad[2][i][1], data_cap[0], data_cap[1], data_cap[3]]);
-                await db.adicionar_capitulo_velho(dad[3], data_cap);
+                await db.adicionar_capitulo_velho(url, data_cap);
                 console.log(`capitulo ${dad[2][i][0]} de length = ${i} /adicionado`);
                 ready = true;
             }else{
@@ -52,7 +52,8 @@ async function start_pelo_length (url, qt) {
 
 }
 //vasculhar uma certa lista de mangas [ 'Capítulo #2215', '922119' ],
-async function vasculhar_capitulos_lista (list, type, nome) {
+async function vasculhar_capitulos_lista (list, type, nome, link) {
+    console.log(`busca com link: ${link}`);
     // type === true : capitulos antigos / type = false : novo capitulos
     if (type) {
         console.log("adicionar capitulos antigos");
@@ -63,7 +64,7 @@ async function vasculhar_capitulos_lista (list, type, nome) {
                 let data_cap = await tstf.retirar_cap_no_link(list[i], nome).catch(console.log);
                 if (data_cap){
                     console.log(`capitulo ${list[i][0]} de length = ${i} /inserindo...`);
-                    await db.adicionar_capitulo_velho(nome, data_cap);
+                    await db.adicionar_capitulo_velho(link, data_cap);
                     console.log(`capitulo ${list[i][0]} de length = ${i} /adicionado`);
                     ready = true;
                 }else{
@@ -82,7 +83,7 @@ async function vasculhar_capitulos_lista (list, type, nome) {
                 console.log("dados data_cap : ", data_cap);
                 if (data_cap){
                     console.log(`capitulo ${list[i][0]} de length = ${i} /inserindo...`);
-                    await db.adicionar_capitulo_novo(nome, data_cap);
+                    await db.adicionar_capitulo_novo(link, data_cap);
                     console.log(`capitulo ${list[i][0]} de length = ${i} /adicionado`);
                     ready = true;
                 }else{
@@ -157,7 +158,7 @@ let atualizarMain = async () => {
                 }
             }
             console.log("lista de novos : ",lista);
-            await vasculhar_capitulos_lista(lista, false, nome).catch(console.log);
+            await vasculhar_capitulos_lista(lista, false, nome, url).catch(console.log);
             lista = [];
             //fazer a verficação novamente pois os capitulos podem ter sidos atualizados
             //list_db = await db.verificar_manga(nome).catch(console.log);
@@ -186,7 +187,7 @@ let atualizarMain = async () => {
                 }
             }
             console.log("lista de antigos : ",lista);
-            await vasculhar_capitulos_lista(lista, true, nome).catch(console.log);
+            await vasculhar_capitulos_lista(lista, true, nome, url).catch(console.log);
         }
     }
  }
@@ -240,16 +241,19 @@ const adicionar_manga_especifico = async (nome, url, qt = null, type = null) => 
                     lista.push(novo_data[2][num]);
                 }
                 console.log("vasculhando a lista : ", lista);
-                await vasculhar_capitulos_lista(lista, true, nome, 2).catch(console.log);
+                console.log(`link 1: ${url}`);
+                await vasculhar_capitulos_lista(lista, true, nome, url).catch(console.log);
             }else{
 
                 if (existe["capitulos"].length === 0) {
                     //caso o manga exista mas não tem nenhum cap
                     lista = novo_data[2]
                     console.log("vasculhando a lista do 0 : ", lista);
-                    await vasculhar_capitulos_lista(lista, true, nome).catch(console.log);
+                    console.log(`link 2 noOne: ${url}`);
+                    await vasculhar_capitulos_lista(lista, true, nome, url).catch(console.log);
                 }else{
                     //fara a verificação de novos e velhos cap(apenas os ultimos caso não tenham sido adicionados);
+                    console.log(`link 3: ${url}`);
                     await atualizar_cap(url, nome, type, novo_data, existe).catch(console.log);
                     console.log("terminado! : ", nome);
                 }
