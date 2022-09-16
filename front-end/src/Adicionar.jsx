@@ -94,7 +94,7 @@ export default function Info () {
     }
 
     const adicionar_ao_banco = async (data) => {
-        await fetch(`${urlServer}adicionar`,{
+        await fetch(`${urlServer}/adicionar`,{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ nome: data[0], link: data[1] })
