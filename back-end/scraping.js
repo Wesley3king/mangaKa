@@ -237,17 +237,18 @@ async function coletar (page) {
     let cap = document.querySelector(".row.rowls").innerHTML;
     return cap;
   });
-
+  //console.log(capit);
   let cort_cap_a = capit.split("\n          <small>\n");
     let cort_cap_2 = cort_cap_a.map(arr => arr.split("infs\">\n          "));//nome na posição 1 
-    let cort_cap_l = cort_cap_a.map(arr => arr.split('\" class=\"col s12'));
-    let cort_cap_3 = cort_cap_l.map(arr => arr[0].split('href=\"https://mangayabu.top/?p='));// link na posição 1
+    let cort_cap_l = cort_cap_a.map(arr => arr.split('/\" class=\"col s12'));
+    let cort_cap_3 = cort_cap_l.map(arr => arr[0].split('-my'));// link na posição 1
 
     let leva = cort_cap_2.map((arr,indice) => [arr[1], cort_cap_3[indice][1]]);
     leva.pop();
 
   return leva;
 }
+
 async function entrar2 (url) {
     const browser = await puppeteer.launch({ 
       args :  [ '--disable-dev-shm-usage', '--shm-size=1gb' ],
@@ -267,7 +268,8 @@ async function entrar2 (url) {
 
     while (buscar) {
       await page.waitForSelector(".page-link.next",{timeout: 5000}).catch(e => {console.log(e); autorizacao = false;});
-
+      
+      // caso tenha menos de 10 capitulos
       if (!autorizacao && contador===0) {
         await page.waitForSelector(".row.rowls");
         let first_data = await coletar(page);
@@ -324,17 +326,34 @@ async function entrar2 (url) {
     /*for(let i = 0; i < 10; ++i) {
       arr_cap.shift();
     }*/
-    console.log("resultado cap : ", arr_cap);
+    // console.log("resultado cap : ", arr_cap);
+    // remove letras extras ao nome do manga
+    let nomeDoManga = elemento[2].replace("Ler ", "");
 
 
     delete img_c_1,cc_1, cc_2, tag_1;
+    console.log("sinopse: ", elemento[0]);
+    console.log("tags: ", tag_2,);
+    console.log("arr_cap - cap: ",  arr_cap);
+    console.log("img: ",  img_c_2[0]);
+    console.log("nome: ",  nomeDoManga.replace(" Online", ""));
 
-    let data = [elemento[0], tag_2, arr_cap ,elemento[2], img_c_2[0]];
-    //console.log(data);
+
+    // sinopse, tags, capitulos, nome, img
+    let data = [
+      elemento[0],
+      tag_2,
+      arr_cap ,
+      nomeDoManga.replace(" Online", ""),
+      img_c_2[0]
+    ];
+    //console.log("data: ",data);
     await browser.close();
     return data;
 };
-//entrar2(/*"https://mangayabu.top/manga/martial-peak/"/*"https://mangayabu.top/manga/aishiteimasu-kyouko-san/"*/'https://mangayabu.top/manga/kanojo-okarishimasu');
+//entrar2(/*"https://mangayabu.top/manga/martial-peak/"/*"https://mangayabu.top/manga/aishiteimasu-kyouko-san/"*//*'https://mangayabu.top/manga/kanojo-okarishimasu'*/);
+
+
 //leitor de capitulos
 
 async function leitor (url) {
@@ -592,7 +611,7 @@ async function obterInterno (url) {
 //obterInterno('https://mundomangakun.com.br/projeto/yuusha-sama-yukagen-wa-ikaga-desu-ka/');
 
 async function leitorM (url) {
-    let browser = await puppeteer.launch({ 
+    let browser = await puppeteer.launch({
         args :  [ '--disable-dev-shm-usage', '--shm-size=1gb' ],
         headless: false
       });
