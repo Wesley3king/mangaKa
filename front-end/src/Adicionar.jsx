@@ -43,7 +43,7 @@ export default function Info () {
     };
     const  buscar = async (final_url)=>{
         console.log("ready to staret : ", urlServer)
-        await fetch(`${urlServer}manga/fetch`,{
+        await fetch(`${urlServer}/manga/fetch`,{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({"url": `https://mangayabu.top/manga/${final_url}`})

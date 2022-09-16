@@ -22,7 +22,7 @@ export default class Search extends React.Component {
     async send () {
         console.log(`valor de texto : ${this.state.texto} / para : ${this.urlServer}`);
         this.setState(()=>({ready: false}));
-        await fetch(`${this.urlServer}pesquisar`,{
+        await fetch(`${this.urlServer}/pesquisar`,{
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({"nome": this.state.texto})
@@ -39,7 +39,7 @@ export default class Search extends React.Component {
         await fetch(`http://127.0.0.1:5000/server`)
         .then(res => res.json())
         .then(data => {
-            this.urlServer = `${data.url}/`;
+            this.urlServer = data.url;
             console.log("enable");
             this.setState(()=> ({enabled: true}));
         });
@@ -58,7 +58,7 @@ export default class Search extends React.Component {
                     <div className="div_result_search"><Link to={`/manga?n=${txt[1]}`} style={{textDecoration:"none"}}><div className="search_img" style={{backgroundImage: `url(${dados["capa1"]})`}}></div><p className="lettershow2">{dados["nome"]}</p></Link></div>
                     </div>
                    </>
-            }else if (typeof dados === "array") {
+            }else if (typeof dados == "array") {
                 console.log(typeof dados);
                 return <>
                     <div className="div_flex_search">
